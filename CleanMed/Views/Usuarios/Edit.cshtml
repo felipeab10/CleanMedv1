@@ -2,7 +2,7 @@
 @{
     ViewBag.Current = "Usuarios";
 }
-<div class="container">
+<div class="">
     <div class="row">
         <div class="col s12">
             <div class="card">
@@ -17,23 +17,23 @@
                         <div class="row">
                             <div class="col m6 s12">
                                 <div class="form-group">
-                                    <label asp-for="Nome" class="control-label"></label>
-                                    <input type="text" class="form-control" asp-for="@Model.Nome" onkeyup="InputToUpper(this)" />
-                                    <span asp-validation-for="Nome" class="text-danger"></span>
+                                    <label asp-for="Nome" class="control-label">Nome<span class="error">*</span></label>
+                                    <input type="text" class="form-control" asp-for="@Model.Nome"  />
+                                    <span asp-validation-for="Nome" class="text-danger error"></span>
                                 </div>
                             </div>
                             <div class="col m3 s12">
                                 <div class="form-group">
-                                    <label asp-for="DataNascimento" class="control-label"></label>
+                                    <label asp-for="DataNascimento" class="control-label">Data de Nascimento<span class="error">*</span></label>
                                     <input type="text" class="form-control" asp-for="@Model.DataNascimento" id="DataNascimento" />
-                                    <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                                    <span asp-validation-for="DataNascimento" class="text-danger error"></span>
                                 </div>
                             </div>
                             <div class="col m3 s12">
                                 <div class="form-group">
-                                    <label asp-for="CPF" class="control-label"></label>
+                                    <label asp-for="CPF" class="control-label">CPF<span class="error">*</span></label>
                                     <input type="text" class="form-control" asp-for="@Model.CPF" id="CPF" />
-                                    <span asp-validation-for="CPF" class="text-danger"></span>
+                                    <span asp-validation-for="CPF" class="text-danger error"></span>
                                 </div>
                             </div>
                         </div>
@@ -41,59 +41,59 @@
 
                             <div class="col m4 s12">
                                 <div class="form-group">
-                                    <label asp-for="SetorId" class="control-label"></label>
+                                    <label asp-for="SetorId" class="control-label">Setor<span class="error">*</span></label>
                                     <select class="form-control" asp-for="SetorId" asp-items="@ViewBag.SetorId">
                                         <option value="" selected disabled>Selecione uma opção</option>
                                     </select>
-                                    <span asp-validation-for="SetorId" class="text-danger"></span>
+                                    <span asp-validation-for="SetorId" class="text-danger error"></span>
                                 </div>
                             </div>
                             <div class="col m4 s12">
                                 <div class="form-group">
-                                    <label asp-for="Status" class="control-label"></label>
+                                    <label asp-for="Status" class="control-label">Status<span class="error">*</span></label>
                                     <select class="form-control" asp-for="Status" asp-items="@ViewBag.StatusId">
                                         <option value="" selected disabled>Selecione uma opção</option>
                                     </select>
-                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                    <span asp-validation-for="Status" class="text-danger error"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col m4 s12">
                                 <div class="form-group">
-                                    <label asp-for="UserName" class="control-label"></label>
+                                    <label asp-for="UserName" class="control-label">Nome de Usuário<span class="error">*</span></label>
                                     <input type="text" class="form-control" asp-for="@Model.UserName" />
-                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                    <span asp-validation-for="UserName" class="text-danger error"></span>
                                 </div>
                             </div>
                             <div class="col m5 s12">
                                 <div class="form-group">
-                                    <label asp-for="Email" class="control-label"></label>
+                                    <label asp-for="Email" class="control-label">E-mail<span class="error">*</span></label>
                                     <input type="email" class="form-control" asp-for="@Model.Email" />
-                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                    <span asp-validation-for="Email" class="text-danger error"></span>
                                 </div>
                             </div>
                             <div class="col m3 s12">
                                 <div class="form-group">
                                     <label asp-for="Telefone" class="control-label"></label>
                                     <input type="text" id="Telefone" class="form-control" asp-for="@Model.Telefone" />
-                                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                                    <span asp-validation-for="Telefone" class="text-danger error"></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="input-field col m4 s12">
-                                <label asp-for="PasswordHash" class="control-label"></label>
+                                <label asp-for="PasswordHash" class="control-label">Senha<span class="error">*</span></label>
                                 <input type="password" class="form-control" asp-for="@Model.PasswordHash" id="Senha" />
                                 <span class="helper-text">Deixe em branco para não alterar a senha</span>
-                                <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                                <span asp-validation-for="PasswordHash" class="text-danger error"></span>
                             </div>
                             <div class="input-field col m4 s12">
-                                <label class="control-label">Confirmar Senha</label>
+                                <label class="control-label">Confirmar Senha<span class="error">*</span></label>
                                 <input type="password" class="form-control" onchange="ValidaConfirmarSenha(this)" />
                                 <span class="helper-text">Deixe em branco para não alterar a senha</span>
-                                <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                                <span asp-validation-for="PasswordHash" class="text-danger error"></span>
                             </div>
 
                         </div>
@@ -102,7 +102,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Observações</label>
                                     <textarea class="materialize-textarea" asp-for="Observacao"></textarea>
-                                    <span asp-validation-for="Observacao" class="text-danger"></span>
+                                    <span asp-validation-for="Observacao" class="text-danger error"></span>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                         <div class="card-action">
                             <div class="row">
                                 <div class="col s12">
-                                    <div class="form-group">
+                                    <div class="form-group right">
                                         <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>&nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
                                     </div>
                                 </div>

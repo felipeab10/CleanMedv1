@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CleanMed.Servicos;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,7 @@ namespace CleanMed.Models
         [Required(ErrorMessage = "Campo Obrigatório")]
         [MinLength(14,ErrorMessage ="CPF Inválido")]
         [MaxLength(14,ErrorMessage ="CPF Inválido")]
+        [CustomValidationCPF(ErrorMessage ="CPF Inválido")]
         public string CPF { get; set; }
         [Required(ErrorMessage = "Campo Obrigatório")]
         [MaxLength(120)]

@@ -11,12 +11,14 @@
     if (TempData["Mensagem"] != null)
     {
 
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src=" https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
         <script type="text/javascript">
-            var texto = '@TempData["Mensagem"]';
-            var User = '@TempData["User"]'
-          swal(texto, User, "success");
+            //var texto = '@TempData["Mensagem"]';
+            //var User = '@TempData["User"]'
+          //swal(texto, User, "success");
 
+
+        M.toast({html: '@TempData["Mensagem"]'});
         </script>
     }
     if (TempData["Validacao"] != null)
@@ -29,7 +31,7 @@
         </script>
     }
 }
-<div class="container">
+<div class="">
     <div class="row">
         <div class="col s12">
             <div class="card">
@@ -40,7 +42,7 @@
                 <div class="card-content">
                     <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row">
-                            <div class="col s6"><a data-position="bottom" data-tooltip="Adicionar Empresa" asp-controller="Empresas" asp-action="Create" class="tooltipped btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
+                            <div class="col s12"><a data-position="bottom" data-tooltip="Adicionar Empresa" asp-controller="Empresas" asp-action="Create" class="tooltipped btn-floating btn-medium waves-effect waves-light red right"><i class="material-icons">add</i></a></div>
                         </div>
 
                         <div class="row">
@@ -101,7 +103,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col s12">
+                            <div class="col s12 center">
                                 @{
                                     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
                                     var nextDisabled = !Model.HasNextPage ? "disabled" : "";

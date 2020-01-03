@@ -14,8 +14,8 @@
                 <div class="row">
                     <div class="col m12 s12">
                         <div class="form-group">
-                            <label>Nível de Acesso</label>
-                            <select class="form-control" name="NivelAcessoId" asp-items="@ViewBag.NivelAcessoId">
+                            <label>Nível de Acesso<span class="error">*</span></label>
+                            <select class="form-control" name="NivelAcessoId" asp-items="@ViewBag.NivelAcessoId" required>
                                 <option selected disabled value="">Selecione uma opção</option>
                             </select>
                         </div>

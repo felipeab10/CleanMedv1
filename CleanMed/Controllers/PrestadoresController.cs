@@ -202,7 +202,7 @@ namespace CleanMed.Controllers
             ViewData["TipoPrestadorId"] = new SelectList(_context.TipoPrestadores, "TipoPrestadorId", "Descricao");
             _logger.LogError("Erro Ao atualizar");
             ViewData["PrestadorId"] = PrestadorId;
-            return View(prestadorView);
+            return View("Prestador",prestadorView);
         }
 
 

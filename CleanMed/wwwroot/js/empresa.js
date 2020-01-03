@@ -45,11 +45,11 @@ $("input[id*='Telefone']").inputmask({
          
 
 //Buscando CEP primeiramente no banco de dados caso não tenha registro ele busca no viacep
-         $("#CEPS").focusout(function () {
-        var ceps = $(this).val()
+         $("#CEPS").click(function () {
+             var ceps = $("#CEP").val()
         $.ajax({
-        url: '/Pacientes/LocalizarCEP/' + $(this).val(),
-            data: {CEP: $(this).val() },
+            url: '/Pacientes/LocalizarCEP/' + ceps,
+            data: { CEP: ceps },
             success: function (resposta) {
         NProgress.start();
                 if (resposta != null) {

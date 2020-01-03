@@ -100,8 +100,8 @@
     <!-- LEFT SIDEBAR	 -->
     <ul id="sidenav-1" class="sidenav sidenav-fixed ">
         <li class="brand-logo">CleanMed</li>
-        
-      
+
+
         <li><a class="menu-icones"><i class="fas fa-tachometer-alt "></i>Dashboard</a></li>
         <li> <a class="menu-icones" asp-action="Index" asp-controller="Pacientes"><i class="fas fa-user-injured"></i>Pacientes</a></li>
         <li><a class="dropdown-trigger menu-icones" href="#!" data-target="dropdown1"><i class="fas fa-notes-medical"></i>Agendas<i style="color:white;" class="material-icons right">arrow_drop_down</i></a></li>
@@ -118,15 +118,23 @@
         <li><a asp-action="Index" asp-controller="Conselhos">Conselho</a></li>
         <li><a asp-action="Index" asp-controller="TipoPrestadores">Tipo de Prestador</a></li>
         <li><a asp-action="Index" asp-controller="Especialidades">Especialidade</a></li>
-       
+
     </ul>
 
     <!-- RIGHT SIDEBAR	 -->
     <ul id="sidenav-2" class="sidenav">
-        <li><a class="subheader">Subheader</a></li>
-        <li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
+        <li><a class="">Gerenciamento do Sistema</a></li>
+        <li><div class="divider"></div></li>
+        <li><a class="dropdown-trigger menu-icones" href="#!" data-target="sistema"><i class="fas fa-tools"></i>Sistema</a></li>
         <li><a href="https://twitter.com/MaterializeCSS" target="_blank">Twitter</a></li>
         <li><a href="http://next.materializecss.com/getting-started.html" target="_blank">Docs</a></li>
+    </ul>
+    <ul id='sistema' class='dropdown-content '>
+        <li><a asp-action="Index" asp-controller="Empresas">Empresa</a></li>
+        <li><a asp-action="Index" asp-controller="Setores">Setores</a></li>
+        <li><a asp-action="Index" asp-controller="Usuarios">Usuários</a></li>
+
+
     </ul>
 
 
@@ -177,10 +185,11 @@
     @* <script src="~/js/site.js"></script>*@
     <script>
         $(document).ready(function () {
+
             $('.sidenav').sidenav();
             $('#sidenav-1').sidenav({ edge: 'left' });
             $('#sidenav-2').sidenav({ edge: 'right' });
-            $('select').formSelect();
+           $('select').formSelect({ dropdownOptions: { container: document.body } });
             var elem = $('.select_dropdown');
             var instances = M.FormSelect.init(elem, { dropdownOptions: { container: document.body } });
         });</script>

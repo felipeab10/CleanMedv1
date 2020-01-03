@@ -79,7 +79,7 @@
             <div class="row">
                 <div class="col m12 s12">
                     <div class="form-group">
-                        <label for="EspecialidadeId" class="control-label">Especialidade</label>
+                        <label for="EspecialidadeId" class="control-label">Especialidade <span class="error">*</span></label>
                         <select required name="EspecialidadeId" id="EspecialidadeId" asp-items="@ViewBag.EspecialidadeId" class="form-control select_dropdown">
                             <option value="" selected>Selecione uma opção</option>
                         </select>
@@ -90,7 +90,7 @@
             <div class="row">
                 <div class="col s12">
                     <div class="form-group right">
-                        <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                        <a  class="waves-effect modal-close waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
                         &nbsp;<button type="submit" id="post" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
                     </div>
                 </div>

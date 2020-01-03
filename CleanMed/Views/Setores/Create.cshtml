@@ -8,20 +8,20 @@
             <div class="row">
                 <div class="col s12">
                     <div class="form-group">
-                        <label for="Descricao">Descrição</label>
+                        <label for="Descricao">Descrição<span class="error">*</span></label>
                         <input type="text" class="form-control" asp-for="@Model.Descricao" required />
-                        <span asp-validation-for="Descricao" class="text-danger"></span>
+                        <span asp-validation-for="Descricao" class="text-danger error"></span>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col s12">
                     <div class="form-group">
-                        <label for="TipoSetor">Tipo de Setor</label>
+                        <label for="TipoSetor">Tipo de Setor<span class="error">*</span></label>
                         <select class="form-control" asp-for="@Model.TipoSetor" asp-items="@ViewBag.TipoSetorId" required>
                             <option value="" selected disabled>Selecione uma opção</option>
                         </select>
-                        <span asp-validation-for="TipoSetor" class="text-danger"></span>
+                        <span asp-validation-for="TipoSetor" class="text-danger error"></span>
                     </div>
                 </div>
             </div>

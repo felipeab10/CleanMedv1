@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CleanMed.Servicos;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,7 @@ namespace CleanMed.ViewModels
         public string RazaoSocial { get; set; }
         [Required(ErrorMessage = "Campo Obrigatório")]
         //[Remote("EmpresaExisteCNPJ", "Empresas", AdditionalFields = "EmpresaId")]
+        [CustomValidationCNPJ(ErrorMessage ="'{0}' Inválido")]
         public string CNPJ { get; set; }
         [Display(Name = "Inscrição Estadual")]
         public string InscricaoEstadual { get; set; }

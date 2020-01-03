@@ -1,10 +1,10 @@
 ﻿
 $(document).ready(function () {
     $('.modal').modal();
-        $('select').formSelect();
+    $('select').formSelect({ dropdownOptions: { container: document.body } });
         $('textarea').characterCounter();
     $('[data-toggle="tooltip"]').tooltip()
-
+   
 
     });
 $("input[id*='Name']").inputmask({

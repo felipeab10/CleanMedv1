@@ -3,8 +3,8 @@ $(document).ready(function () {
     $('#SetorId').formSelect();
         $('select').formSelect();
         $('textarea').characterCounter();
-        $('[data-toggle="tooltip"]').tooltip()
-    $('.modal').modal();
+    $('.tooltipped').tooltip();
+        $('.modal').modal();
     });
 $("input[id*='Nome']").inputmask({
     regex: "[a-z-áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]*" ,
@@ -114,6 +114,7 @@ $("#DataNascimento").focusout(function () {
                             'Fechar',
                         cancelButtonAriaLabel: 'Thumbs down'
                     })
+
                     NProgress.done();
                 }
             }
@@ -146,7 +147,10 @@ $("#DataNascimento").focusout(function () {
                             'Fechar',
                         cancelButtonAriaLabel: 'Thumbs down'
                     })
+                    document.getElementById("post").disabled = true;
                     NProgress.done();
+                } else {
+                    document.getElementById("post").disabled = false;
                 }
             }
         })
@@ -221,9 +225,12 @@ $("#CPF").focusout(function () {
                             'Fechar',
                         cancelButtonAriaLabel: 'Thumbs down'
                     })
+                    document.getElementById("post").disabled = true;
                     NProgress.done();
 
-                  
+
+                } else {
+                    document.getElementById("post").disabled = false;
                 }
             }
         })
@@ -293,7 +300,10 @@ $("#UserName").focusout(function () {
                             'Fechar',
                         cancelButtonAriaLabel: 'Thumbs down'
                     })
+                    document.getElementById("post").disabled = true;
                     NProgress.done();
+                } else {
+                    document.getElementById("post").disabled = false;
                 }
             }
         })

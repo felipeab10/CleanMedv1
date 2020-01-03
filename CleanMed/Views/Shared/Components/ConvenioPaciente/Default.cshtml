@@ -93,7 +93,7 @@
             <div class="row">
                 <div class="col s12">
                     <div class="form-group">
-                        <label for="Descricao">Nº Carteira <span class="error">*</span></label>
+                        <label for="Descricao">Nº Carteira<span class="error">*</span></label>
                         <input type="number" class="form-control" required name="NumeroCarteira" />
                         <span for="NumeroCarteira" class="text-danger"></span>
                     </div>
@@ -102,7 +102,7 @@
             <div class="row">
                 <div class="col s12">
                     <div class="form-group">
-                        <label for="Validade">Dt.Validade <span class="error">*</span></label>
+                        <label for="Validade">Dt.Validade<span class="error">*</span></label>
                         <input type="text" id="DataValidade" class="form-control" required name="Validade" />
                         <span for="Validade" class="text-danger"></span>
                     </div>
@@ -131,7 +131,7 @@
             <div class="row">
                 <div class="col s12">
                     <div class="form-group">
-                        <label for="ConvenioId">Convênio</label>
+                        <label for="ConvenioId">Convênio<span class="error">*</span></label>
                         <select class="form-control select_dropdown" name="ConvenioId" id="ConvenioId" asp-items="@ViewBag.ConvenioId">
                             <option value="" selected disabled>Selecione uma opção</option>
                         </select>
@@ -142,7 +142,7 @@
             <div class="row">
                 <div class="col s12 m12">
                     <div class="form-group">
-                        <label for="Descricao">Nº Carteira</label>
+                        <label for="Descricao">Nº Carteira<span class="error">*</span></label>
                         <input type="number" class="form-control" name="NumeroCarteira" id="NumeroCarteira" />
                         <span for="NumeroCarteira" class="text-danger"></span>
                     </div>
@@ -152,7 +152,7 @@
             <div class="row">
                 <div class="col s12 m12">
                     <div class="form-group">
-                        <label for="Validade">Dt.Validade</label>
+                        <label for="Validade">Dt.Validade<span class="error">*</span></label>
                         <input type="text" id="Validade" class="form-control " name="Validade" />
                         <span for="Validade" class="text-danger"></span>
                     </div>
@@ -161,8 +161,8 @@
             <div class="row">
                 <div class="col s12 m12">
                     <div class="form-group">
-                        <label for="StatusId">Status</label>
-                        <select class="form-control" name="Status" asp-items="@ViewBag.StatusId">
+                        <label for="StatusId">Status<span class="error">*</span></label>
+                        <select id="statusconvenio" class="form-control" name="Status" asp-items="@ViewBag.StatusId">
                             <option value="" selected disabled>Selecione uma opção</option>
                         </select>
                     </div>
@@ -180,3 +180,7 @@
         </form>
     </div>
 </div>
+<script>
+     $('#statusconvenio').formSelect({ dropdownOptions: { container: document.body } });
+    
+</script>
