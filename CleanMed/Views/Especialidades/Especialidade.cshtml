@@ -1,0 +1,82 @@
+﻿@model IEnumerable<CleanMed.Models.Especialidade>
+@{
+    ViewData["Title"] = "Especialidade";
+    Layout = "~/Views/Shared/_MenuPrestador.cshtml";
+     var controller = "Especialidades";
+}
+
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body">
+                <p>
+                    <a class="btn btn-success" data-toggle="modal" data-target="#AssociarEspecialidade">Adicionar Especialidade</a>
+
+                </p>
+
+                <table id="example1" class="table table-bordered table-striped dataTable table-hover" role="grid" aria-describedby="example1_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width: 120px;">Id</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 300px;">Descrição</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 150px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EspecialidadeId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descricao)
+                                </td>
+
+
+                                <td>
+
+                                    <a class="btn btn-danger btn-sm" onclick="ConfirmarExclusao(@item.EspecialidadeId,'@controller','@item.Descricao')">Excluir</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+</div>
+            </div>
+        </div>
+                <partial name="_ModalExclusao" />
+
+                <!-- Modal Associar Especialidade -->
+                <div class="modal fade modal-md" id="AssociarEspecialidade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div style="width:400px" class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"><b>Adicionar Especialidade Para o Prestador</b></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form asp-action="AssociarEspecialidade" asp-controller="Especialidades" asp-route-PrestadorId="@ViewBag.PrestadorId">
+                                <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <select class="form-control" name="EspecialidadeId" asp-items="@ViewBag.EspecialidadeId"></select>
+                                            </div>
+                                            <input type="hidden" name="PrestadorId" value="@ViewBag.PrestadorId" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary  pull-left" data-dismiss="modal">Fechar</button>
+                                    <button type="submit" class="btn btn-success  pull-left">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+

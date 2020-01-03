@@ -1,0 +1,150 @@
+﻿@model CleanMed.Models.AgendaMedica
+@{
+    ViewBag.Current = "Nova Agenda";
+}
+
+<div class="">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h5 class="center"><span class="card-title center " style="color:white;">Cadastrar agenda</span></h5>
+                </div>
+                <div class="card-content">
+                    <form asp-controller="AgendasMedicas" asp-action="NovaAgenda">
+                        <div class="row">
+                            <div class="col s12 m2 ">
+                                <div class="form-group">
+                                    <label asp-for="DataAgenda">Data da Agenda</label>
+                                    <input id="DataAgenda" type="text" asp-for="DataAgenda" />
+                                    <span asp-validation-for="DataAgenda"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2 ">
+                                <div class="form-group">
+                                    <label asp-for="TipoAgenda">Tipo</label>
+                                    <select asp-for="TipoAgenda" class="form-control" asp-items="@ViewBag.TipoAgendaId">
+                                        <option value="" selected disabled>-</option>
+                                    </select>
+                                    <span asp-validation-for="TipoAgenda"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2 ">
+                                <div class="form-group">
+                                    <label asp-for="StatusAgenda">Ativa</label>
+                                    <select asp-for="StatusAgenda" class="form-control" asp-items="@ViewBag.StatusAgendaId">
+                                        <option value="" selected disabled>-</option>
+                                    </select>
+                                    <span asp-validation-for="StatusAgenda"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label asp-for="DataLiberacao">Dt. Liberação</label>
+                                    <input id="DataLiberacao" asp-for="DataLiberacao" type="text" class="form-control" />
+                                    <span asp-validation-for="DataLiberacao"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m3 ">
+                                <div class="form-group">
+                                    <label asp-for="SetorId">Setor</label>
+                                    <select asp-for="SetorId" class="form-control" asp-items="@ViewBag.SetorId">
+                                        <option value="" selected disabled>-</option>
+                                    </select>
+                                    <span asp-validation-for="SetorId"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label asp-for="HoraInicio">Horário Inicial</label>
+                                    <input id="HoraInicio" asp-for="HoraInicio" type="text" class="form-control"  />
+                                    <span asp-validation-for="HoraInicio"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label asp-for="HoraFim">Horário Final</label>
+                                    <input id="HoraFim" asp-for="HoraFim" type="text" class="form-control" />
+                                    <span asp-validation-for="HoraFim"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label asp-for="QtTempoMedio">Tempo Médio</label>
+                                    <input id="QtTempoMedio" asp-for="QtTempoMedio" type="text" class="form-control" onchange="qtdAtendimento()"/>
+                                    <span asp-validation-for="QtTempoMedio"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label asp-for="QtAtendimento">Qtd. Atendimento</label>
+                                    <input id="QtAtendimento" asp-for="QtAtendimento" type="number" class="form-control" />
+                                    <span asp-validation-for="QtAtendimento"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label asp-for="QtEncaixe">Qtd. Encaixe</label>
+                                    <input asp-for="QtEncaixe" type="number" class="form-control" />
+                                    <span asp-validation-for="QtEncaixe"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m5">
+                                <div class="form-control">
+                                    <label>Prestador</label>
+                                    <select name="PrestadorId" class="select2Prestador browser-default" asp-items="@ViewBag.PrestadorId">
+                                        <option value="" selected disabled>-</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m5">
+                                <div class="form-control">
+                                    <label>Recurso</label>
+                                    <select asp-for="RecursoAgendamentoId" class="select2Prestador browser-default" asp-items="@ViewBag.RecursoAgendamentoId">
+                                        <option value="" selected disabled>-</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m5">
+                                <div class="form-control">
+                                    <label>Item de agendamento</label>
+                                    <select name="ItemAgendamentoId" class="select2Prestador browser-default" asp-items="@ViewBag.ItemAgendamentoId">
+                                        <option value="" selected disabled>-</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="form-group right">
+                                        <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>&nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/agendamento.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+}

@@ -1,0 +1,164 @@
+﻿@model PaginatedList<CleanMed.Models.Empresa>
+@using CleanMed.Servicos
+@{
+    ViewBag.Current = "Empresa";
+}
+@{
+
+    ViewBag.Current = "Empresa";
+
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    if (TempData["Mensagem"] != null)
+    {
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+            var texto = '@TempData["Mensagem"]';
+            var User = '@TempData["User"]'
+          swal(texto, User, "success");
+
+        </script>
+    }
+    if (TempData["Validacao"] != null)
+    {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+        var texto = '@TempData["Validacao"]';
+             swal(texto, User, "error");
+
+        </script>
+    }
+}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h5 class="center"><span class="card-title center " style="color:white;">Empresas cadastradas</span></h5>
+                </div>
+                <!-- /.box-header -->
+                <div class="card-content">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col s6"><a data-position="bottom" data-tooltip="Adicionar Empresa" asp-controller="Empresas" asp-action="Create" class="tooltipped btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
+                        </div>
+
+                        <div class="row">
+
+                            <div id="example1_filter" class="dataTables_filter">
+                                <form asp-action="Index" asp-controller="Empresas" method="get" class="col s12">
+
+                                    <div class="input-field col m1 s12">
+                                        <label>Id</label>
+                                        <input class="form-control" type="text" name="searchId" />
+
+                                    </div>
+                                    <div class="input-field  col m5 s12">
+                                        <label>Nome fantasia ou razão social</label>
+                                        <input class="form-control" type="text" name="searchDescricao" value="@ViewData["searchDescricao"]" />
+
+                                    </div>
+                                    <div class="input-field  col m5 s12">
+                                        <input placeholder="CNPJ" class="form-control" id="CNPJ" type="text" name="searchCNPJ" value="@ViewData["searchCNPJ"]" />
+                                        <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
+                                    </div>
+
+
+                                </form>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1" class="striped highlight responsive-table" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width: 40px;">Id</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 224px;">Nome Fantasia</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 224px;">CNPJ</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 224px;">Cidade</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 150px;">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td><a asp-action="Edit" asp-controller="Empresas" asp-route-id="@item.EmpresaId">@Html.DisplayFor(modelItem => item.EmpresaId)</a></td>
+                                                <td><a asp-action="Edit" asp-controller="Empresas" asp-route-id="@item.EmpresaId">@Html.DisplayFor(modelItem => item.NomeFantasia)</a></td>
+                                                <td><a asp-action="Edit" asp-controller="Empresas" asp-route-id="@item.EmpresaId">@Html.DisplayFor(modelItem => item.CNPJ)</a></td>
+                                                <td><a asp-action="Edit" asp-controller="Empresas" asp-route-id="@item.EmpresaId">@Html.DisplayFor(modelItem => item.Cep.Cidade)</a></td>
+                                                <td>
+                                                    <a asp-action="Edit" asp-controller="Empresas" asp-route-id="@item.EmpresaId" class="waves-effect waves-light btn-small blue tooltipped" data-position="bottom" data-tooltip="Editar empresa"><i class="fas fa-edit"></i></a> &nbsp;
+                                                    <a target="_blank" rel="noopener" asp-controller="Empresas" asp-action="VisualizarEmpresaPDF" asp-route-EmpresaId="@item.EmpresaId" class="waves-effect waves-light btn-small white tooltipped" data-position="bottom" data-tooltip="imprimir cadastro da empresa"><i style="color:red;" class="fa fa-print fa-2x "></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12">
+                                @{
+                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                                }
+
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                                &nbsp;
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+        $("input[id*='CNPJ']").inputmask({
+            mask: ['99.999.999/9999-99'],
+            keepStatic: true
+        });
+    </script>
+}
+@section CSS{
+    <style type="text/css">
+        a {
+            color: black;
+        }
+
+            a:link {
+                text-decoration: none;
+            }
+
+            a:visited {
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+    </style>
+
+}

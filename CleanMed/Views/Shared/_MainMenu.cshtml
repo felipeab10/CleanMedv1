@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">Cabeçalho</li>
+        <!-- Optionally, you can add icons to the links -->
+        <li class="@(ViewBag.Current == "Pacientes" ? "active" : "")"><a asp-controller="Pacientes" asp-action="Index"><i class="fa  fa-user"></i> <span>Pacientes</span></a></li>
+
+
+
+
+        @if ((User.IsInRole("ADMINISTRADOR") || User.IsInRole("FATURAMENTO")))
+        {
+            <li class="treeview  @(ViewBag.Current == "Agendamentos" || ViewBag.Current == "ItemAgendamentos" || ViewBag.Current == "RecursoAgendamentos" || ViewBag.Current == "AgendaMedica"  ? "active" : "") ">
+                <a href="#">
+                    <i class="fa fa-link"></i> <span>Agendamentos</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@( ViewBag.Current == "AgendaMedica" ? "active" : "")"><a asp-controller="AgendasMedicas" asp-action="Index"><span>Agendas</span></a></li>
+                    <li class="@( ViewBag.Current == "ItemAgendamentos" ? "active" : "")"><a asp-controller="ItemAgendamentos" asp-action="Index"><span>Itens para Agendamentos</span></a></li>
+                    <li class="@( ViewBag.Current == "RecursoAgendamentos" ? "active" : "")"><a asp-controller="RecursoAgendamentos" asp-action="Index"><span>Recursos</span></a></li>
+
+                </ul>
+            </li>
+            <li class="treeview @(ViewBag.Current == "Prestadores" || ViewBag.Current == "Conselho" || ViewBag.Current == "TipoPrestador" || ViewBag.Current == "Especialidade" ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-link"></i> <span>Prestadores</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu ">
+                    <li class="@( ViewBag.Current == "Prestadores" ? "active" : "")"><a asp-controller="Prestadores" asp-action="Index"><i class="fa  fa-user-md"></i> <span>Prestador</span></a></li>
+                    <li class="@( ViewBag.Current == "Conselho" ? "active" : "")"><a asp-action="Index" asp-controller="Conselhos">Conselho</a></li>
+                    <li class="@( ViewBag.Current == "TipoPrestador" ? "active" : "")"><a asp-action="Index" asp-controller="TipoPrestadores">Tipo de Prestador</a></li>
+                    <li class="@( ViewBag.Current == "Especialidade" ? "active" : "")"><a asp-action="Index" asp-controller="Especialidades">Especialidade</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(ViewBag.Current == "Faturamento"  || ViewBag.Current == "Convenio" || ViewBag.Current == "GrupoFaturamento" || ViewBag.Current == "Procedimento"? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-link"></i> <span>Faturamento</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu ">
+                    <li class="@( ViewBag.Current == "Convenio" ? "active" : "")"><a asp-action="Index" asp-controller="Convenios">Convênios</a></li>
+                    <li class="@( ViewBag.Current == "GrupoFaturamento" ? "active" : "")"><a asp-action="Index" asp-controller="GrupoFaturamentos">Grupo de Faturamento</a></li>
+                    <li class="@( ViewBag.Current == "Procedimento" ? "active" : "")"><a asp-action="Index" asp-controller="Procedimentos">Procedimentos</a></li>
+
+
+                </ul>
+            </li>
+        }
+        @if (User.IsInRole("ADMINISTRADOR"))
+        {
+            <li class="treeview @(ViewBag.Current == "Configuracões" || ViewBag.Current == "Exames" ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-link"></i> <span>Configurações</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+
+                <ul class="treeview-menu ">
+
+
+                    <li class="@(ViewBag.Current == "Exames"  ? "active" : "")"><a asp-action="Index" asp-controller="Exames">Exames</a></li>
+                </ul>
+            </li>
+        }
+       
+    <li>
+        @if (User.IsInRole("ADMINISTRADOR"))
+        {
+<li class="treeview @(ViewBag.Current == "Empresa" || ViewBag.Current == "Usuarios" || ViewBag.Current == "NivelAcesso" || ViewBag.Current == "Setores"  ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-link"></i> <span>Empresa</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu ">
+
+                    <li class="@(ViewBag.Current == "Empresa"  ? "active" : "")"><a asp-action="Index" asp-controller="Empresas">Empresas Cadastradas</a></li>
+                    <li class="@(ViewBag.Current == "NivelAcesso"  ? "active" : "")"><a asp-action="Index" asp-controller="NiveisAcessos">Níveis de acesso</a></li>
+                    <li class="@(ViewBag.Current == "Usuarios"  ? "active" : "")"><a asp-action="Index" asp-controller="Usuarios">Usuários do sistema</a></li>
+                    <li class="@(ViewBag.Current == "Setores"  ? "active" : "")"><a asp-action="Index" asp-controller="Setores">Setores</a></li>
+                </ul>
+            </li>
+            }
+        </ul>
+ 
+
+

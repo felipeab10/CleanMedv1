@@ -1,0 +1,241 @@
+﻿@model CleanMed.Models.AgendaMedica
+
+
+
+<div class="container">
+    <div style="background-color:white;">
+        <form asp-action="Create" asp-controller="AgendasMedicas">
+            <input class="form-control" asp-for="UsuarioId" value="@ViewBag.UsuarioId" type="hidden" />
+            <span asp-validation-for="UsuarioId" class="text-danger"></span>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-header BtnColor">
+                            <h5 class="center"><span class="card-title center " style="color:white; ">Informações do paciente</span></h5>
+                        </div>
+                        <div class="card-content">
+
+                            <div class="row">
+                                
+                               
+                                <div class="col s12 m3">
+                                    <div class="form-group">
+                                        <label for="nCartaoConvenio">Nº Cartão convênio</label>
+                                        <input class="form-control" name="nCartaoConvenio" id="nCartaoConvenio" type="text" />
+                                        <span for="nCartaoConvenio" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-header BtnColor">
+                            <h5 class="center"><span class="card-title center " style="color:white;">Informações da agenda</span></h5>
+                        </div>
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col m6 s12 ">
+                                    <div class="form-group">
+                                        <label asp-for="HoraInicio ">Horário Início</label>
+                                        <input class="form-control" asp-for="HoraInicio" />
+                                        <span asp-validation-for="HoraInicio" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col m6 s12">
+                                    <div class="form-group">
+                                        <label asp-for="HoraFim ">Horário Final</label>
+                                        <input class="form-control" asp-for="HoraFim" />
+                                        <span asp-validation-for="HoraFim" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col m6 s12">
+                                    <div class="form-group">
+                                        <label asp-for="Observacao ">Observações</label>
+                                        <textarea class="materialize-textarea" asp-for="Observacao" placeholder="Observações do agendamento"></textarea>
+                                        <span asp-validation-for="Observacao" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group">
+                        <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>&nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<form id="addPacienteFromAgenda">
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <h6 class="center">Cadastro provisório de paciente</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m8 s12">
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input id="Nome" type="text" class="form-control" name="Nome" />
+                        <span for="Nome" class="helper-text" data-error="errado" data-success="Ok"></span>
+                    </div>
+                </div>
+                <div class="col m4 s12">
+                    <div class="form-group">
+                        <label for="DataNascimento">Data de Nascimento</label>
+                        <input type="text" class="form-control" autocomplete="off" id="DataNascimento">
+                        <span for="DataNascimento" class="helper-text" data-error="errado" data-success="Ok"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m3 s12">
+                        <div class="form-group">
+                            <label for="Telefone">Telefone</label>
+                            <input type="text" class="form-control" name="Telefone" id="telefone" />
+                            <span for="Telefone" class="helper-text" data-error="errado" data-success="Ok"></span>
+
+                        </div>
+                    </div>
+                    <div class="col m2 s12">
+                        <div class="form-group">
+                            <label>
+                                Possui CPF
+                            </label>
+                            <br />
+                            <div class="switch">
+
+                                <label>
+                                    Não
+                                    <input id="SemCPF" name="SemCPF" type="checkbox">
+                                    <span class="lever"></span>
+                                    Sim
+                                </label>
+                            </div>
+                            <span for="SemCPF" class="helper-text" data-error="errado" data-success="Ok"></span>
+                        </div>
+                    </div>
+                    <div class="col m3 s12">
+                        <div class="form-group">
+                            <label for="nome">CPF</label>
+                            <input type="text" class="form-control" name="CPF" id="CPF" />
+                            <span for="CPF" class="helper-text" data-error="errado" data-success="Ok"></span>
+                        </div>
+                    </div>
+                    <div class="col m4 s12">
+                        <div class="form-group">
+                            <label for="Sexo">Sexo</label>
+                            <select name="Sexo" id="SexoId" asp-items="@ViewBag.SexoId" class="form-control">
+                                <option value="" selected>Selecione uma Opção</option>
+
+                            </select>
+                            <span for="Sexo" class="helper-text" data-error="errado" data-success="Ok"></span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-close waves-effect waves-green btn-small red">Cancelar</button>
+            <button type="button" class="waves-effect waves-green btn-small btnAdd">Salvar</button>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/agendamento.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+}
+
+@*
+    <script>
+        $(document).ready(function () {
+            alert('teste');
+            $('#PacienteId').autocomplete({
+                source: '/Pacientes/GetPaciente',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValuePacienteId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+            });
+            $('#ItemAgendamentoId').autocomplete({
+                source: '/ItemAgendamentos/GetItemAgendamento',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValueItemAgendamentoId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+            });
+               $('#ConvenioId').autocomplete({
+                source: '/Convenios/GetConvenio',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValueConvenioId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+               });
+                  $('#SetorId').autocomplete({
+                source: '/Setores/GetSetor',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValueSetorId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+               });
+        });
+        $("input[id*='Telefone1']").inputmask({
+            mask: ['(99)9999-9999', '(99)9 9999-9999'],
+            keepStatic: true
+        });
+        $("input[id*='Telefone2']").inputmask({
+            mask: ['(99)9999-9999', '(99)9 9999-9999'],
+            keepStatic: true
+        });
+        function InputToUpper(obj) {
+            if (obj.value != "") {
+                obj.value = obj.value.toUpperCase();
+            }
+        }
+
+
+    </script>
+
+
+
+*@

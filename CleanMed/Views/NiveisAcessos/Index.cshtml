@@ -1,0 +1,124 @@
+﻿@model PaginatedList<CleanMed.Models.NiveisAcesso>
+@using CleanMed.Servicos
+@{
+    ViewBag.Current = "NivelAcesso";
+
+
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    if (TempData["Mensagem"] != null)
+    {
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+            var texto = '@TempData["Mensagem"]';
+            var User = '@TempData["User"]'
+          swal(texto, User, "success");
+
+        </script>
+    }
+    if (TempData["Validacao"] != null)
+    {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+        var texto = '@TempData["Validacao"]';
+             swal(texto, "", "error");
+
+        </script>
+    }
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h5 class="center"><span class="card-title center " style="color:white;">Níveis de acesso cadastrados</span></h5>
+                </div>
+                <div class="card-content">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+
+                        <div class="row">
+                            <div class="col s6"><a data-position="bottom" data-tooltip="Adicionar nível de acesso" href="#modal" class="btnAdd modal-trigger tooltipped btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
+                        </div>
+                        <div class="row">
+
+                            <div id="example1_filter" class="dataTables_filter">
+                                <form asp-action="Index" asp-controller="NiveisAcessos" method="get" class="form form-group">
+                                    <div class=" input-field col m1 s12">
+                                        <input placeholder="Id" class="form-control" type="text" name="searchId" value="@ViewData["searchId"]" />
+                                       
+                                    </div>
+                                    <div class=" input-field col m5 s12">
+                                        <input placeholder="Nome" class="form-control" type="text" name="searchDescricao" value="@ViewData["searchDescricao"]" />
+                                        <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <table id="example1" class="striped highlight responsive-table">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>Nome</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+
+                                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+
+                                                <td>
+                                                    <a class="waves-effect waves-light btn-small blue tooltipped  btnEdit" data-id="@item.Id" data-position="bottom" data-tooltip="Editar nível acesso"><i class="fas fa-edit"></i> </a>&nbsp;
+                                                    <a class="waves-effect waves-light btn-small  tooltipped  red " onclick="excluirNivelAcesso('@item.Id','@controller','@item.Name')" data-position="bottom" data-tooltip="Excluir nível acesso"><i class="far fa-trash-alt"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                @{
+                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                                }
+
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                                &nbsp;
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+
+            <div id="modal" class="modal fade" />
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/nivelacesso.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+}

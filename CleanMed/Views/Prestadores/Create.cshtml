@@ -1,0 +1,183 @@
+﻿@model CleanMed.ViewModels.PrestadorViewModel
+@{
+    ViewBag.Current = "Prestadores";
+}
+<div class="">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h5 class="center"><span class="card-title center " style="color:white;">Cadastrar prestador</span></h5>
+                </div>
+                <div class="card-content">
+                    <form asp-controller="Prestadores" asp-action="Create">
+                        <input type="hidden" name="CEPBD" id="cepid" value="0" />
+                        <div class="row">
+                            <div class="col s12 m5">
+                                <div class="form-group">
+                                    <label for="Descricao">Nome<span class="error">*</span></label>
+                                    <input type="text" class="form-control" id="Nome" asp-for="@Model.Nome" />
+                                    <span asp-validation-for="Nome" class="text-danger error"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label for="Descricao">Dt Nascimento<span class="error">*</span></label>
+                                    <input type="text" class="form-control" id="DataNascimento" asp-for="@Model.DataNascimento" />
+                                    <span asp-validation-for="DataNascimento" class="text-danger error"></span>
+                                </div>
+                            </div>
+                            <div class="col m2 s12">
+                                <div class="form-group">
+                                    <label for="Descricao">CPF<span class="error">*</span></label>
+                                    <input type="text" class="form-control" id="CPF" asp-for="@Model.CPF" />
+                                    <span asp-validation-for="CPF" class="text-danger error"></span>
+                                </div>
+                            </div>
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label for="Sexo">Sexo</label>
+                                    <select asp-for="Sexo" asp-items="@ViewBag.SexoId" class="form-control">
+                                        <option value="" selected>Selecione uma Opção</option>
+                                    </select>
+                                    <span asp-validation-for="Sexo" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label for="Descricao">Conselho<span class="error">*</span></label>
+                                    <select class="form-control" asp-for="ConselhoId" id="conselhoId" asp-items="@ViewBag.ConselhoId">
+                                        <option value="" selected>Selecione uma Opção</option>
+                                    </select>
+                                    <span asp-validation-for="ConselhoId" class="text-danger error"></span>
+                                </div>
+                            </div>
+                            <div class="col m2 s12">
+                                <div class="form-group">
+                                    <label for="Descricao">Número CRM<span class="error">*</span></label>
+                                    <input type="number" class="form-control" id="NumeroCRM" asp-for="@Model.NumeroCrm" />
+                                    <span asp-validation-for="NumeroCrm" class="text-danger error"></span>
+                                </div>
+                            </div>
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label for="TipoPrestador">Tipo de Prestador<span class="error">*</span></label>
+                                    <select class="form-control" asp-for="TipoPrestadorId" id="TipoPrestadorId" asp-items="@ViewBag.TipoPrestadorId">
+                                        <option value="" selected>Selecione uma Opção</option>
+                                    </select>
+                                    <span asp-validation-for="TipoPrestadorId" class="text-danger error"></span>
+                                </div>
+                            </div>
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label for="Telefone">Telefone</label>
+                                    <input type="text" asp-for="Telefone" class="form-control" id="Telefone" />
+                                    <span asp-validation-for="Telefone" class="text-danger error"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col m3 s12">
+                                <div class="row">
+                                    <div class="col m6 s5">
+                                        <div class="form-group">
+                                            <label for="CEP">Cep <span class="error">*</span></label>
+                                            <input id="CEP" type="text" asp-for="CEP" class="form-control validar" />
+                                            <span asp-validation-for="CEP" class="helper-text error" data-error="errado" data-success="Ok"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col m1 s4">
+                                        <div class="form-group">
+                                            <br />
+                                            <br />
+                                            <a class="btn btn-small" id="CEPS"><i class="fas fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       
+
+                            <div class="col m6 s12">
+                                <div class="form-group">
+                                    <label for="Logradouro">Logradouro</label>
+                                    <input type="text" asp-for="Logradouro" class="form-control" id="logradouro" />
+                                    <span asp-validation-for="Logradouro" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                </div>
+                            </div>
+                            <div class="col m2 s12">
+                                <div class="form-group">
+                                    <label for="Numero">Número</label>
+                                    <input type="text" asp-for="Numero" class="form-control" id="numero" />
+                                    <span asp-validation-for="Numero" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col m4 s12">
+                                <div class="form-group">
+                                    <label for="Bairro">Bairro</label>
+                                    <input asp-for="Bairro" type="text" class="form-control" id="bairro" />
+                                    <span asp-validation-for="Bairro" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                </div>
+                            </div>
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label for="Cidade">Cidade</label>
+                                    <input asp-for="Cidade" type="text" id="cidade" class="form-control" />
+                                    <span asp-validation-for="Cidade" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                </div>
+                            </div>
+                            <div class="col m1 s12">
+                                <div class="form-group">
+                                    <label for="Estado">Estado</label>
+                                    <input asp-for="UF" type="text" class="form-control" id="uf" />
+                                    <span asp-validation-for="UF" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                </div>
+                            </div>
+                            <div class="col m4 s12">
+                                <div class="form-group">
+                                    <label for="Complemento">Complemento</label>
+                                    <input asp-for="Complemento" type="text" class="form-control" />
+                                    <span asp-validation-for="Complemento" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-action">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="form-group right">
+                                        <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                                        &nbsp;<button type="submit" disabled="disabled" id="post" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/prestador.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+}

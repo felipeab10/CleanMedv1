@@ -1,0 +1,237 @@
+﻿@model CleanMed.ViewModels.PacienteViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Ficha @Model.Nome</title>
+    <style>
+        p{
+            color:black;
+            font-size:18px;
+        }
+    </style>
+</head>
+<body>
+    <main role="main" class="container">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="img-fluid" src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_TV_2015.png" width="100" />
+                    </div>
+                    <div class="col col">
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pull-left">
+                            <ul style="list-style-type: none;">
+                                <li><b>Clinica teste</b></li>
+                                <li><b>Rua Testa da Silva bolacha, 70 Jardim Paulista - MS</b></li>
+                                <li><b>(67)3025-1292</b></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-center">FICHA PACIENTE</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Informações Pessoais</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label asp-for="Nome"><b>Nome:</b></label>
+                            <p>@Model.Nome</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="DataNascimento"><b>Data de Nascimento:</b></label>
+                           <p>@Html.DisplayFor(modelItem => modelItem.DataNascimento)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="CPF"><b>CPF:</b></label>
+                            <p>@Model.CPF</p>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="Sexo"><b>Sexo:</b></label>
+                            <p>@Model.Sexo</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="Estado_Civil"><b>Estado Civil:</b></label>
+                            <p>@Model.Estado_Civil</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    @if (Model.RG != null)
+                    {
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label asp-for="RG"><b>RG:</b></label>
+                                <p>@Model.RG</p>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="Telefone"><b>Telefone:</b></label>
+                            <p>@Model.Telefone</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Email"><b>Email:</b></label>
+                            <p>@Model.Email</p>
+                        </div>
+                    </div>
+                    @if (Model.StatusId == true)
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="StatusId"><b>Situação Cadastral:</b></label>
+                                <p>Ativo</p>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="StatusId"><b>Situação Cadastral:</b></label>
+                                <p>Inativo</p>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <label asp-for="PacienteId"><b>Id:</b></label>
+                            <p>@ViewBag.PacienteId</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Endereços</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+
+
+        <br />
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Contatos</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @foreach (var item in Model.Contatos)
+        {
+            <hr />
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Nome:</b></label>
+                                <p>@item.Nome</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label><b>Telefone 1:</b></label>
+                                <p>@item.Telefone1</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label><b>Grau de Parentesco:</b></label>
+                                <p>@item.Parentesco</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        @if (item.Telefone2 != null)
+                        {
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label><b>Telefone 2:</b></label>
+                                    <p>@item.Telefone2</p>
+                                </div>
+                            </div>
+
+                        }
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>E-mail:</b></label>
+                                <p>@item.Email</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        }
+
+
+
+
+    </main>
+
+    
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+﻿@model CleanMed.ViewModels.LoginViewModel
+@{
+    Layout = null;
+
+
+
+   
+
+    }
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>CleanMed</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+
+        <!-- Ionicons -->
+        <!-- Theme style -->
+
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/jquery-ui.css">
+        <!-- Google Font -->
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <style>
+            body {
+                display: flex;
+                min-height: 100vh;
+                flex-direction: column;
+            }
+
+            main {
+                flex: 1 0 auto;
+            }
+
+            body {
+                background: #009688;
+            }
+
+            .input-field input[type=date]:focus + label,
+            .input-field input[type=text]:focus + label,
+            .input-field input[type=email]:focus + label,
+            .input-field input[type=password]:focus + label {
+                color: #e91e63;
+            }
+
+            .input-field input[type=date]:focus,
+            .input-field input[type=text]:focus,
+            .input-field input[type=email]:focus,
+            .input-field input[type=password]:focus {
+                border-bottom: 2px solid #e91e63;
+                box-shadow: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="section"></div>
+        <main>
+            <center>
+                <div class="container">
+                    <div class="z-depth-1 white lighten-4 row" style="display: inline-block; padding: 0px 60px 0px 60px;">
+
+                        <form  asp-action="Login" asp-controller="Usuarios">
+                            <div class="row">
+                                <div class="input-field col s12 center">
+                                    <img src="~/Img/logo.png" alt="" class="circle responsive-img valign profile-image-login">
+                                    <p class="center login-form-text">Faça seu login</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field" style="max-width:300px; min-width:270px">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input id="icon_prefix" asp-for="UserName" type="text" class="validate">
+                                    <label for="icon_prefix">Usuário</label>
+                                    <span asp-validation-for="UserName" class="helper-text" data-error="wrong" data-success="right"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field"  style="max-width:300px; min-width:270px">
+                                    <i class="material-icons prefix">lock_outline</i>
+                                    <input id="icon_prefix"   asp-for="PasswordHash" type="password" class="validate">
+                                    <label for="icon_prefix">Senha</label>
+                                    <span asp-validation-for="PasswordHash" class="helper-text" data-error="wrong" data-success="right"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label>
+                                        <input type="checkbox" />
+                                        <span>Lembrar senha</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <button type="submit"  class="btn waves-effect waves-light col s12">Entrar</button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+               
+            </center>
+
+            <div class="section"></div>
+            <div class="section"></div>
+        </main>
+
+
+
+        <script src="~/js/jquery-1.12.4.js"></script>
+        <script src="~/js/jquery-ui.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <script src="~/js/moment.min.js"></script>
+        <script src="~/js/inputmask.min.js"></script>
+        <script src="~/js/jquery.inputmask.bundle.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+        @if (TempData["Mensagem"] != null)
+        {
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+            <script type="text/javascript">
+        var texto = '@TempData["Mensagem"]';
+            Swal.fire({
+                title: '',
+                html: texto,
+                type: 'success'
+            });
+
+            </script>
+        }
+        @if (TempData["Validacao"] != null)
+        {
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+            <script type="text/javascript">
+        var texto = '@TempData["Validacao"]';
+            Swal.fire({
+                title: '',
+                html: texto,
+                type: 'error'
+            });
+
+            </script>
+
+
+        }
+
+        <!-- AdminLTE App -->
+
+    </body>
+    </html>

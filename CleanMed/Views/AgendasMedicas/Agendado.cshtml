@@ -1,0 +1,110 @@
+﻿@model CleanMed.ViewModels.AgendasMedicasViewModel
+@{
+    Layout = null;
+}
+
+
+<form id="myForm">
+
+    @Html.AntiForgeryToken()
+ 
+        <input type="hidden" readonly id="AgendamentoId" class="form-control" asp-for="AgendamentoId" />
+
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h6 class="center"><span class="card-title center " style="color:white;">Informações do Agendamento</span></h6>
+                </div>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s12 m2">
+                            <div class="form-group">
+                                <label asp-for="PacienteId">Id</label>
+                                <input asp-for="PacienteId" readonly type="number" />
+                            </div>
+                        </div>
+                        <div class="col s12 m10">
+                            <div class="form-group">
+                                <label>Nome</label>
+                                <input asp-for="NmPaciente" readonly type="text" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m2">
+                            <div class="form-group">
+                                <label>Dt.Nascimento</label>
+                                <input asp-for="DataNascimento" readonly type="text" />
+                            </div>
+                        </div>
+                        <div class="col s12 m3">
+                            <div class="form-group">
+                                <label>Telefone</label>
+                                <input asp-for="Telefone" readonly type="text" />
+                            </div>
+                        </div>
+                        <div class="col s12 m5">
+                            <div class="form-group">
+                                <label>Plano de Saúde</label>
+                                <input asp-for="ConvenioNome" readonly type="text" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12 m8">
+                            <div class="form-group">
+                                <label>Serviço</label>
+                                <input readonly asp-for="NomeItemAgendamento" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.PrestadorId != null)
+                    {
+                        <div class="row">
+                            <div class="col s12 m8">
+                                <div class="form-group">
+                                    <label>Prestador</label>
+                                    <input readonly asp-for="NomePrestador" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col s12 m8">
+                            <div class="form-group">
+                                <label>Obs.Agendamento</label>
+                                <textarea asp-for="ObservacaoAgendamento" id="ObservacaoAgendamento" class="materialize-textarea" placeholder="Observação do agendamento" data-length="400"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <span style="color:#009688;">Agendado por </span><span style="color:#D3D3D3;">@Model.UsuarioNome</span>&nbsp;<a asp-action="verLogs" asp-controller="AgendasMedicas" asp-route-id="@Model.AgendamentoId" style="color:#009688;" target="_blank">[Ver logs]</a>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <a class="waves-effect waves-light btn-small tooltipped" style="background-color:#ff9800;" data-position="top" data-tooltip="Confirmar agendamento" onclick="ConfirmarPaciente(@Model.AgendamentoId)"> <i class="fas fa-check"></i>Confirmar</a>
+                            &nbsp;<a class="waves-effect waves-light btn-small tooltipped" style="background-color:#d32f2f;" data-position="top" data-tooltip="Excluir agendamento" onclick="ExcluirAgendamentoPaciente(@Model.AgendamentoId)"> <i class="far fa-trash-alt"></i>Excluir</a>
+                            &nbsp; <a class="waves-effect waves-light btn-small red tooltipped modal-close " data-position="top" data-tooltip="Cancelar"><i class="material-icons">arrow_back</i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+
+</form>
+
+
+
+<script src="~/js/agendamentoPaciente.js"></script>

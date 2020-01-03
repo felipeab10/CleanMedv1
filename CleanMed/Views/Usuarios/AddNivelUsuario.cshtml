@@ -1,0 +1,36 @@
+﻿@model CleanMed.Models.NiveisAcesso
+@{
+    Layout = "";
+}
+<div class="modal-dialog" >
+    <div  class="modal-content" >
+        <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel"><b>Adicionar nível de acesso</b></h6>
+           <br />
+        </div>
+        <form asp-controller="Usuarios" asp-action="AddNivelUsuario">
+            <div class="modal-content" >
+                <input name="UsuarioId" value="@ViewBag.UsuarioId" type="hidden" />
+                <div class="row">
+                    <div class="col m12 s12">
+                        <div class="form-group">
+                            <label>Nível de Acesso</label>
+                            <select class="form-control" name="NivelAcessoId" asp-items="@ViewBag.NivelAcessoId">
+                                <option selected disabled value="">Selecione uma opção</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a asp-action="Index" class="modal-close waves-effect waves-light btn-small grey">Cancelar</a>&nbsp;
+                <button type="submit" class=" waves-effect waves-light btn-small ">Salvar</button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+<script>
+     $('select').formSelect();
+</script>

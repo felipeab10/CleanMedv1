@@ -1,0 +1,152 @@
+﻿@model PaginatedList<CleanMed.Models.Convenio>
+@using CleanMed.Servicos
+@{
+    ViewBag.Current = "Faturamento";
+}
+@{
+
+
+
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    if (TempData["Mensagem"] != null)
+    {
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+            var texto = '@TempData["Mensagem"]';
+            var User = '@TempData["User"]'
+          swal(texto, User, "success");
+
+        </script>
+    }
+    if (TempData["Validacao"] != null)
+    {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+        var texto = '@TempData["Validacao"]';
+             swal(texto, "", "error");
+
+        </script>
+    }
+}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h5 class="center"><span class="card-title center " style="color:white;">Convênios cadastrados</span></h5>
+                </div>
+                <div class="card-content">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+
+                        <div class="row">
+                            <div class="col s6"><a data-position="bottom" data-tooltip="Adicionar convênio" asp-action="Create" asp-controller="Convenios" class=" tooltipped btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
+                        </div>
+                        <div class="row">
+                            <div id="example1_filter" class="dataTables_filter">
+                                <form asp-action="Index" asp-controller="Convenios" method="get" class="form form-group">
+
+                                    <div class="input-field col m1 s12">
+                                        <label>Id</label>
+                                        <input class="form-control" type="text" name="searchId" />
+
+
+                                    </div>
+                                    <div class="input-field col m5 s12">
+                                        <label>Nome</label>
+                                        <input class="form-control" type="text" name="searchDescricao" value="@ViewData["currentFilter"]" />
+                                        <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
+
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1" class="striped highlight responsive-table">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>Id</th>
+                                            <th>Nome</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td><a asp-action="Edit" asp-controller="Convenios" asp-route-id="@item.ConvenioId">@Html.DisplayFor(modelItem => item.ConvenioId)</a></td>
+                                                <td><a asp-action="Edit" asp-controller="Convenios" asp-route-id="@item.ConvenioId">@Html.DisplayFor(modelItem => item.Nome)</a></td>
+                                                <td>
+                                                    <a asp-action="Edit" asp-controller="Convenios" asp-route-id="@item.ConvenioId" class="waves-effect waves-light btn-small blue tooltipped" data-position="bottom" data-tooltip="Editar convênio"><i class="fas fa-edit"></i></a>&nbsp;
+                                                    <a asp-action="Index" asp-controller="TabelaFaturamentos" asp-route-ConvenioId="@item.ConvenioId" class="waves-effect waves-light btn-small gree tooltipped" data-position="bottom" data-tooltip="Tabela de Faturamento"><i class="far fa-money-bill-alt"></i></a>&nbsp;
+                                                    
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                @{
+                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                                }
+
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                                &nbsp;
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}
+@section CSS{
+    <style type="text/css">
+        a {
+            color: black;
+        }
+
+            a:link {
+                text-decoration: none;
+            }
+
+            a:visited {
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+    </style>
+
+}

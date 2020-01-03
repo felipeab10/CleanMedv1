@@ -1,0 +1,130 @@
+﻿@{
+    ViewData["Title"] = "Prestador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box menuPrestadorB ">
+                <div class="box-body ">
+                    <ul class="MenuPrestador">
+                        <li><a asp-action="Prestador" asp-controller="Prestadores" asp-route-PrestadorId="@ViewBag.PrestadorId" class="btn btn-primary">Prestador</a></li>
+                        <li><a asp-action="Especialidade" asp-controller="Especialidades" asp-route-PrestadorId="@ViewBag.PrestadorId" class="btn btn-primary">Especialidades</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@RenderBody()
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+<script>
+    $(document).ready(function () {
+     
+    });
+    $("#CEPS").focusout(function () {
+        var ceps = $(this).val()
+        $.ajax({
+
+            url: '/Prestadores/LocalizarCEP/' + $(this).val(),
+
+            data: { CEP: $(this).val() },
+
+
+            success: function (resposta) {
+
+                if (resposta != null) {
+                    alert("Entrando no banco");
+                       
+                        $("#logradouro").val(resposta.logradouro);
+                        $("#complemento").val(resposta.complemento);
+                        $("#bairro").val(resposta.bairro);
+                        $("#cidade").val(resposta.cidade);
+                        $("#uf").val(resposta.uf);
+                        $("#cepid").val(resposta.cepId);
+
+
+                        $("#numero").focus();
+                    } else {
+
+                        alert("sem resposta");
+                        $.ajax({
+
+                            url: 'https://viacep.com.br/ws/' + ceps + '/json/unicode/',
+
+                            dataType: 'json',
+
+                            success: function (resposta) {
+
+                                $("#logradouro").val(resposta.logradouro);
+                                $("#complemento").val(resposta.complemento);
+                                $("#bairro").val(resposta.bairro);
+                                $("#cidade").val(resposta.localidade);
+                                $("#uf").val(resposta.uf);
+
+                                $("#numero").focus();
+                            }
+                        });
+                    }
+
+
+                }
+
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+
+        $("input[id*='DataNascimento']").inputmask({
+            mask: ['99/99/9999'],
+            keepStatic: true
+        });
+        $("input[id*='CPF']").inputmask({
+            mask: ['999.999.999-99'],
+            keepStatic: true
+        });
+        $("input[id*='CEP']").inputmask({
+            mask: ['99999-999'],
+            keepStatic: true
+        });
+        $("#Telefone").inputmask({
+            mask: ['(99)9 9999-9999', '(99)9999-9999'],
+            keepStatic: true
+        });
+        function InputToUpper(obj) {
+            if (obj.value != "") {
+                obj.value = obj.value.toUpperCase();
+            }
+        }
+
+
+        function ConfirmarExclusao(id, controller, nome) {
+            $(".Nome").html(nome);
+            $("#modalExclusao").modal("show");
+            $(".btnCancela").on('click', function () {
+                $(".modal").modal("hide");
+
+            });
+            $(".btnExcluir").on('click', function () {
+                var url = "/" + controller + "/DesassociarEspecialidade/";
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: { EspecialidadeId: id },
+                    success: function () {
+
+                        location.reload();
+                    }
+                })
+            })
+        }
+
+    </script>
+}

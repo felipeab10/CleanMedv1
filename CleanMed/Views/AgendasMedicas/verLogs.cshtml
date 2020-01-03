@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CleanMed.Models.AgendamentoLog>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>verLogs</title>
+    
+</head>
+<body>
+    @if (Model == null)
+    {
+        <p>Sem Logs para esse agendamento</p>
+
+    }
+    @foreach (var item in Model)
+    {
+
+
+
+            <ul>
+                <li>AgendamentoId: @item.AgendamentoId</li>
+                <li>Horário Da agenda:@item.Agendamento.HoraAgenda</li>
+                <li>Paciente:@item.Paciente.Nome</li>
+                <li>Acão: @item.Acao</li>
+                <li>Data: @item.Dt_Acao</li>
+                <li>Usuário:@item.Usuario.Nome</li>
+            </ul>
+
+        
+    }
+</body>
+</html>

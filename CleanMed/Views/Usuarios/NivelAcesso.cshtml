@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CleanMed.Models.NiveisAcesso>
+@{
+    Layout = null;
+    var controller = "Usuarios";
+    var usuarioId = ViewBag.UsuarioId;
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h6 class="center"><b>Permissões do Usuário</b></h6>
+            
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-2"><a class="waves-effect waves-light btn-small blue " onclick="AddPermissao('@usuarioId')">Adicionar Permissão &nbsp; <i class="fas fa-plus-circle"></i></a></div>
+            </div>
+            <br />
+            <table class="striped highlight responsive-table">
+                <thead>
+                    <tr role="row">
+
+                        <th>Nível</th>
+                        <th >Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                           
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+
+                            <td><a onclick="delPermissaoUsuario('@item.Id','@controller','@item.Name','@usuarioId')" class="waves-effect waves-light btn-small red"><i class="far fa-trash-alt"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-close waves-effect waves-light btn-small grey" data-dismiss="modal">Fechar</button>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+             $('select').formSelect();
+        })
+        
+    </script>
+}

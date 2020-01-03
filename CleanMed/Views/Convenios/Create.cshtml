@@ -1,0 +1,164 @@
+﻿@model CleanMed.ViewModels.ConvenioViewModel
+@{
+    ViewBag.Current = "Faturamento";
+}
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-header BtnColor">
+                        <h5 class="center"><span class="card-title center " style="color:white;">Cadastrar convênio</span></h5>
+                    </div>
+                    <div class="card-content">
+                        <form asp-controller="Convenios" asp-action="Create" enctype="multipart/form-data">
+                            <input name="CEPBD" id="cepid" type="hidden" />
+                            <div class="row">
+                                <div class="col s12 m3">
+                                    <div class="form-group">
+                                        <label for="Nome">Nome</label>
+                                        <input type="text" class="form-control"  asp-for="@Model.Nome" />
+                                        <span asp-validation-for="Nome" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col s12 m3">
+                                    <div class="form-group">
+                                        <label for="CNPJ">CNPJ</label>
+                                        <input type="text" class="form-control" id="CNPJ" asp-for="@Model.CNPJ" />
+                                        <span asp-validation-for="CNPJ" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col s12 m2">
+                                    <div class="form-group">
+                                        <label for="Telefone">Telefone</label>
+                                        <input type="text" class="form-control" id="Telefone" asp-for="@Model.Telefone" />
+                                        <span asp-validation-for="Telefone" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col s12 m2 ">
+                                    <div class="form-group">
+                                        <label for="InscricaoMunicipal">Inscrição Municipal</label>
+                                        <input type="text" id="InscricaoMunicipal" class="form-control somentenumeros" asp-for="@Model.InscricaoMunicipal" />
+                                        <span asp-validation-for="InscricaoMunicipal" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label for="InscricaoEstadual">Inscrição Estadual</label>
+                                        <input type="text" id="InscricaoEstadual" class="form-control somentenumeros" asp-for="@Model.InscricaoEstadual" />
+                                        <span asp-validation-for="InscricaoEstadual" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m6">
+                                    <div class="form-group">
+                                        <label for="RazaoSocial">Razão Social</label>
+                                        <input type="text" class="form-control"  asp-for="@Model.RazaoSocial" />
+                                        <span asp-validation-for="RazaoSocial" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col s12 m2">
+                                    <div class="form-group">
+                                        <label for="RegistroAns">Registro ANS</label>
+                                        <input type="text" class="form-control somentenumeros" id="RegistroAns" asp-for="@Model.RegistroAns" />
+                                        <span asp-validation-for="RegistroAns" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="form-group">
+                                        <label for="Email">Email</label>
+                                        <input type="text" class="form-control" asp-for="@Model.Email" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label for="CEP">Cep</label>
+                                        <input id="CEPS" type="text" asp-for="CEP" class="form-control" />
+                                        <span asp-validation-for="CEP" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col m6 s12">
+                                    <div class="form-group">
+                                        <label for="Logradouro">Logradouro</label>
+                                        <input type="text" asp-for="Logradouro" class="form-control" id="logradouro" />
+                                        <span asp-validation-for="Logradouro" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label for="Numero">Número</label>
+                                        <input type="text" asp-for="Numero" class="form-control" id="numero" />
+                                        <span asp-validation-for="Numero" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m6 s12">
+                                    <div class="form-group">
+                                        <label for="Bairro">Bairro</label>
+                                        <input asp-for="Bairro" type="text" class="form-control" id="bairro" />
+                                        <span asp-validation-for="Bairro" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col s12 m3">
+                                    <div class="form-group">
+                                        <label for="Cidade">Cidade</label>
+                                        <input asp-for="Cidade" type="text" id="cidade" class="form-control" />
+                                        <span asp-validation-for="Cidade" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label for="Estado">Estado</label>
+                                        <input asp-for="UF" type="text" class="form-control" id="uf" />
+                                        <span asp-validation-for="UF" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col m4 s12">
+                                    <div class="form-group">
+                                        <label for="Complemento">Complemento</label>
+                                        <input asp-for="Complemento" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m4">
+                                    <div class="file-field input-field">
+
+                                        <img src="~/Img/logoDefault.png" width="120" name="arquivo" id="arquivo" class="border border-secondary rounded img-fluid" />
+                                        <input type="file" name="Logo" id="exampleInputFile" onchange="CarregarImagem(this)">
+                                        <span class="helper-text">Selecione o logotipo do convênio se houver.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <div class="form-group">
+                                            <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>&nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
+        </div>
+        @section Scripts{
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+          <script src="~/js/convenio.js"></script>
+        }

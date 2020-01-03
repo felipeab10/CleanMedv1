@@ -1,0 +1,136 @@
+﻿@model CleanMed.Models.AgendaMedica
+@{
+    Layout = null;
+}
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel"><b>Editar Agendamento </b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form asp-action="Edit" asp-controller="AgendasMedicas">
+            <input class="form-control" asp-for="UsuarioId" value="@ViewBag.UsuarioId" type="text" />
+            <input class="form-control" asp-for="AgendaMedicaId"  type="text" />
+            <span asp-validation-for="UsuarioId" class="text-danger"></span>
+            <div class="modal-body">
+                
+                <div class="row">
+                    <div class="col-md-8">
+                       
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="HoraInicio ">Horário Início</label>
+                            <input class="form-control" asp-for="HoraInicio" />
+                            <span asp-validation-for="HoraInicio" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="HoraFim ">Horário Final</label>
+                            <input class="form-control" asp-for="HoraFim" />
+                            <span asp-validation-for="HoraFim" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Observacao ">Observações</label>
+                            <textarea class="form-control" asp-for="Observacao" placeholder="Observações do agendamento"></textarea>
+                            <span asp-validation-for="Observacao" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+        $(document).ready(function () {
+            alert('teste');
+
+
+            $('#PacienteId').autocomplete({
+                source: '/Pacientes/GetPaciente',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValuePacienteId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+            });
+            $('#ItemAgendamentoId').autocomplete({
+                source: '/ItemAgendamentos/GetItemAgendamento',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValueItemAgendamentoId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+            });
+               $('#ConvenioId').autocomplete({
+                source: '/Convenios/GetConvenio',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValueConvenioId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+               });
+                  $('#SetorId').autocomplete({
+                source: '/Setores/GetSetor',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValueSetorId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+               });
+        });
+        $("input[id*='Telefone1']").inputmask({
+            mask: ['(99)9999-9999', '(99)9 9999-9999'],
+            keepStatic: true
+        });
+        $("input[id*='Telefone2']").inputmask({
+            mask: ['(99)9999-9999', '(99)9 9999-9999'],
+            keepStatic: true
+        });
+        function InputToUpper(obj) {
+            if (obj.value != "") {
+                obj.value = obj.value.toUpperCase();
+            }
+        }
+
+
+</script>
+
+
+

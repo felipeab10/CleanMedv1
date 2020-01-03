@@ -1,0 +1,149 @@
+﻿@model CleanMed.Models.ItemAgendamento
+@{
+    ViewBag.Current = "ItemAgendamentos";
+}
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3>
+                        Atualizar item para agendamento
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <form asp-controller="ItemAgendamentos" asp-action="Edit">
+                        <input asp-for="ItemAgendamentoId" type="hidden" />
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label asp-for="Descricao" class="control-label"></label>
+                                    <input type="text" placeholder="Digite um nome para o item" class="form-control" asp-for="@Model.Descricao" onkeyup="InputToUpper(this)" />
+                                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Tipo"></label>
+                                    <select id="tipo" class="form-control" asp-for="Tipo">
+                                        <option value="" selected disabled>Selecione uma opção</option>
+                                        <option value="Exame de Imagem">Exame de Imagem</option>
+                                        <option value="Procedimento Ambulatorial">Procedimento Ambulatorial</option>
+                                    </select>
+                                    <span asp-validation-for="Tipo" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label asp-for="ExameId"></label>
+                                    <select asp-for="ExameId" asp-items="@ViewBag.ExameId" class="form-control"></select>
+                                    <span asp-validation-for="ExameId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="RecursoAgendamentoId"></label>
+                                    <select asp-for="RecursoAgendamentoId" asp-items="@ViewBag.RecursoAgendamentoId" class="form-control"></select>
+                                    <span asp-validation-for="RecursoAgendamentoId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Status"></label>
+                                    <select class="form-control" asp-for="Status">
+                                        <option value="" selected disabled>Selecione uma opção</option>
+                                        <option value="true">Ativo</option>
+                                        <option value="false">Inativo</option>
+                                    </select>
+                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <a asp-action="Index" class="btn btn-danger">Cancelar</a>&nbsp;<button type="submit" class="btn btn-success">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+</section>
+@section Scripts{
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $("#tipo").on('change', function () {
+            var valor = document.getElementById("tipo").value
+            if (valor == 'Procedimento Ambulatorial') {
+
+                document.getElementById("ExameId").disabled = true;
+                document.getElementById("RecursoId").disabled = true;
+
+            } else {
+                document.getElementById("ExameId").disabled = false;
+                document.getElementById("RecursoId").disabled = false;
+            }
+        })
+
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#ExameId').autocomplete({
+                source: '/ItemAgendamentos/GetExame',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValueExameId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+            });
+            $('#RecursoId').autocomplete({
+                source: '/ItemAgendamentos/GetRecurso',
+                select: function (event, ui) {
+                    //set tagids to save
+                    $("#ValueRecursoId").val(ui.item.id);
+
+                    //Tags for display
+                    this.value = ui.item.value;
+                    return false;
+                }
+            });
+        });
+        $("input[id*='Telefone1']").inputmask({
+            mask: ['(99)9999-9999', '(99)9 9999-9999'],
+            keepStatic: true
+        });
+        $("input[id*='Telefone2']").inputmask({
+            mask: ['(99)9999-9999', '(99)9 9999-9999'],
+            keepStatic: true
+        });
+        function InputToUpper(obj) {
+            if (obj.value != "") {
+                obj.value = obj.value.toUpperCase();
+            }
+        }
+
+
+    </script>
+}

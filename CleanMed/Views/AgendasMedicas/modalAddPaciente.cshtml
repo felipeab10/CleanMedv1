@@ -1,0 +1,189 @@
+﻿@model CleanMed.ViewModels.PacienteViewModel
+@{
+    Layout = null;
+}
+
+    <div class="modal-content" id="myForm">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-header BtnColor">
+                        <h5 class="center"><span class="card-title center " style="color:white;">Cadastrar paciente</span></h5>
+                    </div>
+                    <div class="card-content">
+                        <form id="PacienteForm">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="CEPBD" id="cepid" value="0" />
+                            <div class="row">
+                                <div class="col m6 s12">
+                                    <div class="form-group">
+                                        <label for="nome">Nome</label>
+                                        <input id="Nome" type="text" class="form-control" asp-for="@Model.Nome" />
+                                        <span asp-validation-for="Nome" class="helper-text error" data-error="errado" data-success="Ok"></span>
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label for="DataNascimento">Data de Nascimento</label>
+                                        <input type="text" asp-for="DataNascimento" class="datepicker form-control" autocomplete="off" id="DataNascimento">
+                                        <span asp-validation-for="DataNascimento" class="helper-text error" data-error="errado" data-success="Ok"></span>
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label>
+                                            Possui CPF
+                                        </label>
+                                        <br />
+                                        <br />
+                                        &nbsp;
+                                        <div class="switch">
+
+                                            <label>
+                                                Não
+                                                <input id="SemCPF" asp-for="SemCPF" type="checkbox" onclick="habilitaCPF(this)">
+                                                <span class="lever"></span>
+                                                Sim
+                                            </label>
+                                        </div>
+                                        <span asp-validation-for="SemCPF" class="helper-text error" data-error="errado" data-success="Ok"></span>
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label for="nome">CPF</label>
+                                        <input type="text" class="form-control" asp-for="@Model.CPF" id="CPFPaciente" />
+                                        <span asp-validation-for="CPF" class="helper-text error" data-error="errado" data-success="Ok"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col m3 s12">
+                                    <div class="form-group">
+                                        <label for="Sexo">Sexo</label>
+                                        <select asp-for="Sexo" asp-items="@ViewBag.SexoId" class="form-control">
+                                            <option value="" selected>Selecione uma Opção</option>
+
+                                        </select>
+                                        <span asp-validation-for="Sexo" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col m3 s12">
+                                    <div class="form-group">
+                                        <label for="Estado_civil">Estado Civil</label>
+                                        <select asp-for="Estado_Civil" asp-items="@ViewBag.EstadoCivilId" class="form-control">
+                                            <option value="" selected>Selecione uma Opção</option>
+
+                                        </select>
+                                        <span asp-validation-for="Estado_Civil" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col m3 s12">
+                                    <div class="form-group">
+                                        <label for="nome">RG</label>
+                                        <input type="text" class="form-control" asp-for="@Model.RG" />
+                                        <span asp-validation-for="RG" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col m3 s12">
+                                    <div class="form-group">
+                                        <label for="Telefone">Telefone</label>
+                                        <input type="text" class="form-control" asp-for="@Model.Telefone" id="Telefone" />
+                                        <span asp-validation-for="Telefone" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label for="CEP">Cep</label>
+                                        <input id="CEPS" type="text" asp-for="CEP" class="form-control" />
+                                        <span asp-validation-for="CEP" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+
+                                <div class="col m6 s12">
+                                    <div class="form-group">
+                                        <label for="Logradouro">Logradouro</label>
+                                        <input type="text" asp-for="Logradouro" class="form-control" id="logradouro" />
+                                        <span asp-validation-for="Logradouro" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label for="Numero">Número</label>
+                                        <input type="text" asp-for="Numero" class="form-control" id="numero" />
+                                        <span asp-validation-for="Numero" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m4 s12">
+                                    <div class="form-group">
+                                        <label for="Bairro">Bairro</label>
+                                        <input asp-for="Bairro" type="text" class="form-control" id="bairro" />
+                                        <span asp-validation-for="Bairro" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col m3 s12">
+                                    <div class="form-group">
+                                        <label for="Cidade">Cidade</label>
+                                        <input asp-for="Cidade" type="text" id="cidade" class="form-control" />
+                                        <span asp-validation-for="Cidade" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col m1 s12">
+                                    <div class="form-group">
+                                        <label for="Estado">Estado</label>
+                                        <input asp-for="UF" type="text" class="form-control" id="uf" />
+                                        <span asp-validation-for="UF" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col m4 s12">
+                                    <div class="form-group">
+                                        <label for="Complemento">Complemento</label>
+                                        <input asp-for="Complemento" type="text" class="form-control" />
+                                        <span asp-validation-for="Complemento" class="helper-text error" data-error="errado" data-success="Ok"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-action">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <div class="form-group">
+                                            <a class="waves-effect modal-close waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Fechar"><i class="material-icons">arrow_back</i></a>&nbsp;<button type="button" class="waves-effect waves-light btn-small tooltipped " onclick="addPaciente()" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <script src="~/js/paciente-ModalAdd.js"></script>
+<script>
+    document.getElementById("CPFPaciente").disabled = true;
+     $('select').formSelect();
+    
+</script>

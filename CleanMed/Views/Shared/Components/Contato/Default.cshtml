@@ -1,0 +1,228 @@
+﻿@model IEnumerable<CleanMed.Models.Contato>
+@{
+    var controller = "Contatos";
+}
+
+    <div class="card">
+        <div class="card-content">
+            <p>
+                <a style="margin-bottom:10px;" data-position="bottom" data-tooltip="Adicionar contato" class="tooltipped btn-floating btn-medium waves-effect waves-light red modal-trigger right" href="#ModalAddContatoPaciente"><i class="material-icons">add</i></a>
+
+            </p>
+
+            <table id="example1" class="bordered  centered highlight responsive-table" role="grid" aria-describedby="example1_info">
+                <thead>
+                    <tr role="row">
+                        <th>Nome</th>
+                        <th>Parantesco</th>
+                        <th>Telefone 1</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Parentesco)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Telefone1)
+                                </td>
+
+                                <td>
+                                    <a data-position="bottom" data-tooltip="Visualizar contato" class="tooltipped waves-effect waves-light btn-small purple View modal-trigger" data-target="ModalView" data-Id="@item.ContatoId"><i class="far fa-eye"></i></a> &nbsp;
+                                    <a data-position="bottom" data-tooltip="Editar contato" class="tooltipped waves-effect waves-light btn-small Edit  modal-trigger" data-target="ModalEditContatoPaciente" data-Id="@item.ContatoId"><i class="far fa-edit"></i></a> &nbsp;
+                                    <a data-position="bottom" data-tooltip="Excluir contato" class="tooltipped waves-effect waves-light btn-small red" onclick="ConfirmarExclusao(@item.ContatoId,'@controller','@item.Nome')"><i class="far fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        }
+
+
+                    }
+                </tbody>
+            </table>
+
+
+
+
+            <!-- Modal Structure -->
+            <div id="ModalAddContatoPaciente" class="modal">
+                <div class="modal-content">
+                    <form asp-controller="Contatos" asp-action="Create" asp-route-PacienteId="@ViewBag.PacienteId">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="PacienteId" value="@ViewBag.PacienteId" />
+                        <div class="row">
+                            <div class="col s12 m12 ">
+                                <div class="form-group">
+                                    <label name="Nome" class="control-label">Nome <span class="error">*</span></label>
+                                    <input type="text" class="form-control" id="ContatoNome" required name="Nome" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <div class="form-group">
+                                    <label for="Parentesco" class="control-label">Parentesco <span class="error">*</span></label>
+                                    <select name="Parentesco" asp-items="@ViewBag.ParentescoId" required class="form-control select_dropdown">
+                                        <option value="" selected>Selecione uma opção</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <div class="form-group">
+                                    <label for="Telefone1" class="control-label">Telefone 1 <span class="error">*</span></label>
+                                    <input type="text" class="form-control" name="Telefone1" required id="Telefone1" />
+                                    <span for="Telefone1" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col m12 s12">
+                                <div class="form-group">
+                                    <label for="Telefone2" class="control-label">Telefone 2</label>
+                                    <input type="text" class="form-control" name="Telefone2" id="Telefone2" />
+                                    <span for="Telefone2" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <div class="form-group">
+                                    <label for="Email" class="control-label">Email</label>
+                                    <input type="email" class="form-control" name="Email" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <div class="form-group right">
+                                    <a class="waves-effect waves-light btn-small red tooltipped modal-close " data-position="bottom" data-tooltip="Fechar"><i class="material-icons">arrow_back</i></a>
+                                    &nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+
+                </div>
+            </div>
+
+
+            <!-- Modal Structure -->
+            <div id="ModalEditContatoPaciente" class="modal">
+                <div class="modal-content">
+                    <form asp-controller="Contatos" asp-action="Edit">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="PacienteId" value="@ViewBag.PacienteId" />
+                        <input type="hidden" name="ContatoId" id="ContatoId" />
+                        <div class="row">
+                            <div class="col s12 m12 ">
+                                <div class="form-group">
+                                    <label name="Nome" class="control-label">Nome</label>
+                                    <input type="text" class="form-control" id="nome" name="Nome" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <div class="form-group">
+                                    <label for="Parentesco" class="control-label">Parentesco</label>
+                                    <select name="Parentesco" asp-items="@ViewBag.ParentescoId" class="form-control select_dropdown">
+                                        <option value="" selected>Selecione uma opção</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <div class="form-group">
+                                    <label for="Telefone1" class="control-label">Telefone 1</label>
+                                    <input type="text" class="form-control" name="Telefone1" id="telefone1" />
+                                    <span for="Telefone1" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col m12 s12">
+                                <div class="form-group">
+                                    <label for="Telefone2" class="control-label">Telefone 2</label>
+                                    <input type="text" class="form-control" name="Telefone2" id="telefone2" />
+                                    <span for="Telefone2" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <div class="form-group">
+                                    <label for="Email" class="control-label">Email</label>
+                                    <input type="email" class="form-control" name="Email" id="email" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col m12 s12">
+                                <div class="form-group right">
+                                    <a class="waves-effect waves-light btn-small red tooltipped modal-close " data-position="bottom" data-tooltip="Fechar"><i class="material-icons">arrow_back</i></a>
+                                    &nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+
+
+                </div>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="ModalView" class="modal bottom-sheet">
+                <div class="modal-content" style="background-color:lightgrey;">
+                    <ul class="collection">
+                        <li class="collection-item avatar"><b>Nome:</b><p id="nomes"></p></li>
+                        <li class="collection-item avatar"><b>Parentesco:</b><p id="parentesco"></p></li>
+                        <li class="collection-item avatar"><b>Telefone 1:</b><p id="telefone1view"></p></li>
+                        <li class="collection-item avatar"><b>Outro Telefone</b><p id="telefone2view"></p></li>
+                        <li class="collection-item avatar"><b>E-mail</b> <p id="emailview"></p></li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="card-action">
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group">
+                        <a asp-action="Index" class="waves-effect waves-light btn-small  tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<style>
+  .modal{
+      background-color:white;
+  }
+   .modal-footer{
+       background-color:white;
+   }
+</style>
+
+<script>
+   
+</script>

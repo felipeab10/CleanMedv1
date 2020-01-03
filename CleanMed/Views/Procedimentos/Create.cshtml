@@ -1,0 +1,111 @@
+﻿@model CleanMed.Models.Procedimento
+@{
+    ViewBag.Current = "Faturamento";
+}
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3>
+                        Adicionar Procedimento
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <form asp-controller="Procedimentos" asp-action="Create">
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label asp-for="Descricao" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.Descricao" onkeyup="InputToUpper(this)" />
+                                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="IdadeMinima" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.IdadeMinima" />
+                                    <span asp-validation-for="IdadeMinima" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="IdadeMaxima" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.IdadeMaxima" />
+                                    <span asp-validation-for="IdadeMaxima" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Sexo"></label>
+                                    <select class="form-control" asp-for="Sexo">
+                                        <option value="" selected disabled>Selecione uma opção</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Masculino">Feminino</option>
+                                        <option value="Masculino">Ambos</option>
+                                    </select>
+                                    <span asp-validation-for="Sexo" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="GrupoFaturamentoId" class="control-label"></label>
+                                    <select class="form-control" asp-for="GrupoFaturamentoId" asp-items="@ViewBag.GrupoFaturamentoId">
+                                        <option value="" selected disabled>Selecione uma opção</option>
+
+                                    </select>
+                                    <span asp-validation-for="GrupoFaturamentoId" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <a asp-action="Index" class="btn btn-danger">Cancelar</a>&nbsp;<button type="submit" class="btn btn-success">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+</section>
+@section Scripts{
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+
+        });
+        $("input[id*='Telefone1']").inputmask({
+            mask: ['(99)9999-9999', '(99)9 9999-9999'],
+            keepStatic: true
+        });
+        $("input[id*='Telefone2']").inputmask({
+            mask: ['(99)9999-9999', '(99)9 9999-9999'],
+            keepStatic: true
+        });
+        function InputToUpper(obj) {
+            if (obj.value != "") {
+                obj.value = obj.value.toUpperCase();
+            }
+        }
+
+
+    </script>
+}

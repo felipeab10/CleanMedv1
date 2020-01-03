@@ -1,0 +1,5 @@
+﻿28/10/2019 - Dr Orleans recomendou para que quando o paciente terminar de fazer o exame em um setor de exame, a funcionaria
+possa liberar o paciente no sistema e outros setores que o paciente ainda possue exame possa visualizar.
+Outra solicitação é que os setores respeitassem a ordem que o paciente foi agendado e que caso um setor queira adiantar um paciente
+o exame que estiver agendado primeiro, o setor correspodente terá que liberar o paciente para fazer o exame, caso contrario não dara para
+adiantar;

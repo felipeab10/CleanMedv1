@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<input id="FecharJanela" type="text" value="@ViewBag.Fechar" />
+<script src="~/js/jquery-1.12.4.js"></script>
+<script>
+    $(document).ready(function () {
+     window.open('', '_self', ''); window.close();
+        
+    });
+
+</script>

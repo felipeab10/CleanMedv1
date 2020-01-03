@@ -1,0 +1,42 @@
+﻿@model CleanMed.Models.Setor
+@{
+    ViewBag.Current = "Setores";
+    Layout = null;
+}
+<div class="modal-content">
+    <form asp-controller="Setores" asp-action="Edit" enctype="multipart/form-data">
+        <input asp-for="SetorId" type="hidden" />
+        <div class="row">
+            <div class="col s12">
+                <div class="form-group">
+                    <label for="Descricao">Descrição</label>
+                    <input type="text" class="form-control" asp-for="@Model.Descricao" required />
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <div class="form-group">
+                    <label for="TipoSetor">Tipo de Setor</label>
+                    <select class="form-control" asp-for="@Model.TipoSetor" asp-items="@ViewBag.TipoSetorId" required>
+                        <option value="" selected disabled>Selecione uma opção</option>
+                    </select>
+                    <span asp-validation-for="TipoSetor" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <div class="form-group">
+                    <button type="button" class="modal-close waves-effect grey btn-small" data-dismiss="modal">Cancelar</button> &nbsp;
+                    <button type="submit" class=" waves-effect waves-green btn-small ">Salvar</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script src="~/js/setor.js"></script>

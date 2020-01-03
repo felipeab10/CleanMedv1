@@ -1,0 +1,185 @@
+﻿@model PaginatedList<CleanMed.Models.TipoPrestador>
+@using CleanMed.Servicos
+@{
+    ViewBag.Current = "Prestadores";
+}
+@{
+
+
+
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    if (TempData["Mensagem"] != null)
+    {
+
+        <script src=" https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        <script type="text/javascript">
+            //var texto = '@TempData["Mensagem"]';
+            //var User = '@TempData["User"]'
+          //swal(texto, User, "success");
+
+
+        M.toast({html: '@TempData["Mensagem"]'});
+        </script>
+    }
+    if (TempData["Validacao"] != null)
+    {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+        var texto = '@TempData["Validacao"]';
+             swal(texto, User, "error");
+
+        </script>
+    }
+}
+<div class="">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h5 class="center"><span class="card-title center " style="color:white;">Tipo de prestadores</span></h5>
+                </div>
+                <!-- /.box-header -->
+                <div class="card-content">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col s12"><a data-position="bottom" data-tooltip="Adicionar tipo de prestador" class="tooltipped btn-floating btn-medium waves-effect waves-light red modal-trigger right" href="#AddTipoPrestador"><i class="material-icons">add</i></a></div>
+                        </div>
+                        <div class="row">
+                            <div id="example1_filter" class="dataTables_filter">
+                                <form asp-action="Index" method="get" class="col s12">
+
+                                    <div class=" input-field col m1 s12">
+                                        <label for="Id">Id</label>
+                                        <input type="text" class="form-control" name="searchId" />
+                                    </div>
+
+                                    <div class="input-field  col m5 s12">
+                                        <label for="searchId">Descrição</label>
+                                        <input type="text" class="form-control" name="searchDescricao" value="@ViewData["CurrentFilter"]" />
+                                        <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <table id="example1" class="striped highlight responsive-table">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>Id</th>
+                                            <th>Descrição</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td class="btnEdit modal-trigger" href="#EditTipoPrestador" data-TipoPrestadorId="@item.TipoPrestadorId">@Html.DisplayFor(modelItem => item.TipoPrestadorId)</td>
+                                                <td class="btnEdit modal-trigger" href="#EditTipoPrestador" data-TipoPrestadorId="@item.TipoPrestadorId">@Html.DisplayFor(modelItem => item.Descricao)</td>
+                                                <td><a class="btnEdit waves-effect waves-light btn-small blue tooltipped modal-trigger" href="#EditTipoPrestador" data-TipoPrestadorId="@item.TipoPrestadorId" data-position="bottom" data-tooltip="Editar tipo de prestador"><i class="fas fa-edit"></i></a>  </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 center">
+                                @{
+                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                                }
+
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                                &nbsp;
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Structure add -->
+<div id="AddTipoPrestador" class="modal" style="max-width:300px;">
+    <form asp-action="Create" asp-controller="TipoPrestadores" method="post">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <b>Cadastrar tipo de prestador</b>
+
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+                    <label>Descrição</label>
+                    <input name="Descricao" id="descricao" class="form-control" type="text" required />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <div class="form-group right">
+                    <a class="waves-effect waves-light btn-small red tooltipped modal-close" data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                    &nbsp;<button type="submit" id="post" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Modal Structure Edit -->
+<div id="EditTipoPrestador" class="modal" style="max-width:300px;">
+    <form asp-action="Edit" asp-controller="TipoPrestadores" method="post">
+        <input name="id" id="Id" type="hidden" />
+        <input name="TipoPrestadorId" id="TipoPrestadorId" type="hidden" />
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <b>Atualizar tipo de prestador</b>
+
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+                    <label>Descrição</label>
+                    <input name="Descricao" id="Descricao" class="form-control" type="text" required />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <div class="form-group right">
+                    <a class="waves-effect waves-light btn-small red tooltipped modal-close" data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                    &nbsp;<button type="submit" id="post" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <script src="~/js/tipoprestador.js"></script>
+}

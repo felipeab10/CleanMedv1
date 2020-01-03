@@ -1,0 +1,108 @@
+﻿@model IEnumerable<CleanMed.Models.Especialidade>
+@{
+    var controller = "Especialidades";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <p>
+                <a data-position="bottom" data-tooltip="Adicionar Especialidade" class="tooltipped btn-floating btn-medium waves-effect waves-light red modal-trigger right" href="#ModalAddEspecialidadePrestador"><i class="material-icons">add</i></a>
+
+            </p>
+        </div>
+
+        <table id="example1" class="bordered  centered highlight responsive-table" role="grid" aria-describedby="example1_info">
+            <thead>
+                <tr role="row">
+                    <th>Id</th>
+                    <th>Descrição</th>
+
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EspecialidadeId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descricao)
+                            </td>
+
+
+                            <td>
+
+
+                                <a data-position="bottom" data-tooltip="Excluir contato" class="tooltipped waves-effect waves-light btn-small red" onclick="delEspecialidadePrestador(@item.EspecialidadeId,'@controller',@ViewBag.PrestadorId)"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+
+
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="card-action">
+        <div class="row">
+            <div class="col s12">
+                <div class="form-group">
+                    <a  class="waves-effect modal-close waves-light btn-small  tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal {
+        background-color: white;
+    }
+
+    .modal-footer {
+        background-color: white;
+    }
+</style>
+
+<!-- Modal Structure -->
+<div id="ModalAddEspecialidadePrestador" class="modal" style="max-width:400px;">
+    <form asp-controller="Especialidades" asp-action="AssociarEspecialidade" asp-route-PrestadorId="@ViewBag.PrestadorId">
+        <div class="modal-content">
+
+            <input type="hidden" id="PrestadorId" name="PrestadorId" value="@ViewBag.PrestadorId" />
+            <div class="row">
+                <div class="col m12 s12">
+                    <div class="form-group">
+                        <label for="EspecialidadeId" class="control-label">Especialidade</label>
+                        <select required name="EspecialidadeId" id="EspecialidadeId" asp-items="@ViewBag.EspecialidadeId" class="form-control select_dropdown">
+                            <option value="" selected>Selecione uma opção</option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group right">
+                        <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                        &nbsp;<button type="submit" id="post" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+
+    </form>
+</div>
+
+<script>
+    var elem = $('.select_dropdown');
+            var instances = M.FormSelect.init(elem, { dropdownOptions: { container: document.body } });
+</script>

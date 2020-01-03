@@ -1,0 +1,360 @@
+﻿@model CleanMed.ViewModels.UserInformationViewModel
+@{
+
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    if (TempData["Mensagem"] != null)
+    {
+
+        <script src=" https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        <script type="text/javascript">
+            //var texto = '@TempData["Mensagem"]';
+            //var User = '@TempData["User"]'
+          //swal(texto, User, "success");
+
+
+        M.toast({html: '@TempData["Mensagem"]'});
+        </script>
+    }
+    if (TempData["Validacao"] != null)
+    {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+        var texto = '@TempData["Validacao"]';
+             swal(texto, User, "error");
+
+        </script>
+    }
+}
+
+
+
+@if (Model.SobreUsuarioId == 0)
+{
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col m3 user-profile-panel">
+                        <div class="center file-field input-field">
+                            <img id="arquivo" src="~/dist/img/user.png" class="circle img-fluid " width="100" />
+                            <input type="file" name="FotoLocal" id="exampleInputFile" onchange="CarregarImagem(this)">
+                            <span style="font-size:15px;margin-top:5px;" class="helper-text textCapitalize">@Model.Nome.ToLower()</span>
+                        </div>
+                        <div class="center" >
+                            <p style="font-size:12px; color:#666464; margin-bottom:10px;"><span>Dt Nascimento:&nbsp;</span>@Html.DisplayFor(modelItem => modelItem.DataNascimento)</p>
+                            <p style="font-size:12px;color:#666464; margin-bottom:10px;"> <span>CPF:&nbsp;</span>@Model.CPF</p>
+                            <p style="font-size:12px;color:#666464; margin-bottom:10px;"> <span>E-mail:&nbsp;</span>@Model.Email</p>
+                            <p style="font-size:12px;color:#666464; margin-bottom:10px;"> <span>Nome de usuário:&nbsp;</span>@Model.UserName</p>
+                            <p style="font-size:12px;color:#666464;margin-bottom:10px;"> <span>Telefone:&nbsp;</span>@Model.Telefone</p>
+                            <p style="font-size:12px;color:#666464; margin-bottom:10px;" class="textCapitalize" ><span style="color:#666464;">Setor:&nbsp;</span> @Model.NomeSetor.ToLower()</p>
+                            @if (Model.NivelAcesso != null)
+                            {
+                                <p style="font-size:12px;color:#666464;margin-bottom:10px;" class="textCapitalize"> <span>Permissão:&nbsp;</span>@Model.NivelAcesso.ToLower()</p>
+                            }
+                        </div>
+                    </div>
+                    <div class="col m9">
+                        <!--Formulario para cadastro de informações-->
+                        <form asp-action="PerfilUsuario" asp-controller="Usuarios" class="form-horizontal" enctype="multipart/form-data">
+                            <input asp-for="Id" type="hidden" />
+                            @if (Model.CepId != 0)
+                            {
+                                <input name="CEPBD" id="cepid" type="text" value="@Model.CepId" />
+                            }
+                            else
+                            {
+                                <input name="CEPBD" id="cepid" type="text" />
+                            }
+                            <div class="row">
+                                <div class="col m9 s12">
+                                    <div class="input-field">
+                                        <label>Formação Acadêmica</label>
+                                        <input class="form-control" asp-for="Formacao" type="text" />
+                                    </div>
+                                </div>
+                                <div class="col m3 s12">
+                                    <div class="input-field">
+                                        <label>Telefone</label>
+                                        <input class="form-control" asp-for="Telefone" type="text" id="Telefone" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m6 s12">
+                                    <div class="input-field">
+                                        <label>E-mail</label>
+                                        <input asp-for="Email" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m3 s12">
+                                    <div class="row">
+                                        <div class="col m6 s5">
+                                            <div class="form-group">
+                                                <label for="CEP">Cep <span class="error">*</span></label>
+                                                <input id="CEP" type="text" asp-for="CEP" class="form-control validar" />
+                                                <span asp-validation-for="CEP" class="helper-text error" data-error="errado" data-success="Ok"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col m1 s4">
+                                            <div class="form-group">
+                                                <br />
+                                                <br />
+                                                <a class="btn btn-small" id="CEPS"><i class="fas fa-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col m7 s12">
+                                    <div class="form-group">
+                                        <label>Logradouro</label>
+                                        <input class="form-control" type="text" asp-for="Logradouro" id="logradouro" />
+
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="input-field">
+                                        <label>Número</label>
+                                        <input class="form-control" type="text" asp-for="Numero" id="numero" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m6 s12">
+                                    <div class="form-group">
+                                        <label>Bairro</label>
+                                        <input class="form-control" type="text" asp-for="Bairro" id="bairro" />
+
+                                    </div>
+                                </div>
+                                <div class="col m4 s12">
+                                    <div class="form-group">
+                                        <label>Cidade</label>
+                                        <input class="form-control" type="text" asp-for="Cidade" id="cidade" />
+
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label>Estado</label>
+                                        <input class="form-control" type="text" asp-for="UF" id="uf" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m6 s12">
+                                    <div class="input-field">
+                                        <label>Senha</label>
+                                        <input class="form-control" type="password" asp-for="PasswordHash" />
+
+                                        <span class="helper-text">deixe em branco para não alterar a senha</span>
+                                    </div>
+                                </div>
+                                <div class="col m6 s12">
+                                    <div class="input-field">
+                                        <label>Confirmar Senha</label>
+                                        <input class="form-control" type="password" id="ConfirmarSenha" onchange="validarSenha(this)" />
+                                        <span class="helper-text">deixe em branco para não alterar a senha</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-danger">Salvar</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="">
+        <form asp-action="PerfilUsuario" asp-controller="Usuarios" class="form-horizontal" enctype="multipart/form-data">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col m3 user-profile-panel">
+
+                            <div class="center file-field input-field">
+                                @if (Model.Foto != null)
+                                {
+                                    <img id="arquivo" src="@Url.Content(Model.Foto)" class="circle img-fluid " width="100" />
+                                }
+                                else
+                                {
+                                    <img id="arquivo" src="~/dist/img/user.png" class="circle img-fluid " width="100" />
+                                }
+                                <input type="file" name="FotoLocal" id="exampleInputFile" onchange="CarregarImagem(this)">
+                                <span style="font-size:16px;margin-top:5px;" class="helper-text textCapitalize">@Model.Nome.ToLower()</span>
+                            </div>
+                            <div class="center">
+                                <p style="font-size:12px; color:#666464; margin-bottom:10px;"><span>Dt Nascimento:&nbsp;</span>@Html.DisplayFor(modelItem => modelItem.DataNascimento)</p>
+                                <p style="font-size:12px;color:#666464; margin-bottom:10px;"> <span>CPF:&nbsp;</span>@Model.CPF</p>
+                                <p style="font-size:12px;color:#666464; margin-bottom:10px;"> <span>E-mail:&nbsp;</span>@Model.Email</p>
+                                <p style="font-size:12px;color:#666464; margin-bottom:10px;"> <span>Nome de usuário:&nbsp;</span>@Model.UserName</p>
+                                <p style="font-size:12px;color:#666464;margin-bottom:10px;"> <span>Telefone:&nbsp;</span>@Model.Telefone</p>
+                                <p style="font-size:12px;color:#666464; margin-bottom:10px;" class="textCapitalize"><span style="color:#666464;">Setor:&nbsp;</span> @Model.NomeSetor.ToLower()</p>
+                                @if (Model.NivelAcesso != null)
+                                {
+                                    <p style="font-size:12px;color:#666464;margin-bottom:10px;" class="textCapitalize"> <span>Permissão:&nbsp;</span>@Model.NivelAcesso.ToLower()</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="col m9">
+                            <!--Formulario para cadastro de informações-->
+
+                            <input asp-for="Id" type="hidden" />
+                            <input asp-for="SobreUsuarioId" type="hidden" />
+                            @if (Model.CepId != 0)
+                            {
+                                <input name="CEPBD" id="cepid" type="hidden" value="@Model.CepId" />
+                            }
+                            else
+                            {
+                                <input name="CEPBD" id="cepid" type="hidden" />
+                            }
+                            <div class="row">
+                                <div class="col m9 s12">
+                                    <div class="input-field">
+                                        <label>Formação Acadêmica</label>
+                                        <input class="form-control" asp-for="Formacao" type="text" />
+
+                                    </div>
+                                </div>
+                                <div class="col m3 s12">
+                                    <div class="input-field">
+                                        <label>Telefone</label>
+                                        <input class="form-control" asp-for="Telefone" type="text" id="Telefone" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m6 s12">
+                                    <div class="input-field">
+                                        <label>E-mail</label>
+                                        <input asp-for="Email" class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m3 s12">
+                                    <div class="row">
+                                        <div class="col m6 s5">
+                                            <div class="form-group">
+                                                <label for="CEP">Cep <span class="error">*</span></label>
+                                                <input id="CEP" type="text" asp-for="CEP" class="form-control validar" />
+                                                <span asp-validation-for="CEP" class="helper-text error" data-error="errado" data-success="Ok"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col m1 s4">
+                                            <div class="form-group">
+                                                <br />
+                                                <br />
+                                                <a class="btn btn-small" id="CEPS"><i class="fas fa-search"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col m7 s12">
+                                    <div class="input-field">
+                                        <label>Logradouro</label>
+                                        <input class="form-control" type="text" asp-for="Logradouro" id="logradouro" />
+
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="input-field">
+                                        <label>Número</label>
+                                        <input class="form-control" type="text" asp-for="Numero" id="numero" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m6 s12">
+                                    <div class="form-group">
+                                        <label>Bairro</label>
+                                        <input class="form-control" type="text" asp-for="Bairro" id="bairro" />
+
+                                    </div>
+                                </div>
+                                <div class="col m4 s12">
+                                    <div class="form-group">
+                                        <label>Cidade</label>
+                                        <input class="form-control" type="text" asp-for="Cidade" id="cidade" />
+
+                                    </div>
+                                </div>
+                                <div class="col m2 s12">
+                                    <div class="form-group">
+                                        <label>Estado</label>
+                                        <input class="form-control" type="text" asp-for="UF" id="uf" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m6 s12">
+                                    <div class="input-field">
+                                        <label>Senha</label>
+                                        <input class="form-control" type="password" asp-for="PasswordHash" id="Senha" />
+
+                                        <span class="helper-text">deixe em branco para não alterar a senha</span>
+                                    </div>
+                                </div>
+                                <div class="col m6 s12">
+                                    <div class="input-field">
+                                        <label>Confirmar Senha</label>
+                                        <input class="form-control" type="password" id="ConfirmarSenha" onchange="validarSenha(this)" />
+                                        <span class="helper-text">deixe em branco para não alterar a senha</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-danger">Salvar</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+}
+<!-- Main content -->
+<!-- /.content -->
+
+
+
+
+
+
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/perfilusuario.js"></script>
+}

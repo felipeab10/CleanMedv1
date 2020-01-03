@@ -1,0 +1,177 @@
+﻿@model CleanMed.ViewModels.EmpresaViewModel
+@{
+    ViewBag.Current = "Empresa";
+}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h5 class="center"><span class="card-title center " style="color:white;">Cadastrastro de empresa</span></h5>
+                </div>
+                <div class="card-content">
+                    <form asp-controller="Empresas" asp-action="Create" enctype="multipart/form-data">
+                        <input name="CEPBD" id="cepid" type="hidden" />
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="input-field">
+                                    <label asp-for="NomeFantasia" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.NomeFantasia" id="NomeFantasia" />
+                                    <span asp-validation-for="NomeFantasia" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m3">
+                                <div class="input-field">
+                                    <label asp-for="CNPJ" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.CNPJ" id="CNPJ" />
+                                    <span asp-validation-for="CNPJ" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col s12 m3">
+                                <div class="form-group">
+                                    <label asp-for="Status"></label>
+                                    <select class="form-control" asp-for="Status" asp-items="@ViewBag.StatusId">
+                                        <option value="" selected disabled>Selecione uma opção</option>
+
+                                    </select>
+                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m8">
+                                <div class="input-field">
+                                    <label asp-for="RazaoSocial" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.RazaoSocial" id="RazaoSocial" />
+                                    <span asp-validation-for="RazaoSocial" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="input-field">
+                                    <label asp-for="InscricaoEstadual" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.InscricaoEstadual" />
+                                    <span asp-validation-for="InscricaoEstadual" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="input-field">
+                                    <label asp-for="InscricaoMunicipal" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.InscricaoMunicipal" />
+                                    <span asp-validation-for="InscricaoMunicipal" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m2">
+                                <div class="input-field">
+                                    <label asp-for="CNES" class="control-label"></label>
+                                    <input type="text" class="form-control" asp-for="@Model.CNES" />
+                                    <span asp-validation-for="CNES" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m3">
+                                <div class="form-group">
+                                    <label asp-for="Unidade" class="control-label"></label>
+                                    <select class="form-control" asp-for="Unidade" asp-items="@ViewBag.UnidadeId">
+                                        <option value="" selected disabled>Selecione uma opção</option>
+
+                                    </select>
+                                    <span asp-validation-for="Unidade" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m3">
+
+                            </div>
+                            <div class="col s12 m4">
+                                <div class="file-field input-field">
+
+                                    <img src="~/Img/logoDefault.png" width="120" name="arquivo" id="arquivo" class="border border-secondary rounded img-fluid" />
+                                    <input type="file" name="Logo" id="exampleInputFile" onchange="CarregarImagem(this)">
+                                    <span class="helper-text">Selecione o logotipo da empresa se houver.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label for="CEP">Cep</label>
+                                    <input id="CEPS" type="text" asp-for="CEP" class="form-control" />
+                                    <span asp-validation-for="CEP" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="Logradouro">Logradouro</label>
+                                    <input type="text" asp-for="Logradouro" class="form-control" id="logradouro" />
+                                    <span asp-validation-for="Logradouro" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <div class="form-group">
+                                    <label for="Numero">Número</label>
+                                    <input type="text" asp-for="Numero" class="form-control" id="numero" />
+                                    <span asp-validation-for="Numero" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="form-group">
+                                    <label for="Bairro">Bairro</label>
+                                    <input asp-for="Bairro" type="text" class="form-control" id="bairro" />
+                                    <span asp-validation-for="Bairro" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m3">
+                                <div class="form-group">
+                                    <label for="Cidade">Cidade</label>
+                                    <input asp-for="Cidade" type="text" id="cidade" class="form-control" />
+                                    <span asp-validation-for="Cidade" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col s12 m1">
+                                <div class="form-group">
+                                    <label for="Estado">Estado</label>
+                                    <input asp-for="UF" type="text" class="form-control" id="uf" />
+                                    <span asp-validation-for="UF" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m4">
+                                <div class="form-group">
+                                    <label for="Complemento">Complemento</label>
+                                    <input asp-for="Complemento" type="text" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-action">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="form-group">
+                                        <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>&nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/empresa.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+}

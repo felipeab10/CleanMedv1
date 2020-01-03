@@ -1,0 +1,182 @@
+﻿@model IEnumerable<CleanMed.Models.CartaoConvenio>
+@{
+    Layout = null;
+
+}
+
+    <div class="card">
+        <div class="card-content">
+            <p>
+                <a style="margin-bottom:10px;" data-position="bottom" data-tooltip="Adicionar cartão do convênio" class="tooltipped btn-floating btn-medium waves-effect waves-light red modal-trigger right" href="#ModalCPaciente"><i class="material-icons">add</i></a>
+
+            </p>
+
+            <table id="example1" class="bordered  centered highlight responsive-table" role="grid" aria-describedby="example1_info">
+                <thead>
+                    <tr role="row">
+                        <th>Convênio</th>
+                        <th>Nº Carteira</th>
+                        <th>Validade</th>
+                        <th>Status</th>
+
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Convenio.Nome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumeroCarteira)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Validade)
+                                </td>
+                                @if (item.Status == true)
+                                {
+                                    <td>
+                                        Válido
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        Vencido
+                                    </td>
+                                }
+
+
+                                <td>
+                                    <a data-position="bottom" data-tooltip="Visualizar Cartão" class="tooltipped waves-effect waves-light btn-small purple View modal-trigger" data-target="ModalCPacienteView" data-Id="@item.CartaoConvenioId"><i class="far fa-eye"></i></a> &nbsp;
+                                    <a data-position="bottom" data-tooltip="Editar Cartão" class="tooltipped waves-effect waves-light btn-small Edit  modal-trigger" data-target="ModalCPacienteEdit" data-Id="@item.CartaoConvenioId"><i class="far fa-edit"></i></a> &nbsp;
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-action">
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group">
+                        <a asp-action="Index" class="waves-effect waves-light btn-small  tooltipped " data-position="bottom" data-tooltip="Fechar"><i class="material-icons">arrow_back</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Modal Structure  add-->
+<div id="ModalCPaciente" class="modal"  style="max-width:350px;">
+    <div class="modal-content">
+        <form asp-controller="Convenios" asp-action="AddConvenioPaciente">
+            @Html.AntiForgeryToken()
+            <input name="PacienteId" value="@ViewBag.PacienteId" type="hidden" />
+            <div class="row">
+                <div class="col  s12">
+                    <div class="form-group">
+                        <label for="ConvenioId">Convênio <span class="error">*</span></label>
+                        <select class="form-control select_dropdown" name="ConvenioId" required asp-items="@ViewBag.ConvenioId">
+                            <option value="" selected disabled>Selecione uma opção</option>
+                        </select>
+                    </div>
+                    <span for="ConvenioId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group">
+                        <label for="Descricao">Nº Carteira <span class="error">*</span></label>
+                        <input type="number" class="form-control" required name="NumeroCarteira" />
+                        <span for="NumeroCarteira" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group">
+                        <label for="Validade">Dt.Validade <span class="error">*</span></label>
+                        <input type="text" id="DataValidade" class="form-control" required name="Validade" />
+                        <span for="Validade" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group right">
+                        <a class="waves-effect waves-light btn-small red tooltipped modal-close  " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                        &nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped " data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Modal Structure edit -->
+<div id="ModalCPacienteEdit" class="modal"  style="max-width:350px;">
+    <div class="modal-content">
+        <form asp-controller="Convenios" asp-action="EditConvenioPaciente">
+            @Html.AntiForgeryToken()
+            <input name="PacienteId" value="@ViewBag.PacienteId" type="hidden" />
+            <input name="CartaoConvenioId" id="CartaoConvenioId" type="hidden" />
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group">
+                        <label for="ConvenioId">Convênio</label>
+                        <select class="form-control select_dropdown" name="ConvenioId" id="ConvenioId" asp-items="@ViewBag.ConvenioId">
+                            <option value="" selected disabled>Selecione uma opção</option>
+                        </select>
+                    </div>
+                    <span for="ConvenioId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="form-group">
+                        <label for="Descricao">Nº Carteira</label>
+                        <input type="number" class="form-control" name="NumeroCarteira" id="NumeroCarteira" />
+                        <span for="NumeroCarteira" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="form-group">
+                        <label for="Validade">Dt.Validade</label>
+                        <input type="text" id="Validade" class="form-control " name="Validade" />
+                        <span for="Validade" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="form-group">
+                        <label for="StatusId">Status</label>
+                        <select class="form-control" name="Status" asp-items="@ViewBag.StatusId">
+                            <option value="" selected disabled>Selecione uma opção</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="form-group right">
+                        <a class="waves-effect waves-light btn-small red tooltipped modal-close  " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                        &nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped " data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

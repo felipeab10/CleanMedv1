@@ -1,0 +1,167 @@
+﻿@model PaginatedList<CleanMed.Models.ItemAgendamento>
+@using CleanMed.Servicos
+@{
+    ViewBag.Current = "Agendamentos";
+}
+@{
+
+
+
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    if (TempData["Mensagem"] != null)
+    {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        <script type="text/javascript">
+        var texto = '@TempData["Mensagem"]';
+           var User = '@TempData["User"]'
+            Swal.fire({
+                title: User,
+                html: texto,
+                type: 'success'
+            });
+
+        </script>
+    }
+    if (TempData["Validacao"] != null)
+    {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        <script type="text/javascript">
+        var texto = '@TempData["Validacao"]';
+            Swal.fire({
+                title: '',
+                html: texto,
+                type: 'error'
+            });
+
+        </script>
+    }
+}
+<section class="content container-fluid">
+    <div class="box">
+        <div class="box-header">
+            <h4 class="text-center">
+                <b> Itens para agendamentos</b>
+            </h4>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                    <div class="col-sm-2"><a class="btn btn-primary" asp-controller="ItemAgendamentos" asp-action="Create">Adicionar Item para Agendamento</a></div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="example1_filter" class="dataTables_filter">
+                            <form asp-action="Index" asp-controller="ItemAgendamentos" method="get" class="form form-group">
+
+                                <div class="form-actions no-color">
+                                    <div class="form-group">
+                                        <input style="width:60px" placeholder="Id" class="form-control" type="text" name="searchId" />
+                                        <button type="submit" class="btn btn-outline-light"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    <div class="form-group">
+                                        <input style="width:250px" placeholder="Item para Agendamento" class="form-control" type="text" name="searchDescricao" value="@ViewData["currentFilter"]" />
+                                        <button type="submit" class="btn btn-outline-light"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <input style="width:350px" id="ExameId" placeholder="Buscar por Exame" class="form-control" type="text" />
+                                        <input class="form-control" name="searchExameId" id="ValueExameId" type="hidden" />
+
+                                        <button type="submit" class="btn btn-outline-light"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="example1" class="table table-bordered table-striped dataTable table-hover" role="grid" aria-describedby="example1_info">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width: 40px;">Id</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 224px;">Item de Agendamento</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 150px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr role="row" class="odd">
+                                        <td><a asp-action="Edit" asp-controller="ItemAgendamentos" asp-route-id="@item.ItemAgendamentoId">@Html.DisplayFor(modelItem => item.ItemAgendamentoId)</a></td>
+                                        <td><a asp-action="Edit" asp-controller="ItemAgendamentos" asp-route-id="@item.ItemAgendamentoId">@Html.DisplayFor(modelItem => item.Descricao)</a></td>
+
+                                        <td>
+                                            <a asp-action="Edit" asp-controller="ItemAgendamentos" asp-route-id="@item.ItemAgendamentoId" class="btn btn-primary btn-sm">Editar</a>&nbsp;
+                                            @if (item.RecursoAgendamentoId > 0)
+                                            {
+                                                <a asp-action="Index" asp-controller="RecursoAgendamentos" asp-route-searchId="@item.RecursoAgendamentoId" style="background-color:orangered;color:white;" class="btn btn-sm btn-default">Recurso</a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-action="Index" asp-controller="ItemAgendamentoPrestadores" asp-route-ItemAgendamentoId="@item.ItemAgendamentoId" class="btn btn-sm btn-warning">Prestadores</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
+                            Showing 1 to 10 of 57 entries
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        @{
+                            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                        }
+
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-pageNumber="@(Model.PageIndex - 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           class="btn btn-sm  btn-default @prevDisabled">
+                            Anterior
+                        </a>
+                        &nbsp;
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-pageNumber="@(Model.PageIndex + 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           class="btn btn-sm btn-primary @nextDisabled">
+                            Próximo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</section>
+@section Scripts{
+    <script>
+        $('#ExameId').autocomplete({
+            source: '/ItemAgendamentos/GetExame',
+            select: function (event, ui) {
+                //set tagids to save
+                $("#ValueExameId").val(ui.item.id);
+
+                //Tags for display
+                this.value = ui.item.value;
+                return false;
+            }
+        });
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}

@@ -1,0 +1,150 @@
+﻿@model CleanMed.ViewModels.ConvenioViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Cadastro do convênio " + Model.Nome;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Cadastro do convênio @Model.Nome</title>
+    <style>
+        p {
+            color: black;
+            font-size: 18px;
+        }
+        .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+ font-size: 18px;
+  color: black;
+  text-align: center;
+}
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="https://pt.freelogodesign.org/Content/img/logo-ex-4.png" width="150" height="150" class="img-bordered img-fluid" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="text-center">Relatório do Cadastro de Convênio</h4>
+            </div>
+        </div>
+        <hr />
+        
+        <div class="row">
+            <div class="col-md-3">
+                <label><b>Nome Fantasia:</b></label>
+                <p>@Model.Nome</p>
+            </div>
+            <div class="col-md-3">
+                <label><b>CNPJ:</b></label>
+                <p>@Model.CNPJ</p>
+            </div>
+            <div class="col-md-3">
+                <label><b>Telefone:</b></label>
+                <p>@Model.Telefone</p>
+            </div>
+            <div class="col-md-3">
+                <label><b>Registro Ans:</b></label>
+                <p>@Model.RegistroAns</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label><b>Razão Social:</b></label>
+                <p>@Model.RazaoSocial</p>
+            </div>
+            @if (Model.InscricaoEstadual != null)
+            {
+                <div class="col-md-3">
+                    <label><b>Inscrição Estadual:</b></label>
+                    <p>@Model.InscricaoEstadual</p>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3">
+                    <label><b>Inscrição Estadual:</b></label>
+                    <p>0</p>
+                </div>
+            }
+            @if (Model.InscricaoMunicipal != null)
+            {
+                <div class="col-md-3">
+                    <label><b>Inscrição Municipal:</b></label>
+                    <p>@Model.InscricaoMunicipal</p>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3">
+                    <label><b>Inscrição Municipal:</b></label>
+                    <p>0</p>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label><b>E-mail:</b></label>
+                <p>@Model.Email</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label><b>Cep:</b></label>
+                <p>@Model.CEP</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>Logradouro:</b></label>
+                <p>@Model.Logradouro</p>
+            </div>
+            <div class="col-md-2">
+                <label><b>Número:</b></label>
+                <p>@Model.Numero</p>
+            </div>
+            <div class="col-md-2">
+                <label><b>Complemento:</b></label>
+                <p>@Model.Complemento</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label><b>Bairro:</b></label>
+                <p>@Model.Bairro</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>Cidade:</b></label>
+                <p>@Model.Cidade</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>UF:</b></label>
+                <p>@Model.UF</p>
+            </div>
+        </div>
+    </div>
+  
+    <div class="footer">
+        <div class="row">
+            <div class="col-md-12">
+                <hr />
+                Felipe Almeida Batista Ltda
+                (67)98100-6846
+                Umbelina Paes Fernandes Silva,29 Mata do jacinto
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>

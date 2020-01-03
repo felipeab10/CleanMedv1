@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CleanMed.Models.UsuarioEmpresa>
+@{
+    Layout = null;
+    var controller = "Usuarios";
+    var usuarioId = ViewBag.UsuarioId;
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h6 class="center"><b>Usuário por empresa</b></h6>
+
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-2"><a class="waves-effect waves-light btn-small blue " onclick="AddEmpresa('@usuarioId')">Adicionar empresa &nbsp; <i class="fas fa-plus-circle"></i></a></div>
+            </div>
+            <br />
+            <table class="striped highlight responsive-table">
+                <thead>
+                    <tr role="row">
+
+                        <th>Empresa</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@Html.DisplayFor(modelItem => item.Empresa.NomeFantasia)</td>
+
+                            <td><a onclick="delEmpresaUsuario('@item.EmpresaId','@controller','@item.Empresa.NomeFantasia','@usuarioId')" class="waves-effect waves-light btn-small red"><i class="far fa-trash-alt"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-close waves-effect waves-light btn-small grey" data-dismiss="modal">Fechar</button>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+             $('select').formSelect();
+        })
+
+    </script>
+}

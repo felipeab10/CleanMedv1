@@ -1,0 +1,44 @@
+﻿@model CleanMed.ViewModels.UserInformationViewModel
+
+@{
+    Layout = null;
+}
+
+    <a class='dropdown-trigger tooltipped ' data-position="bottom" data-tooltip="Perfil do usuário" href='#' data-target='user'>
+        <span class="textCapitalize  ">@Model.Nome.ToLower()</span>
+       
+
+    </a>
+<ul id='user' class='dropdown-content menuBarDropDownUser'>
+    <li style="background-color:#009688;color:white;">
+        <div class="row">
+            <div class="col s12">
+                @if (Model.Foto != null)
+                {
+                    <img src="@Url.Content(Model.Foto)" class="circle img-fluid" width="80" style="margin-top:5px;"  />
+                    <p class="textCapitalize" style="font-size:14px;">@Model.Nome.ToLower()</p>
+                    <p style="font-size:9px;margin-top:-15px">Membro desde @Html.DisplayFor(modelItem => modelItem.DtCadastro)</p>
+                }
+                else
+                {
+                    <img src="~/dist/img/user.png" class="circle img-fluid" width="60" />
+                    <p class="textCapitalize" style="font-size:14px;">@Model.Nome.ToLower()</p>
+                    <p style="font-size:9px;margin-top:-15px">Membro desde @Html.DisplayFor(modelItem => modelItem.DtCadastro)</p>
+                }
+            </div>
+        </div>
+      
+    </li>
+    <li class="divider" tabindex="-1"></li>
+    <li style="background-color:#F9F9F9;margin-top:2px; color:slategrey;">
+      
+       <div class="col s6 left ">
+           <a class=" waves-effect waves-teal btn-flat btn-small" asp-action="PerfilUsuario" asp-controller="Usuarios" asp-route-Usuarioid="@Model.Id">Perfil</a>
+           
+       </div>
+       <div class="col s6 right">
+           <a class="tooltipped waves-effect waves-teal btn-flat btn-small " data-position="bottom" data-tooltip="Sair do sistema" asp-action="Logout" asp-controller="Usuarios">Sair</a>
+       </div>    
+      
+    </li>
+</ul>

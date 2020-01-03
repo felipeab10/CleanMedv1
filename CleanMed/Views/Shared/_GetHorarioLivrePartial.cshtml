@@ -1,0 +1,212 @@
+﻿@model CleanMed.ViewModels.AgendasMedicasViewModel
+@{
+    Layout = null;
+}
+
+
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/jquery-ui.css">
+    <link rel='stylesheet' href='~/css/nprogress.css' />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.2/flatpickr.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.1/fullcalendar.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.1/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <div class="container">
+        <form id="myForm" name="myForm" asp-action="agendarPaciente" asp-controller="AgendasMedicas">
+            @Html.AntiForgeryToken()
+            <input type="hidden" readonly id="AgendamentoId" class="form-control" asp-for="AgendamentoId" />
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h6 class="center"><span class="card-title center " style="color:white;">Informações do paciente</span></h6>
+                </div>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col m8  s12">
+                            <div class="form-group">
+                                <label>Paciente</label>
+                                <select asp-for="PacienteId" id="PacienteId" class="select2-paciente browser-default">
+                                    <option value="" selected disabled></option>
+                                </select>
+
+                            </div>
+                            <span asp-validation-for="PacienteId" class="error"></span>
+                        </div>
+                        <div class="col m2 s12">
+                            <div class="form-group">
+                                <label for="DataNascimento">Dt.Nascimento</label>
+                                <input name="DataNascimento" class="form-control" type="text" id="DtNascimento" />
+                                <span asp-validation-for="DataNascimento" class="error"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col m3 s12">
+                            <div class="form-group">
+                                <label for="Telefone">Telefone</label>
+                                <input asp-for="Telefone" class="form-control" type="text" id="Telefone" />
+                                <span asp-validation-for="Telefone" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="col m3 s12">
+                            <div class="form-group">
+                                <label for="CPF">CPF</label>
+                                <input asp-for="CPF" class="form-control" type="text" id="CPF" />
+                                <span asp-validation-for="CPF" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h6 class="center"><span class="card-title center " style="color:white;">Informações do agendamento</span></h6>
+                </div>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col m1 s12">
+                            <div class="form-group">
+                                <label for="AgendaMedicaId">Id</label>
+                                <input readonly type="number" class="form-control" asp-for="AgendaMedicaId" />
+
+                                <span asp-validation-for="AgendaMedicaId" class="error"></span>
+                            </div>
+                        </div>
+                        @if (Model.PrestadorId != null)
+                        {
+                            <div class="col m6 s12">
+                                <div class="form-group">
+                                    <label for="Prestador">Prestador</label>
+                                    <input readonly class="form-control textCapitalize" type="text" value="@Model.NomePrestador.ToLower()" />
+                                </div>
+                            </div>
+                        }
+                        @if (Model.RecursoAgendamentoId != null)
+                        {
+                            <div class="col m6 s12">
+                                <div class="form-group">
+                                    <label for="Recurso">Recurso</label>
+                                    <input readonly class="form-control textCapitalize" type="text" value="@Model.RecursoNome.ToLower()" />
+                                </div>
+                            </div>
+                        }
+                        <div class="col m2 s12">
+                            <div class="form-group">
+                                <label asp-for="HoraAgenda">Horário</label>
+                                <input readonly class="form-control" type="text" asp-for="HoraAgenda" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col m6 s12">
+                            <div class="form-group">
+                                <label asp-for="ItemAgendamentoId">Item de Agendamento</label>
+                                <select id="selectItemAgendamentoId" class="form-control" asp-for="ItemAgendamentoId" asp-items="@ViewBag.ItemAgendamentoId">
+                                    <option value="" selected disabled></option>
+                                </select>
+                                <span asp-validation-for="ItemAgendamentoId" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m6 s12">
+                            <div class="form-group">
+                                <label asp-for="ConvenioId">Convênio</label>
+                                <select asp-for="ConvenioId" id="select2-convenio" class="select2-convenio browser-default" asp-items="@ViewBag.ConvenioId">
+                                    <option value="" selected disabled></option>
+                                </select>
+                                <span asp-validation-for="ConvenioId" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="col m3 s12">
+                            <div class="form-group">
+                                <label asp-for="NumeroCartaoConvenio">Nº Cartão convênio</label>
+                                <input id="numeroCartao" class="form-control" type="number" asp-for="NumeroCartaoConvenio" />
+                                <span asp-validation-for="NumeroCartaoConvenio"></span>
+                            </div>
+                        </div>
+                        <div class="col m3 s12">
+                            <div class="form-group">
+                                <label asp-for="CartaoValidade">Dt.Validade</label>
+                                <input id="CartaoValidade" class="form-control" type="text" name="CartaoValidade" />
+                                <span asp-validation-for="CartaoValidade"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <a class="waves-effect waves-light btn-small red tooltipped modal-close " data-position="top" data-tooltip="Cancelar"><i class="material-icons">arrow_back</i></a>
+            &nbsp;
+            <button type="submit" class="waves-effect waves-light btn-small tooltipped " data-position="top" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+
+
+        </form>
+    </div>
+
+    <!--JavaScript at end of body for optimized loading-->
+
+
+    <script src="~/js/jquery-1.12.4.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.1/fullcalendar.js"></script>
+    <script src="~/js/inputmask.min.js"></script>
+    <script src="~/js/jquery.inputmask.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.2/flatpickr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.1/locale/pt-br.js"></script>
+    <script src="~/js/agendamentoPaciente.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

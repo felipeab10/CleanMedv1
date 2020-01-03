@@ -1,0 +1,155 @@
+﻿@model PaginatedList<CleanMed.Models.Usuario>
+@using CleanMed.Servicos
+@{
+    ViewBag.Current = "Usuarios";
+
+
+    var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    if (TempData["Mensagem"] != null)
+    {
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+            var texto = '@TempData["Mensagem"]';
+            var User = '@TempData["User"]'
+          swal(texto, User, "success");
+
+        </script>
+    }
+    if (TempData["Validacao"] != null)
+    {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+        var texto = '@TempData["Validacao"]';
+             swal(texto, "", "error");
+
+        </script>
+    }
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-header BtnColor">
+                    <h5 class="center"><span class="card-title center " style="color:white;">Usuários cadastrados</span></h5>
+                </div>
+                <div class="card-content">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+
+                        <div class="row">
+                            <div class="col s6"><a data-position="bottom" data-tooltip="Adicionar usuário" asp-controller="Usuarios" asp-action="Create" class="tooltipped btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
+                        </div>
+
+                        <div class="row">
+                            <div id="example1_filter">
+                                <form asp-action="Index" asp-controller="Usuarios" method="get" class="col s12">
+                                    <div class=" input-field col m5 s12">
+                                        <label>Nome ou username</label>
+                                        <input class="form-control" type="text" name="searchNome" value="@ViewData["searchNome"]" />
+
+                                    </div>
+                                    <div class="input-field  col m3 s12">
+
+                                        <select name="searchSetorId" class="form-control" id="SetorId" asp-items="@ViewBag.SetorId">
+                                            <option selected disabled value="">Selecione</option>
+                                        </select>
+                                        <label>Setor</label>
+
+                                    </div>
+                                    <div class="input-field  col m3 s12">
+
+                                        <select name="searchStatusId" class="form-control" asp-items="@ViewBag.StatusId">
+                                            <option selected disabled value="">Selecione</option>
+                                        </select>
+                                        <label>Status</label>
+                                        <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <table id="example1" class="striped highlight responsive-table" role="grid">
+                                    <thead>
+                                        <tr role="row">
+
+                                            <th>Nome</th>
+                                          
+                                            <th>UserName</th>
+                                           
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr role="row" class="odd">
+
+                                                <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                                               
+                                                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                                               
+
+
+                                                <td>
+                                                    <a asp-action="Edit" asp-controller="Usuarios" asp-route-UserName="@item.UserName" class="waves-effect waves-light btn-small blue tooltipped " data-position="bottom" data-tooltip="Editar usuário"><i class="fas fa-edit"></i></a>&nbsp;
+                                                    <a class=" waves-effect waves-light btn-small orange  nivelAcesso modal-trigger tooltipped" href="#modalUsuario" data-UsuarioId="@item.Id" data-position="bottom" data-tooltip="Nível de acesso"><i class="fas fa-ban"></i></a>&nbsp;
+                                                    <a class=" waves-effect waves-light btn-small   usuarioEmpresa modal-trigger tooltipped" href="#modalUsuario" data-UsuarioId="@item.Id" data-position="bottom" data-tooltip="Empresas"><i class="far fa-building"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12">
+                                @{
+                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                                }
+
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                                &nbsp;
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modalUsuario" class="modal fade" role="dialog" />
+    
+
+</div>
+
+
+
+
+@section Scripts{
+    <script src="~/js/usuario.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+}

@@ -1,0 +1,192 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Usuario> SignInManager
+@inject UserManager<Usuario> UserManager
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+
+    <link rel="stylesheet" href="~/css/materialize.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/jquery-ui.css">
+    <link rel='stylesheet' href='~/css/nprogress.css' />
+    <link href="~/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/jquery.qtip.min.css"  rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/fullcalendar.css" />
+    <link href="~/css/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    @RenderSection("CSS", required: false)
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <header>
+        @* <nav role="navigation">
+                <div class="nav-wrapper container">
+                    <a id="logo-container" class="brand-logo">CleanMed</a>
+                    <!-- Dropdown Structure -->
+                    <ul id='admin' class='dropdown-content menuBarDropDown'>
+                        <li><a asp-action="Index" asp-controller="Usuarios">Usuário</a></li>
+                        <li><a asp-action="Index" asp-controller="Empresas">Empresa</a></li>
+                        <li><a asp-action="Index" asp-controller="NiveisAcessos">Níveis de Acesso</a></li>
+                        <li><a asp-action="Index" asp-controller="Convenios">Convênios</a></li>
+                        <li><a asp-action="Index" asp-controller="Setores">Setores</a></li>
+                        <li><a href="#!">two</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!">three</a></li>
+                        <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                        <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+                    </ul>
+                    <ul id='prestador' class='dropdown-content menuBarDropDown'>
+                        <li><a asp-action="Index" asp-controller="Prestadores">Cadastro</a></li>
+                        <li><a asp-action="Index" asp-controller="Conselhos">Conselho</a></li>
+                        <li><a asp-action="Index" asp-controller="TipoPrestadores">Tipo de Prestador</a></li>
+                        <li><a asp-action="Index" asp-controller="Especialidades">Especialidade</a></li>
+                        <li class="divider" tabindex="-1"></li>
+                        <li><a href="#!">three</a></li>
+                        <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                        <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+                    </ul>
+                    <ul id="Agendas" class="dropdown-content menuBarDropDown">
+                        <li><a asp-action="AgendaCentral" asp-controller="AgendasMedicas">Central de Agendamento</a></li>
+                        <li><a asp-action="Index" asp-controller="AgendasMedicas" class="">Cadastro de Agendas</a></li>
+                    </ul>
+                    <ul class="right hide-on-med-and-down">
+                        <li id="timer-tab"><a asp-action="Index" asp-controller="Pacientes">Pacientes</a></li>
+                        <li><a class='dropdown-trigger ' href='#' data-target='prestador'>Prestadores</a></li>
+                        <li><a class='dropdown-trigger ' href='#' data-target='Agendas'>Agendas</a></li>
+                        <li><a class='dropdown-trigger ' href='#' data-target='admin'><i class="fas fa-tools"></i></a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>@await Component.InvokeAsync("UserInformation", new { Id = UserManager.GetUserId(User) })</li>
+                        }
+                    </ul>
+                </div>
+            </nav>
+        *@
+        <nav>
+            <div class="nav-wrapper">
+                <div class="row">
+                    <div class="col s12">
+                        <a href="#" data-target="sidenav-1" class="left sidenav-trigger hide-on-medium-and-up"><i class="material-icons">menu</i></a>
+                        <a href="#" data-target="sidenav-2" class="right sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
+                        <div class="right">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @await Component.InvokeAsync("UserInformation", new { Id = UserManager.GetUserId(User) })
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- LEFT SIDEBAR	 -->
+    <ul id="sidenav-1" class="sidenav sidenav-fixed ">
+        <li class="brand-logo">CleanMed</li>
+        
+      
+        <li><a class="menu-icones"><i class="fas fa-tachometer-alt "></i>Dashboard</a></li>
+        <li> <a class="menu-icones" asp-action="Index" asp-controller="Pacientes"><i class="fas fa-user-injured"></i>Pacientes</a></li>
+        <li><a class="dropdown-trigger menu-icones" href="#!" data-target="dropdown1"><i class="fas fa-notes-medical"></i>Agendas<i style="color:white;" class="material-icons right">arrow_drop_down</i></a></li>
+        <li><a class="dropdown-trigger menu-icones" href="#!" data-target="prestador"><i class="fas fa-user-md"></i>Prestador<i style="color:white;" class="material-icons right">arrow_drop_down</i></a></li>
+
+
+    </ul>
+    <ul id='dropdown1' class='dropdown-content'>
+        <li><a asp-action="AgendaCentral" asp-controller="AgendasMedicas">Central de Agendamento</a></li>
+        <li><a asp-action="Index" asp-controller="AgendasMedicas" class="">Cadastro de Agendas</a></li>
+    </ul>
+    <ul id='prestador' class='dropdown-content '>
+        <li><a asp-action="Index" asp-controller="Prestadores">Cadastro</a></li>
+        <li><a asp-action="Index" asp-controller="Conselhos">Conselho</a></li>
+        <li><a asp-action="Index" asp-controller="TipoPrestadores">Tipo de Prestador</a></li>
+        <li><a asp-action="Index" asp-controller="Especialidades">Especialidade</a></li>
+       
+    </ul>
+
+    <!-- RIGHT SIDEBAR	 -->
+    <ul id="sidenav-2" class="sidenav">
+        <li><a class="subheader">Subheader</a></li>
+        <li><a href="https://github.com/dogfalo/materialize/" target="_blank">Github</a></li>
+        <li><a href="https://twitter.com/MaterializeCSS" target="_blank">Twitter</a></li>
+        <li><a href="http://next.materializecss.com/getting-started.html" target="_blank">Docs</a></li>
+    </ul>
+
+
+    <main>
+
+
+        @RenderBody()
+
+
+    </main>
+
+
+
+
+
+
+
+
+
+    <footer class="page-footer">
+
+        <div class="footer-copyright">
+            <div class="container center"> <a style="color:white;" href="#">CleanMed @DateTime.Now.Year - Desenvolvido por Felipe Almeida Batista </a></div>
+        </div>
+    </footer>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script src="~/js/jquery-1.12.4.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+
+    <script src="~/js/popper.js"></script>
+    <script src="~/js/materialize.min.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/fullcalendar.js"></script>
+    <script src="~/js/inputmask.min.js"></script>
+    <script src="~/js/jquery.inputmask.bundle.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script src="~/js/jquery.qtip.min.js"></script>
+
+    <script src="~/js/pt-br.js"></script>
+
+    <script src="~/js/axios.min.js"></script>
+
+
+
+
+    <script src='~/js/nprogress.js'></script>
+    @* <script src="~/js/site.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+            $('#sidenav-1').sidenav({ edge: 'left' });
+            $('#sidenav-2').sidenav({ edge: 'right' });
+            $('select').formSelect();
+            var elem = $('.select_dropdown');
+            var instances = M.FormSelect.init(elem, { dropdownOptions: { container: document.body } });
+        });</script>
+    <script>
+        $(".dropdown-trigger").dropdown();
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

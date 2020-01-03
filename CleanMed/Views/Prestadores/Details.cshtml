@@ -1,0 +1,173 @@
+﻿<section class="content-header">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            @if (@TempData["Mensagem"] != null)
+            {
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fa fa-check"></i> @TempData["Mensagem"]</h5>
+
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+
+
+</section>
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom" style="margin-top:6px">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab_1" data-toggle="tab">Prestador</a></li>
+                <li><a href="#tab_2" data-toggle="tab">Endereços</a></li>
+                <li><a href="#especialidades" data-toggle="tab">Especialidades</a></li>
+                <li><a href="#tab_3" data-toggle="tab">Contatos</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Dropdown <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                    </ul>
+                </li>
+                <li data-toggle="tooltip" data-placement="left" title="Imprimir Cadastro do Prestador" class="pull-right"><a asp-controller="Prestadores" asp-action="VisualizarPrestadorPDF" asp-route-PrestadorId="@ViewBag.PrestadorId" class="text-muted"><i style="color:red;" class="fa fa-print fa-2x "></i></a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                    @await Component.InvokeAsync("Prestador", ViewBag.PrestadorId)
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_2">
+                    @* @await Component.InvokeAsync("Endereco", TempData["PacienteId"])*@
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_3">
+                    @*  @await Component.InvokeAsync("Contato", TempData["PacienteId"])*@
+                </div>
+                <div class="tab-pane " id="especialidades">
+                    @await Component.InvokeAsync("Especialidade", ViewBag.PrestadorId)
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- nav-tabs-custom -->
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    $("#CEPS").focusout(function () {
+        var ceps =  $(this).val()
+            $.ajax({
+               
+                url: '/Prestadores/LocalizarCEP/' + $(this).val() ,
+               
+                data: {CEP : $(this).val()},
+              
+                
+                success: function (resposta) {
+                    
+                    if (resposta != null) {
+                        alert("Entrando no banco");
+                        $("#logradouro").val(resposta.logradouro);
+                        $("#complemento").val(resposta.complemento);
+                        $("#bairro").val(resposta.bairro);
+                        $("#cidade").val(resposta.cidade);
+                        $("#uf").val(resposta.uf);
+                        $("#cepid").val(resposta.cepId);
+                      
+                       
+                        $("#numero").focus();
+                    } else {
+
+                        alert("sem resposta");
+                        $.ajax({
+			
+			url: 'https://viacep.com.br/ws/'+ceps+'/json/unicode/',
+			
+			dataType: 'json',
+			
+			success: function(resposta){
+				
+				 $("#logradouro").val(resposta.logradouro);
+                        $("#complemento").val(resposta.complemento);
+                        $("#bairro").val(resposta.bairro);
+                        $("#cidade").val(resposta.localidade);
+                        $("#uf").val(resposta.uf);
+				
+				$("#numero").focus();
+			}
+		});
+                    }
+                   
+                   
+                }
+               
+            });
+        });
+</script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+
+        $("input[id*='DataNascimento']").inputmask({
+            mask: ['99/99/9999'],
+            keepStatic: true
+        });
+        $("input[id*='CPF']").inputmask({
+            mask: ['999.999.999-99'],
+            keepStatic: true
+        });
+        $("input[id*='CEP']").inputmask({
+            mask: ['99999-999'],
+            keepStatic: true
+        });
+        $("#Telefone").inputmask({
+            mask: ['(99)9 9999-9999', '(99)9999-9999'],
+            keepStatic: true
+        });
+        function InputToUpper(obj) {
+            if (obj.value != "") {
+                obj.value = obj.value.toUpperCase();
+            }
+        }
+
+
+        function ConfirmarExclusao(id, controller, nome) {
+            $(".Nome").html(nome);
+            $("#modalExclusao").modal("show");
+            $(".btnCancela").on('click', function () {
+                $(".modal").modal("hide");
+
+            });
+            $(".btnExcluir").on('click', function () {
+                var url = "/" + controller + "/DesassociarEspecialidade/";
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: { EspecialidadeId: id },
+                    success: function () {
+
+                        location.reload();
+                    }
+                })
+            })
+        }
+        
+    </script>
+}

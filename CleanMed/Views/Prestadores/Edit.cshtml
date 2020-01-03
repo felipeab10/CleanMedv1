@@ -1,0 +1,142 @@
+﻿@model CleanMed.ViewModels.PrestadorViewModel
+@{
+    ViewBag.Current = "Prestadores";
+}
+
+<form asp-action="Edit" asp-controller="Prestadores" method="post">
+    <input type="hidden" asp-for="PrestadorId" />
+    <input type="text" asp-for="CepId" value="@ViewBag.CepId" />
+    <input type="text" name="CEPBD" id="cepid" />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Nome</label>
+                <input type="text" class="form-control" asp-for="Nome" onkeyup="InputToUpper(this)" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Dt.Nascimento</label>
+                <input type="text" class="form-control" asp-for="DataNascimento" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>CPF</label>
+                <input type="text" class="form-control" asp-for="CPF" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="Descricao">Conselho</label>
+                <select class="form-control" asp-for="ConselhoId" asp-items="@ViewBag.ConselhoId"></select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="Descricao">Número CRM</label>
+                <input type="number" class="form-control" asp-for="NumeroCrm" />
+                <span asp-validation-for="NumeroCrm" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="TipoPrestador">Tipo de Prestador</label>
+                <select class="form-control" asp-for="TipoPrestadorId" asp-items="@ViewBag.TipoPrestadorId"></select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="Telefone">Telefone</label>
+                <input type="text" asp-for="Telefone" class="form-control" id="Telefone" />
+                <span asp-validation-for="Telefone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Status"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="true">Ativo</option>
+                    <option value="false">Inativo</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="CEP">Cep</label>
+                <input id="CEPS" type="text" asp-for="CEP" class="form-control" />
+                <span asp-validation-for="CEP" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Logradouro">Logradouro</label>
+                <input type="text" asp-for="Logradouro" class="form-control" id="logradouro" />
+                <span asp-validation-for="Logradouro" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label for="Numero">Número</label>
+                <input type="text" asp-for="Numero" class="form-control" id="numero" />
+                <span asp-validation-for="Numero" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Bairro">Bairro</label>
+                <input asp-for="Bairro" type="text" class="form-control" id="bairro" />
+                <span asp-validation-for="Bairro" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Cidade">Cidade</label>
+                <input asp-for="Cidade" type="text" id="cidade" class="form-control" />
+                <span asp-validation-for="Cidade" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label for="Estado">Estado</label>
+                <input asp-for="UF" type="text" class="form-control" id="uf" />
+                <span asp-validation-for="UF" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="Complemento">Complemento</label>
+                <input asp-for="Complemento" type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-danger">Cancelar</a>&nbsp;<button type="submit" class="btn btn-success">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

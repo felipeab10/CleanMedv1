@@ -1,0 +1,60 @@
+﻿@model CleanMed.Models.TabelaFaturamento
+@{
+    ViewBag.Current = "Scheduler";
+}
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3>
+                        Cadastro de Tabela de Faturamento
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <form asp-controller="TabelaFaturamentos" asp-action="Edit">
+                        <input asp-for="TabelaFaturamentoId" type="hidden" />
+                        <input asp-for="ConvenioId" type="hidden" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Descricao">Descrição</label>
+                                    <input type="text" class="form-control" onkeyup="InputToUpper(this)" asp-for="@Model.Descricao" />
+                                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <a asp-action="Index" asp-route-ConvenioId="@Model.ConvenioId" class="btn btn-danger">Cancelar</a>&nbsp;<button type="submit" class="btn btn-success">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+</section>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function InputToUpper(obj) {
+            if (obj.value != "") {
+                obj.value = obj.value.toUpperCase();
+            }
+        }
+    </script>
+}
