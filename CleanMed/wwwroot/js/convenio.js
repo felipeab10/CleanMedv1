@@ -3,7 +3,7 @@
         $('.tabs').tabs();
         $('.modal').modal();
         //$("#arquivo").hide();
-
+        $('.tooltipped').tooltip();
     });
 $("input[id*='RazaoSocial']").inputmask({
     //regex: "[a-z-áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ/- ]*" ,

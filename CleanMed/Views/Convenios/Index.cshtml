@@ -11,12 +11,14 @@
     if (TempData["Mensagem"] != null)
     {
 
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src=" https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
         <script type="text/javascript">
-            var texto = '@TempData["Mensagem"]';
-            var User = '@TempData["User"]'
-          swal(texto, User, "success");
+            //var texto = '@TempData["Mensagem"]';
+            //var User = '@TempData["User"]'
+          //swal(texto, User, "success");
 
+
+        M.toast({html: '@TempData["Mensagem"]'});
         </script>
     }
     if (TempData["Validacao"] != null)
@@ -29,7 +31,7 @@
         </script>
     }
 }
-<div class="container">
+<div class="">
     <div class="row">
         <div class="col s12">
             <div class="card">
@@ -40,7 +42,7 @@
                     <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
 
                         <div class="row">
-                            <div class="col s6"><a data-position="bottom" data-tooltip="Adicionar convênio" asp-action="Create" asp-controller="Convenios" class=" tooltipped btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
+                            <div class="col s12"><a data-position="bottom" data-tooltip="Adicionar convênio" asp-action="Create" asp-controller="Convenios" class="right tooltipped btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
                         </div>
                         <div class="row">
                             <div id="example1_filter" class="dataTables_filter">
@@ -82,7 +84,7 @@
                                                 <td>
                                                     <a asp-action="Edit" asp-controller="Convenios" asp-route-id="@item.ConvenioId" class="waves-effect waves-light btn-small blue tooltipped" data-position="bottom" data-tooltip="Editar convênio"><i class="fas fa-edit"></i></a>&nbsp;
                                                     <a asp-action="Index" asp-controller="TabelaFaturamentos" asp-route-ConvenioId="@item.ConvenioId" class="waves-effect waves-light btn-small gree tooltipped" data-position="bottom" data-tooltip="Tabela de Faturamento"><i class="far fa-money-bill-alt"></i></a>&nbsp;
-                                                    
+
                                                 </td>
                                             </tr>
                                         }
@@ -92,7 +94,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col s12">
+                            <div class="col s12 center">
                                 @{
                                     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
                                     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -126,7 +128,7 @@
 @section Scripts{
     <script>
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+             $('.tooltipped').tooltip();
         })
     </script>
 }
