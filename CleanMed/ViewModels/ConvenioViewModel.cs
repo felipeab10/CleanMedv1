@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CleanMed.Servicos;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,7 @@ namespace CleanMed.ViewModels
         [Required(ErrorMessage = "Campo obrigatório")]
         [MaxLength(160, ErrorMessage = "Maximo 160 caracteres")]
         [Remote("ConvenioExiste","Convenios",AdditionalFields ="ConvenioId")]
+        [CustomValidationCNPJ(ErrorMessage = "'{0}' Inválido")]
         public string CNPJ { get; set; }
         public string InscricaoMunicipal { get; set; }
         public string InscricaoEstadual { get; set; }

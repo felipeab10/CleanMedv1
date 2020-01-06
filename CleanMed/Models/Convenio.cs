@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CleanMed.Servicos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace CleanMed.Models
         public string Telefone { get; set; }
         [Required(ErrorMessage = "Campo obrigatório")]
         [MaxLength(160, ErrorMessage = "Maximo 160 caracteres")]
+        [CustomValidationCNPJ(ErrorMessage = "'{0}' Inválido")]
         public string CNPJ { get; set; }
         public string InscricaoMunicipal { get; set; }
         public string InscricaoEstadual { get; set; }

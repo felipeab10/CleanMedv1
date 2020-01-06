@@ -2,7 +2,7 @@
 @{
     ViewBag.Current = "Faturamento";
 }
-    <div class="container">
+    <div class="">
         <div class="row">
             <div class="col s12">
                 <div class="card">
@@ -24,109 +24,121 @@
                             <div class="row">
                                 <div class="col s12 m3">
                                     <div class="form-group">
-                                        <label for="Nome">Nome</label>
+                                        <label for="Nome">Nome<span class="error">*</span></label>
                                         <input type="text" class="form-control" asp-for="@Model.Nome" />
-                                        <span asp-validation-for="Nome" class="text-danger"></span>
+                                        <span asp-validation-for="Nome" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col s12 m3">
                                     <div class="form-group">
-                                        <label for="CNPJ">CNPJ</label>
+                                        <label for="CNPJ">CNPJ<span class="error">*</span></label>
                                         <input type="text" class="form-control" id="CNPJ" asp-for="@Model.CNPJ" />
-                                        <span asp-validation-for="CNPJ" class="text-danger"></span>
+                                        <span asp-validation-for="CNPJ" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col s12 m2">
                                     <div class="form-group">
                                         <label for="Telefone">Telefone</label>
                                         <input type="text" class="form-control" id="Telefone" asp-for="@Model.Telefone" />
-                                        <span asp-validation-for="Telefone" class="text-danger"></span>
+                                        <span asp-validation-for="Telefone" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col s12 m2 ">
                                     <div class="form-group">
                                         <label for="InscricaoMunicipal">Inscrição Municipal</label>
                                         <input type="text" id="InscricaoMunicipal" class="form-control somentenumeros" asp-for="@Model.InscricaoMunicipal" />
-                                        <span asp-validation-for="InscricaoMunicipal" class="text-danger"></span>
+                                        <span asp-validation-for="InscricaoMunicipal" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col m2 s12">
                                     <div class="form-group">
                                         <label for="InscricaoEstadual">Inscrição Estadual</label>
                                         <input type="text" id="InscricaoEstadual" class="form-control somentenumeros" asp-for="@Model.InscricaoEstadual" />
-                                        <span asp-validation-for="InscricaoEstadual" class="text-danger"></span>
+                                        <span asp-validation-for="InscricaoEstadual" class="text-danger error"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s12 m6">
                                     <div class="form-group">
-                                        <label for="RazaoSocial">Razão Social</label>
+                                        <label for="RazaoSocial">Razão Social<span class="error">*</span></label>
                                         <input type="text" class="form-control" asp-for="@Model.RazaoSocial" />
-                                        <span asp-validation-for="RazaoSocial" class="text-danger"></span>
+                                        <span asp-validation-for="RazaoSocial" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col s12 m2">
                                     <div class="form-group">
-                                        <label for="RegistroAns">Registro ANS</label>
+                                        <label for="RegistroAns">Registro ANS<span class="error">*</span></label>
                                         <input type="text" class="form-control somentenumeros" id="RegistroAns" asp-for="@Model.RegistroAns" />
-                                        <span asp-validation-for="RegistroAns" class="text-danger"></span>
+                                        <span asp-validation-for="RegistroAns" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col s12 m4">
                                     <div class="form-group">
                                         <label for="Email">Email</label>
                                         <input type="text" class="form-control" asp-for="@Model.Email" />
-                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                        <span asp-validation-for="Email" class="text-danger error"></span>
                                     </div>
                                 </div>
                             </div>
 
 
                             <div class="row">
-                                <div class="col m2 s12">
-                                    <div class="form-group">
-                                        <label for="CEP">Cep</label>
-                                        <input id="CEPS" type="text" asp-for="CEP" class="form-control" />
-                                        <span asp-validation-for="CEP" class="text-danger"></span>
+                                <div class="col m3 s12">
+                                    <div class="row">
+                                        <div class="col m6 s5">
+                                            <div class="form-group">
+                                                <label for="CEP">Cep <span class="error">*</span></label>
+                                                <input id="CEP" type="text" asp-for="CEP" class="form-control validar" />
+                                                <span asp-validation-for="CEP" class="helper-text error" data-error="errado" data-success="Ok"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col m1 s4">
+                                            <div class="form-group">
+                                                <br />
+                                                <br />
+                                                <a class="btn btn-small" id="CEPS"><i class="fas fa-search"></i></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="col m6 s12">
                                     <div class="form-group">
-                                        <label for="Logradouro">Logradouro</label>
+                                        <label for="Logradouro">Logradouro<span class="error">*</span></label>
                                         <input type="text" asp-for="Logradouro" class="form-control" id="logradouro" />
-                                        <span asp-validation-for="Logradouro" class="text-danger"></span>
+                                        <span asp-validation-for="Logradouro" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col m2 s12">
                                     <div class="form-group">
                                         <label for="Numero">Número</label>
                                         <input type="text" asp-for="Numero" class="form-control" id="numero" />
-                                        <span asp-validation-for="Numero" class="text-danger"></span>
+                                        <span asp-validation-for="Numero" class="text-danger error"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col m6 s12">
                                     <div class="form-group">
-                                        <label for="Bairro">Bairro</label>
+                                        <label for="Bairro">Bairro<span class="error">*</span></label>
                                         <input asp-for="Bairro" type="text" class="form-control" id="bairro" />
-                                        <span asp-validation-for="Bairro" class="text-danger"></span>
+                                        <span asp-validation-for="Bairro" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col s12 m3">
                                     <div class="form-group">
-                                        <label for="Cidade">Cidade</label>
+                                        <label for="Cidade">Cidade<span class="error">*</span></label>
                                         <input asp-for="Cidade" type="text" id="cidade" class="form-control" />
-                                        <span asp-validation-for="Cidade" class="text-danger"></span>
+                                        <span asp-validation-for="Cidade" class="text-danger error"></span>
                                     </div>
                                 </div>
                                 <div class="col m2 s12">
                                     <div class="form-group">
-                                        <label for="Estado">Estado</label>
+                                        <label for="Estado">Estado<span class="error">*</span></label>
                                         <input asp-for="UF" type="text" class="form-control" id="uf" />
-                                        <span asp-validation-for="UF" class="text-danger"></span>
+                                        <span asp-validation-for="UF" class="text-danger error"></span>
                                     </div>
                                 </div>
 
@@ -161,7 +173,7 @@
                             <div class="card-action">
                                 <div class="row">
                                     <div class="col s12">
-                                        <div class="form-group">
+                                        <div class="form-group right">
                                             <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
                                             &nbsp;<button type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
                                             &nbsp;<a target="_blank" rel="noopener" asp-controller="Convenios" asp-action="VisualizarConvenioPDF" asp-route-ConvenioId="@Model.ConvenioId" class="waves-effect waves-light btn-small white tooltipped" data-position="bottom" data-tooltip="Imprimir cadastro do convênio convênio"><i style="color:red;" class="fa fa-print fa-2x "></i></a>
