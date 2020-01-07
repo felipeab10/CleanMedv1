@@ -5,20 +5,19 @@
 }
 @{
 
-
+  
     var controller = this.ViewContext.RouteData.Values["controller"].ToString();
     if (TempData["Mensagem"] != null)
     {
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-        <script type="text/javascript">
-        var texto = '@TempData["Mensagem"]';
-           var User = '@TempData["User"]'
-            Swal.fire({
-                title: User,
-                html: texto,
-                type: 'success'
-            });
 
+        <script src=" https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        <script type="text/javascript">
+            //var texto = '@TempData["Mensagem"]';
+            //var User = '@TempData["User"]'
+          //swal(texto, User, "success");
+
+
+        M.toast({html: '@TempData["Mensagem"]'});
         </script>
     }
     if (TempData["Validacao"] != null)
@@ -35,111 +34,126 @@
         </script>
     }
 }
-<section class="content container-fluid">
-    <div class="box">
-        <div class="box-header">
-            <h4 class="text-center">
-                <b> Tabela de Faturamento</b>
-            </h4>
-            <p><h3 class="text-center"><b>@TempData["ConvenioNome"]</b></h3></p>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                <div class="row">
-                    <div class="col-sm-2"><a class="btn btn-primary" asp-controller="TabelaFaturamentos" asp-route-ConvenioId="@ViewBag.ConvenioId" asp-action="Create">Adicionar Tabela de Faturamento</a></div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div id="example1_filter" class="dataTables_filter">
-                            <form asp-action="Index" asp-controller="TabelaFaturamentos" method="get" class="form form-group">
-                                <div class="form-actions no-color">
-                                    <div class="form-group">
-                                        <input style="width:60px" placeholder="Id" class="form-control" type="text" name="searchId" />
-                                        <button type="submit" class="btn btn-outline-light"><i class="fa fa-search"></i></button>
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-header BtnColor">
+                <h5 class="center"><span class="card-title center " style="color:white;">Tabela de Faturamento</span></h5>
+            </div>
+            <div class="card-content">
+                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <!-- /.box-header -->
+                    <p><h5 class="center"><b>@TempData["ConvenioNome"]</b></h5></p>
 
-                                    </div>
-                                    <div class="form-group">
-                                        <input placeholder="Nome" class="form-control" type="text" name="searchDescricao" value="@ViewData["currentFilter"]" />
-                                        <button type="submit" class="btn btn-outline-light"><i class="fa fa-search"></i></button>
-                                    </div>
+                    <div class="row">
+                        <div class="col s12"><a data-position="bottom" data-tooltip="Adicionar tabela de faturamento para o convênio @TempData["ConvenioNome"]" href="#tabelaFaturamentoAdd" data-ConvenioId="@ViewBag.ConvenioId" class="right modal-trigger btnAdd btn-floating btn-medium waves-effect waves-light red tooltipped"><i class="material-icons">add</i></a></div>
+                    </div>
+
+                    <div class="row">
+                        <div id="example1_filter">
+                            <form asp-action="Index" asp-controller="TabelaFaturamentos" method="get" class="col s12">
+                                <div class=" input-field col m5 s12">
+                                    <label>Nome ou username</label>
+                                    <input class="form-control" type="text" name="searchNome" value="@ViewData["searchNome"]" />
 
                                 </div>
+                                <div class="input-field  col m3 s12">
+
+                                    <select name="searchSetorId" class="form-control" id="SetorId" asp-items="@ViewBag.SetorId">
+                                        <option selected disabled value="">Selecione</option>
+                                    </select>
+                                    <label>Setor</label>
+
+                                </div>
+                                <div class="input-field  col m3 s12">
+
+                                    <select name="searchStatusId" class="form-control" asp-items="@ViewBag.StatusId">
+                                        <option selected disabled value="">Selecione</option>
+                                    </select>
+                                    <label>Status</label>
+                                    <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
+                                </div>
+
                             </form>
                         </div>
+
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable table-hover" role="grid" aria-describedby="example1_info">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="" style="width: 40px;">Id</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 224px;">Nome</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="" style="width: 150px;">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr role="row" class="odd">
-                                        <td><a asp-action="Edit" asp-controller="TabelaFaturamentos" asp-route-ConvenioId="@ViewBag.ConvenioId" asp-route-id="@item.TabelaFaturamentoId">@Html.DisplayFor(modelItem => item.TabelaFaturamentoId)</a></td>
-                                        <td><a asp-action="Edit" asp-controller="TabelaFaturamentos" asp-route-ConvenioId="@ViewBag.ConvenioId" asp-route-id="@item.TabelaFaturamentoId">@Html.DisplayFor(modelItem => item.Descricao)</a></td>
-
-                                        <td>
-                                            <a asp-action="Edit" asp-controller="TabelaFaturamentos" asp-route-ConvenioId="@ViewBag.ConvenioId" asp-route-id="@item.TabelaFaturamentoId" class="btn btn-primary btn-sm">Editar</a>&nbsp;
-                                            <a asp-action="ValorProcedimento" asp-controller="TabelaFatuProcedimentos" asp-route-ConvenioId="@ViewBag.ConvenioId" asp-route-TabelaFaturamentoId="@item.TabelaFaturamentoId" class="btn btn-warning btn-sm">Procedimentos</a>
-
-                                        </td>
+                    <div class="row">
+                        <div class="col s12">
+                            <table id="example1" class="striped highlight responsive-table" role="grid">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nome</th>
+                                        <th>Ações</th>
                                     </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr role="row" class="odd">
+                                            <td>@Html.DisplayFor(modelItem => item.TabelaFaturamentoId)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Descricao)</td>
+
+                                            <td>
+                                                <a href="#tabelaFaturamentoAdd" data-ConvenioId="@ViewBag.ConvenioId" data-tabelaFaturamentoId="@item.TabelaFaturamentoId" class="btnEdit modal-trigger waves-effect waves-light btn-small blue tooltipped" data-position="bottom" data-tooltip="Editar tabela de faturamento"><i class="fas fa-edit"></i></a> &nbsp;
+                                                <a asp-action="ValorProcedimento" asp-controller="TabelaFatuProcedimentos" asp-route-ConvenioId="@ViewBag.ConvenioId" asp-route-TabelaFaturamentoId="@item.TabelaFaturamentoId" class="waves-effect waves-light btn-small tooltipped orange" data-tooltip="Procedimentos cadastrados para essa tabela">Procedimentos</a>
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                        <div class="row">
+                            <div class="col s12 center">
+                                @{
+                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
                                 }
-                            </tbody>
 
-                        </table>
-                        <div class="box-footer">
-                            <a asp-controller="Convenios" asp-action="Index" class="btn btn-sm btn-default">Voltar</a>
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                                &nbsp;
+                                <a asp-action="Index"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <a asp-action="Index" asp-controller="Convenios" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                            </div>
+                        </div>
+                
+                    
+                   
                 </div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
-                            Showing 1 to 10 of 57 entries
-                        </div>
                     </div>
-                    <div class="col-sm-7">
-                        @{
-                            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-                            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-                        }
-
-                        <a asp-action="Index"
-                           asp-route-sortOrder="@ViewData["CurrentSort"]"
-                           asp-route-pageNumber="@(Model.PageIndex - 1)"
-                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                           class="btn btn-sm  btn-default @prevDisabled">
-                            Anterior
-                        </a>
-                        &nbsp;
-                        <a asp-action="Index"
-                           asp-route-sortOrder="@ViewData["CurrentSort"]"
-                           asp-route-pageNumber="@(Model.PageIndex + 1)"
-                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                           class="btn btn-sm btn-primary @nextDisabled">
-                            Próximo
-                        </a>
-                    </div>
+                    <!-- /.box-body -->
                 </div>
             </div>
         </div>
-        <!-- /.box-body -->
-    </div>
-</section>
-@section Scripts{
-    <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    </script>
-}
+<div id="tabelaFaturamentoAdd" class="modal"></div>
+
+    @section Scripts{
+        <script src="~/js/tabelaFaturamento.js"></script>
+        <script>
+            $(function () {
+                $('.tooltipped').tooltip();
+            })
+        </script>
+    }

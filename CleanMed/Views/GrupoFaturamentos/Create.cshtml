@@ -2,80 +2,69 @@
 @{
     ViewBag.Current = "Faturamento";
 }
-<section class="content container-fluid">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3>
-                        Adicionar Grupo de Faturamento
-                    </h3>
-                </div>
-                <div class="box-body">
-                    <form asp-controller="GrupoFaturamentos" asp-action="Create">
 
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <label asp-for="Descricao" class="control-label"></label>
-                                    <input type="text" class="form-control" asp-for="@Model.Descricao" onkeyup="InputToUpper(this)" />
-                                    <span asp-validation-for="Descricao" class="text-danger"></span>
-                                </div>
-                            </div>
+    <div class="">
+        <div class="row">
+            <div class="col s8">
+                <div class="card">
+                    <div class="card-header BtnColor">
+                        <h5 class="center"><span class="card-title center " style="color:white;">Cadastrar grupo de procedimento</span></h5>
+                    </div>
+                    <div class="card-content">
+                        <form asp-controller="GrupoFaturamentos" asp-action="Create">
 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label asp-for="Tipo" class="control-label"></label>
-                                    <select class="form-control" asp-for="Tipo">
-                                        <option value="" selected disabled>Selecione uma opção</option>
-                                        <option value="Serviços Hospitalares">Serviços Hospitalares</option>
-                                        <option value="Serviços Profissionais">Serviços Profissionais</option>
-                                        <option value="Serviços Diagnósticos">Serviços Diagnósticos</option>
-                                        <option value="Medicamentos">Medicamentos</option>
-                                        <option value="Materiais">Materiais</option>
-                                        <option value="Medicamentos & Materiais">Medicamentos & Materiais</option>
-                                        <option value="Outros Lançamentos">Outros Lançamentos</option>
-                                    </select>
-                                    <span asp-validation-for="Tipo" class="text-danger"></span>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label asp-for="Status" class="control-label"></label>
-                                    <select class="form-control" asp-for="Status">
-                                        <option value="" selected disabled>Selecione uma opção</option>
-                                        <option value="true">Ativo</option>
-                                        <option value="false">Inativo</option>
-
-                                    </select>
-                                    <span asp-validation-for="Status" class="text-danger"></span>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="box-footer">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col s12">
                                     <div class="form-group">
-                                        <a asp-action="Index" class="btn btn-danger">Cancelar</a>&nbsp;<button type="submit" class="btn btn-success">Salvar</button>
+                                        <label asp-for="Descricao" class="control-label">Descrição<span class="error">*</span></label>
+                                        <input type="text" class="form-control" asp-for="@Model.Descricao" required id="Descricao" />
+                                        <span asp-validation-for="Descricao" class="text-danger error"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="form-group">
+                                        <label asp-for="Tipo" class="control-label">Tipo de Grupo<span class="error">*</span></label>
+                                        <select class="form-control" asp-for="Tipo" asp-items="@ViewBag.TipoGrupoId" required>
+                                            <option value="" selected disabled>Selecione uma opção</option>
+                                        </select>
+                                        <span asp-validation-for="Tipo" class="text-danger error"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="form-group">
+                                        <label asp-for="Status" class="control-label">Status<span class="error">*</span></label>
+                                        <select class="form-control" asp-for="Status" asp-items="@ViewBag.StatusId" required>
+                                            <option value="" selected disabled>Selecione uma opção</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="text-danger error"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-action">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <div class="form-group right">
+                                            <a asp-action="Index" class="waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                                            &nbsp;<button id="post" type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </form>
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
                 </div>
-                <!-- /.box-body -->
             </div>
         </div>
     </div>
-
-</section>
 @section Scripts{
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -83,20 +72,22 @@
         $(document).ready(function () {
 
         });
-        $("input[id*='Telefone1']").inputmask({
-            mask: ['(99)9999-9999', '(99)9 9999-9999'],
-            keepStatic: true
-        });
-        $("input[id*='Telefone2']").inputmask({
-            mask: ['(99)9999-9999', '(99)9 9999-9999'],
-            keepStatic: true
-        });
-        function InputToUpper(obj) {
-            if (obj.value != "") {
-                obj.value = obj.value.toUpperCase();
-            }
-        }
+        $('.tooltipped').tooltip();
+               
+                $("input[id*='Descricao']").inputmask({
+                  regex: "[a-z-áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]*" ,
+                casing: "upper"
+                });
 
 
     </script>
 }
+
+
+
+
+
+
+
+
+

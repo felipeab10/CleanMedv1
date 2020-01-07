@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CleanMed.Servicos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace CleanMed.Models
         public int TabelaFatuProcedimentoId { get; set; }
         [Required(ErrorMessage ="Campo Obrigatório")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        //[Range(typeof(DateTime), "1/1/1900", "1/1/2050", ErrorMessage = "Data inválida")]
+        [CustomValidationData]
         [Display(Name = "Data de Vigência")]
         public DateTime DataVigencia { get; set; }
         [Required(ErrorMessage = "Campo Obrigatório")]

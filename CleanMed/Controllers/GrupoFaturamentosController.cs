@@ -54,6 +54,21 @@ namespace CleanMed.Controllers
         
         public IActionResult Create()
         {
+            ViewData["TipoGrupoId"] = new SelectList(new[] {
+            
+            new {ID="Serviços Hospitalares",Name="Serviços Hospitalares"},
+            new {ID="Serviços Profissionais",Name="Serviços Profissionais"},
+            new {ID="Serviços Diagnósticos",Name="Serviços Diagnósticos"},
+            new {ID="Medicamentos",Name="Medicamentos"},
+            new {ID="Materiais",Name="Materiais"},
+            new {ID="Medicamentos & Materiais",Name="Medicamentos & Materiais"},
+            new {ID="Outros Lançamentos",Name="Outros Lançamentos"},
+
+            }, "ID", "Name");
+            ViewData["StatusId"] = new SelectList(new[] {
+            new {ID="true",Name="Ativo"},
+            new {ID="false",Name="Inativo"},
+            }, "ID", "Name");
             return View();
         }
 
@@ -70,6 +85,21 @@ namespace CleanMed.Controllers
                 TempData["Mensagem"] = "Adicionado com sucesso";
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TipoGrupoId"] = new SelectList(new[] {
+
+            new {ID="Serviços Hospitalares",Name="Serviços Hospitalares"},
+            new {ID="Serviços Profissionais",Name="Serviços Profissionais"},
+            new {ID="Serviços Diagnósticos",Name="Serviços Diagnósticos"},
+            new {ID="Medicamentos",Name="Medicamentos"},
+            new {ID="Materiais",Name="Materiais"},
+            new {ID="Medicamentos & Materiais",Name="Medicamentos & Materiais"},
+            new {ID="Outros Lançamentos",Name="Outros Lançamentos"},
+
+            }, "ID", "Name");
+            ViewData["StatusId"] = new SelectList(new[] {
+            new {ID="true",Name="Ativo"},
+            new {ID="false",Name="Inativo"},
+            }, "ID", "Name");
             _logger.LogError("Erro ao adicionar");
             return View(grupoFaturamento);
         }
@@ -89,6 +119,21 @@ namespace CleanMed.Controllers
                 _logger.LogError("Grupo de faturamento não localizado");
                 return NotFound();
             }
+            ViewData["TipoGrupoId"] = new SelectList(new[] {
+
+            new {ID="Serviços Hospitalares",Name="Serviços Hospitalares"},
+            new {ID="Serviços Profissionais",Name="Serviços Profissionais"},
+            new {ID="Serviços Diagnósticos",Name="Serviços Diagnósticos"},
+            new {ID="Medicamentos",Name="Medicamentos"},
+            new {ID="Materiais",Name="Materiais"},
+            new {ID="Medicamentos & Materiais",Name="Medicamentos & Materiais"},
+            new {ID="Outros Lançamentos",Name="Outros Lançamentos"},
+
+            }, "ID", "Name");
+            ViewData["StatusId"] = new SelectList(new[] {
+            new {ID="true",Name="Ativo"},
+            new {ID="false",Name="Inativo"},
+            }, "ID", "Name");
             _logger.LogInformation("Abrindo view de edit");
             return View(grupoFaturamento);
         }
@@ -112,6 +157,21 @@ namespace CleanMed.Controllers
                 TempData["Mensagem"] = "Atualizado com sucesso";
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TipoGrupoId"] = new SelectList(new[] {
+
+            new {ID="Serviços Hospitalares",Name="Serviços Hospitalares"},
+            new {ID="Serviços Profissionais",Name="Serviços Profissionais"},
+            new {ID="Serviços Diagnósticos",Name="Serviços Diagnósticos"},
+            new {ID="Medicamentos",Name="Medicamentos"},
+            new {ID="Materiais",Name="Materiais"},
+            new {ID="Medicamentos & Materiais",Name="Medicamentos & Materiais"},
+            new {ID="Outros Lançamentos",Name="Outros Lançamentos"},
+
+            }, "ID", "Name");
+            ViewData["StatusId"] = new SelectList(new[] {
+            new {ID="true",Name="Ativo"},
+            new {ID="false",Name="Inativo"},
+            }, "ID", "Name");
             return View(grupoFaturamento);
         }
 

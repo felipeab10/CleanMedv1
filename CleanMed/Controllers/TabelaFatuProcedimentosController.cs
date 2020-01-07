@@ -84,6 +84,7 @@ namespace CleanMed.Controllers
                 var teste = ValorTotal;
                
                 _context.Add(tabelaFatuProcedimento);
+                TempData["Mensagem"] = "Adicionado com sucesso";
                 await _context.SaveChangesAsync();
                 return RedirectToAction("ValorProcedimento",new { TabelaFaturamentoid = tabelaFatuProcedimento.TabelaFaturamentoId,ConvenioId = ConvenioId});
             }
@@ -107,7 +108,7 @@ namespace CleanMed.Controllers
                 return NotFound();
             }
            
-            ViewData["ProcedimentoId"] = new SelectList(_context.Procedimentos, "ProcedimentoId", "Descricao", tabelaFatuProcedimento.ProcedimentoId);
+            ViewData["ProcedimentoId"] = new SelectList(_context.Procedimentos.Where(a=> a.ProcedimentoId == tabelaFatuProcedimento.ProcedimentoId).ToList(), "ProcedimentoId", "Descricao");
             ViewData["TabelaFaturamentoId"] = new SelectList(_context.TabelaFaturamentos, "TabelaFaturamentoId", "Descricao", tabelaFatuProcedimento.TabelaFaturamentoId);
             ViewData["TabelaFaturamentoId"] = tabelaFatuProcedimento.TabelaFaturamentoId;
             return View(tabelaFatuProcedimento);
@@ -123,11 +124,13 @@ namespace CleanMed.Controllers
             {
                 return NotFound();
             }
-
+            var dtMinimo = DateTime.Parse("01/01/1900");
+           
             if (ModelState.IsValid)
             {
                 try
                 {
+                    TempData["Mensagem"] = "Atualizado com sucesso";
                     _context.Update(tabelaFatuProcedimento);
                     await _context.SaveChangesAsync();
                 }
@@ -144,7 +147,7 @@ namespace CleanMed.Controllers
                 }
                 return RedirectToAction("ValorProcedimento", new { TabelaFaturamentoid = tabelaFatuProcedimento.TabelaFaturamentoId, ConvenioId = ConvenioId });
             }
-            ViewData["ProcedimentoId"] = new SelectList(_context.Procedimentos, "ProcedimentoId", "Descricao", tabelaFatuProcedimento.ProcedimentoId);
+            ViewData["ProcedimentoId"] = new SelectList(_context.Procedimentos.Where(a => a.ProcedimentoId == tabelaFatuProcedimento.ProcedimentoId).ToList(), "ProcedimentoId", "Descricao");
             ViewData["TabelaFaturamentoId"] = new SelectList(_context.TabelaFaturamentos, "TabelaFaturamentoId", "Descricao", tabelaFatuProcedimento.TabelaFaturamentoId);
             return View(tabelaFatuProcedimento);
         }

@@ -36,7 +36,8 @@ namespace CleanMed.Controllers
             TempData["ConvenioNome"] = _context.Convenios.Where(a => a.ConvenioId == ConvenioId).Select(a=>a.Nome).First();
 
             var tabelaFaturamento = from s in _context.TabelaFaturamentos
-                                select s;
+                                where s.ConvenioId == ConvenioId 
+                                    select s;
             if (searchId > 0)
             {
 
@@ -71,9 +72,10 @@ namespace CleanMed.Controllers
         }
 
         // GET: TabelaFaturamentos/Create
-        public IActionResult Create(int ConvenioId)
+        public IActionResult Create(int id)
         {
             _logger.LogInformation("Abrindo view create tabela faturamento");
+            ViewData["ConvenioId"] = id;
             return View();
         }
 

@@ -79,6 +79,13 @@ namespace CleanMed.Controllers
         public IActionResult Create()
         {
             _logger.LogInformation("Abrindo view create");
+            ViewData["SexoId"] = new SelectList(new [] {
+
+                new {ID = "Masculino", Name="Masculino"},
+                new {ID = "Feminino", Name="Feminino"},
+                new {ID = "Ambos", Name="Ambos"},
+
+            }, "ID", "Name");
             ViewData["GrupoFaturamentoId"] = new SelectList(_context.GrupoFaturamentos, "GrupoFaturamentoId", "Descricao");
             return View();
         }
@@ -96,6 +103,13 @@ namespace CleanMed.Controllers
                 TempData["Mensagem"] = "Adicionado com sucesso";
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SexoId"] = new SelectList(new[] {
+
+                new {ID = "Masculino", Name="Masculino"},
+                new {ID = "Feminino", Name="Feminino"},
+                new {ID = "Ambos", Name="Ambos"},
+
+            }, "ID", "Name");
             _logger.LogError("Erro ao adicionar procedimento");
             ViewData["GrupoFaturamentoId"] = new SelectList(_context.GrupoFaturamentos, "GrupoFaturamentoId", "Descricao", procedimento.GrupoFaturamentoId);
             return View(procedimento);
@@ -116,6 +130,13 @@ namespace CleanMed.Controllers
                 _logger.LogError("Procedimento não encontrado");
                 return NotFound();
             }
+            ViewData["SexoId"] = new SelectList(new[] {
+
+                new {ID = "Masculino", Name="Masculino"},
+                new {ID = "Feminino", Name="Feminino"},
+                new {ID = "Ambos", Name="Ambos"},
+
+            }, "ID", "Name");
             _logger.LogInformation("Retornando dados para a view edit do procedimento");
             ViewData["GrupoFaturamentoId"] = new SelectList(_context.GrupoFaturamentos, "GrupoFaturamentoId", "Descricao", procedimento.GrupoFaturamentoId);
             return View(procedimento);
@@ -140,6 +161,13 @@ namespace CleanMed.Controllers
                 TempData["Mensagem"] = "Atualizado com sucesso";
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SexoId"] = new SelectList(new[] {
+
+                new {ID = "Masculino", Name="Masculino"},
+                new {ID = "Feminino", Name="Feminino"},
+                new {ID = "Ambos", Name="Ambos"},
+
+            }, "ID", "Name");
             ViewData["GrupoFaturamentoId"] = new SelectList(_context.GrupoFaturamentos, "GrupoFaturamentoId", "Descricao", procedimento.GrupoFaturamentoId);
             return View(procedimento);
         }

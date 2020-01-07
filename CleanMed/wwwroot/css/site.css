@@ -491,6 +491,48 @@ th span{
     will-change: top, opacity;
     top: 10% !important;
 }
+    #tabelaFaturamentoAdd {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: white;
+    padding: 0;
+    max-height: 100%;
+    width: 40% !important;
+    margin-top: 0;
+    overflow-y: hidden;
+    overflow-y: hidden;
+    border-radius: 2px;
+    will-change: top, opacity;
+    top: 10% !important;
+}
+#tabelaFaturamentoAdd .modal-footer {
+   
+    background-color: white;
+   
+}
+
+#tabelaProcedimentoAdd {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: white;
+    padding: 0;
+    max-height: 100%;
+    width: 40% !important;
+    margin-top: 0;
+    overflow-y: hidden;
+    overflow-y: hidden;
+    border-radius: 2px;
+    will-change: top, opacity;
+    top: 10% !important;
+}
+
+#tabelaProcedimentoAdd .modal-footer {
+    background-color: white;
+}
 @media only screen and (max-width :600px) {
     main {
         margin-top: -5px;
