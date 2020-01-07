@@ -17,3 +17,6 @@ Até o presente momento possui os seguinte recursos:
 </ul>
 
 !["Tela Cadastro de Paciente"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/cadpaciente.jpg "Tela Cadastro de Paciente")
+!["Tela Cadastro de Paciente"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/cadconvenios.jpg "Tela Cadastro de Convênios")
+!["Tela Cadastro de Paciente"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/tabeladefaturamento.jpg "Tela Cadastro de Tabela de faturamento")
+!["Tela Cadastro de Paciente"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/valoresdosprocedimentos.jpg "Valores dos procedimentos")
