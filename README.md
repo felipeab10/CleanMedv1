@@ -10,7 +10,7 @@ Até o presente momento possui os seguinte recursos:
   <li>Controle de acesso</li>
   <li>Cadastro de paciente</li>
   <li>Cadastro de Prestador(Inclui conselho, especialidade, tipo de prestador)</li>
-  <li>Cadastro de Convênio</li>
+  <li>Cadastro de Convênio(Inclui procedimentos, tabela de faturamento, valores dos procedimentos)</li>
   <li>Cadastro de Agendas(Por enquanto apenas é possivel gerar uma data por vez)</li>
   <li>Visualização da Agenda(Em fase de construção)</li>
   
