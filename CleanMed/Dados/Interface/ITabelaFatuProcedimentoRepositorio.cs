@@ -8,5 +8,6 @@ namespace CleanMed.Dados.Interface
 {
     public interface ITabelaFatuProcedimentoRepositorio: IRepositorioGenerico<TabelaFatuProcedimento>
     {
+        bool ValidaDTVigenciaBool(DateTime DataVigencia);
     }
 }

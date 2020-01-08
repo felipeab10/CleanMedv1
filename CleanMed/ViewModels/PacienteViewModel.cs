@@ -19,6 +19,7 @@ namespace CleanMed.ViewModels
         public string Nome { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date,ErrorMessage ="informe uma data válida")]
+        [Remote("ValidaDataNascimento","Pacientes")]
         public DateTime DataNascimento { get; set; }
 
 

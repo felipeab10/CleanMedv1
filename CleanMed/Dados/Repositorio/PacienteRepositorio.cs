@@ -17,6 +17,21 @@ namespace CleanMed.Dados.Repositorio
             _contexto = contexto;
         }
 
+        public bool DataAniversario(DateTime DataNascimento)
+        {
+            //var dt = DateTime.Parse(DataNascimento);
+            var dtMin = DateTime.Parse("01/01/1900");
+            var dtMax = DateTime.Parse("01/01/2050");
+            if ((DataNascimento <= dtMin || DataNascimento >= DateTime.Now))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public async Task<bool> PacienteExisteCPF(string CPF)
         {
             return await _contexto.Pacientes.AnyAsync(c => c.CPF == CPF);

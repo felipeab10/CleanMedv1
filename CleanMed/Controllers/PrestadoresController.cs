@@ -51,8 +51,8 @@ namespace CleanMed.Controllers
                 prestador = prestador.Where(s => s.NumeroCrm.Contains(searchCrm));
             }
 
-            int pageSize = 5;
-            return View(await PaginatedList<Prestador>.CreateAsync(prestador.AsNoTracking(), pageNumber ?? 1, pageSize));
+            int pageSize = 10;
+            return View(await PaginatedList<Prestador>.CreateAsync(prestador.AsNoTracking().OrderBy(a=> a.Nome), pageNumber ?? 1, pageSize));
         }
 
         
@@ -279,6 +279,13 @@ namespace CleanMed.Controllers
            var endereco = _context.Cep.FirstOrDefault(a => a.CEP == CEP);
           
             return Json(endereco);
+        }
+        public JsonResult ValidaDataNascimento(DateTime DataNascimento)
+        {
+
+            if ((!_prestadorRepositorio.DataAniversario(DataNascimento)))
+                return Json("Data inválida");
+            return Json(true);
         }
     }
 }

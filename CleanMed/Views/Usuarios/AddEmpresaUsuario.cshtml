@@ -23,8 +23,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a asp-action="Index" class="modal-close waves-effect waves-light btn-small grey">Cancelar</a>&nbsp;
-                <button type="submit" class=" waves-effect waves-light btn-small ">Salvar</button>
+                <div class="form-group right">
+                    <a class="modal-close waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                    &nbsp;<button  type="submit" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+                </div>
             </div>
 
         </form>

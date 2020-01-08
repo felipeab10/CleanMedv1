@@ -343,5 +343,12 @@ namespace CleanMed.Controllers
            
          
         }
+        public JsonResult ValidaDataNascimento(DateTime DataNascimento)
+        {
+         
+            if ((!_pacienteRepositorio.DataAniversario(DataNascimento)))
+                return Json("Data inválida");
+            return Json(true);
+        }
     }
 }

@@ -9,6 +9,7 @@ using CleanMed.Data;
 using CleanMed.Models;
 using CleanMed.Servicos;
 using Microsoft.AspNetCore.Authorization;
+using CleanMed.Dados.Interface;
 
 namespace CleanMed.Controllers
 {
@@ -16,10 +17,12 @@ namespace CleanMed.Controllers
     public class TabelaFatuProcedimentosController : Controller
     {
         private readonly Contexto _context;
+        private readonly ITabelaFatuProcedimentoRepositorio _tabelaFatuProcedimentoRepositorio;
 
-        public TabelaFatuProcedimentosController(Contexto context)
+        public TabelaFatuProcedimentosController(Contexto context, ITabelaFatuProcedimentoRepositorio tabelaFatuProcedimentoRepositorio)
         {
             _context = context;
+            _tabelaFatuProcedimentoRepositorio = tabelaFatuProcedimentoRepositorio;
         }
 
         // GET: TabelaFatuProcedimentos
@@ -217,6 +220,15 @@ namespace CleanMed.Controllers
 
                 throw;
             }
+        }
+       
+
+
+        public JsonResult ValidaDTVigencia(DateTime DataVigencia)
+        {
+            if ((!_tabelaFatuProcedimentoRepositorio.ValidaDTVigenciaBool(DataVigencia)))
+                return Json("Data inválida");
+             return Json(true);
         }
     }
 }

@@ -28,7 +28,8 @@
                              <div class="col m2 s12">
                                  <div class="form-group">
                                      <label for="DataNascimento">Data de Nascimento<span class="error">*</span></label>
-                                     <input type="text" asp-for="DataNascimento" class="datepicker form-control" autocomplete="off" id="DataNascimento">
+                                     <!--<input type="date" asp-for="DataNascimento" class="datepicker form-control" autocomplete="off" id="DataNascimento">-->
+                                     @Html.TextBoxFor(modelItem => Model.DataNascimento)
                                      <span asp-validation-for="DataNascimento" class="helper-text error" data-error="errado" data-success="Ok"></span>
                                  </div>
                              </div>

@@ -15,5 +15,19 @@ namespace CleanMed.Dados.Repositorio
         {
             _contexto = contexto;
         }
+
+        public  bool ValidaDTVigenciaBool(DateTime DataVigencia)
+        {
+            var dtMin = DateTime.Parse("01/01/1900");
+            var dtMax = DateTime.Parse("01/01/2050");
+            if ((DataVigencia <= dtMin || DataVigencia >= dtMax))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

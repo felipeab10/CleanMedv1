@@ -14,6 +14,7 @@ namespace CleanMed.Dados.Interface
         Task<bool> PrestadorExisteNumeroCrm(string NumeroCrm,int ConselhoId,int PrestadorId);
         Task<bool> PrestadorExisteCPF(string CPF);
         Task<bool> PrestadorExisteCPF(string CPF, int PrestadorId);
+        bool DataAniversario(DateTime DataNascimento);
 
     }
 }

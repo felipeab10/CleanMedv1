@@ -258,7 +258,7 @@ function habilitaCPF() {
 }
 
 // Mantém os inputs em cache:
-var inputs = $('#Nome,#DataNascimento,#Telefone,#CEPS');
+var inputs = $('#Nome,#DataNascimento,#Telefone,#CEP,#logradouro,#bairro,#cidade,#uf');
 
 // Chama a função de verificação quando as entradas forem modificadas
 // Usei o 'keyup', mas 'change' ou 'keydown' são também eventos úteis aqui

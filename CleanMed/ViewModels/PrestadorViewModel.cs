@@ -19,6 +19,7 @@ namespace CleanMed.ViewModels
 
         [Required(ErrorMessage = "Campo Obrigatório")]
         [DataType(DataType.Date)]
+        [Remote("ValidaDataNascimento", "Prestadores")]
         public DateTime DataNascimento { get; set; }
         [Required(ErrorMessage = "Campo Obrigatório")]
         [CustomValidationCPF(ErrorMessage = "CPF inválido")]
