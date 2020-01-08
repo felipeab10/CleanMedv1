@@ -38,7 +38,7 @@
                             <td>
 
 
-                                <a data-position="bottom" data-tooltip="Excluir contato" class="tooltipped waves-effect waves-light btn-small red" onclick="delEspecialidadePrestador(@item.EspecialidadeId,'@controller',@ViewBag.PrestadorId)"><i class="far fa-trash-alt"></i></a>
+                                <a data-position="bottom" data-tooltip="Excluir Especialidade" class="tooltipped waves-effect waves-light btn-small red" onclick="delEspecialidadePrestador(@item.EspecialidadeId,'@controller',@ViewBag.PrestadorId)"><i class="far fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     }
@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="form-group">
-                    <a  class="waves-effect modal-close waves-light btn-small  tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                    <a asp-action="Index" class="waves-effect  waves-light btn-small  tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
                 </div>
             </div>
         </div>

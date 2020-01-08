@@ -41,29 +41,47 @@
 
 }
 
-<div class="">
-    <div class="row">
-        <div class="col s12">
-            <ul class="tabs tabs-fixed-width tab-demo z-depth-1" style="margin-top:5px;">
-                <li data-position="top" data-tooltip="Informações do prestador" class="tab col s3 tooltipped"><a class="active" href="#test1">Informações</a></li>
-                <li data-position="top" data-tooltip="Especialidades do prestador" class="tab col s3 tooltipped"><a href="#test2">Especialidades</a></li>
+@*
+    <div class="">
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs tabs-fixed-width tab-demo z-depth-1" style="margin-top:5px;">
+                    <li data-position="top" data-tooltip="Informações do prestador" class="tab col s3 tooltipped"><a class="active" href="#test1">Informações</a></li>
+                    <li data-position="top" data-tooltip="Especialidades do prestador" class="tab col s3 tooltipped"><a href="#test2">Especialidades</a></li>
 
-                <li class="tab col s3 disabled"><a href="#test4">Disabled</a></li>
-            </ul>
+                    <li class="tab col s3 disabled"><a href="#test4">Disabled</a></li>
+                </ul>
+            </div>
+            <div id="test1" class="col s12" style="margin-top:-8px;">
+
+                @await Component.InvokeAsync("Prestador", new { PrestadorId = ViewBag.PrestadorId })
+
+            </div>
+            <div id="test2" class="col s12" style="margin-top:-8px;">  @await Component.InvokeAsync("Especialidade", new { PrestadorId = ViewBag.PrestadorId })</div>
+
+            <div id="test4" class="col s12" style="margin-top:-8px;">Test 4</div>
         </div>
-        <div id="test1" class="col s12" style="margin-top:-8px;">
+    </div>
+*@
+<div class="row">
+    <div class="col s12">
+        <ul class="collapsible">
+            <li class="active">
+                <div class="collapsible-header"><i class="material-icons">info</i>Informações Pessoais</div>
+                <div class="collapsible-body"> @await Component.InvokeAsync("Prestador", new { PrestadorId = ViewBag.PrestadorId })</div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">collections</i>Especialidades</div>
+                <div class="collapsible-body">@await Component.InvokeAsync("Especialidade", new { PrestadorId = ViewBag.PrestadorId })</div>
+            </li>
 
-            @await Component.InvokeAsync("Prestador", new { PrestadorId = ViewBag.PrestadorId })
-
-        </div>
-        <div id="test2" class="col s12" style="margin-top:-8px;">  @await Component.InvokeAsync("Especialidade", new { PrestadorId = ViewBag.PrestadorId })</div>
-
-        <div id="test4" class="col s12" style="margin-top:-8px;">Test 4</div>
+        </ul>
     </div>
 </div>
+
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
+    <script> $('.collapsible').collapsible();</script>
     <script src="~/js/prestador.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

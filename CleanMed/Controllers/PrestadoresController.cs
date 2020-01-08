@@ -280,10 +280,10 @@ namespace CleanMed.Controllers
           
             return Json(endereco);
         }
-        public JsonResult ValidaDataNascimento(DateTime DataNascimento)
+        public JsonResult ValidaDataNascimento(string DataNascimento)
         {
-
-            if ((!_prestadorRepositorio.DataAniversario(DataNascimento)))
+            var dt = DateTime.Parse(DataNascimento);
+            if ((!_prestadorRepositorio.DataAniversario(dt)))
                 return Json("Data inválida");
             return Json(true);
         }

@@ -538,3 +538,8 @@ th span{
         margin-top: -5px;
     }
 }
+
+.collapsible .collapsible-body{
+    background-color:white;
+    padding:1px 1px 1px 1px;
+}
