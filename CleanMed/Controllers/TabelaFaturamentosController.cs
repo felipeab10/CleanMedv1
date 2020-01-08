@@ -28,9 +28,10 @@ namespace CleanMed.Controllers
         }
 
         // GET: TabelaFaturamentos
-        public async Task<IActionResult> Index(int? pageNumber, int searchId, string searchDescricao,int ConvenioId)
+       
+        public async Task<IActionResult> Index(int? pageNumber, int searchID, string searchDescricao,int ConvenioId)
         {
-            ViewData["CurrentFilter"] = searchId;
+            ViewData["CurrentFilter"] = searchID;
             ViewData["CurrentFilter"] = searchDescricao;
             ViewData["ConvenioId"] = ConvenioId;
             TempData["ConvenioNome"] = _context.Convenios.Where(a => a.ConvenioId == ConvenioId).Select(a=>a.Nome).First();
@@ -38,10 +39,10 @@ namespace CleanMed.Controllers
             var tabelaFaturamento = from s in _context.TabelaFaturamentos
                                 where s.ConvenioId == ConvenioId 
                                     select s;
-            if (searchId > 0)
+            if (searchID > 0)
             {
 
-                tabelaFaturamento = tabelaFaturamento.Where(s => s.TabelaFaturamentoId == searchId);
+                tabelaFaturamento = tabelaFaturamento.Where(s => s.TabelaFaturamentoId == searchID);
             }
             if (!String.IsNullOrEmpty(searchDescricao))
             {

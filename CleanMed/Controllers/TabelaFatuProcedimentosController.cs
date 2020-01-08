@@ -23,21 +23,26 @@ namespace CleanMed.Controllers
         }
 
         // GET: TabelaFatuProcedimentos
-        public async Task<IActionResult> ValorProcedimento(int TabelaFaturamentoId, int? pageNumber, int searchId, string searchDescricao,int ConvenioId)
+        public async Task<IActionResult> ValorProcedimento(int TabelaFaturamentoId, int? pageNumber, int searchId, int searchProcedimentoId, int ConvenioId)
         {
             ViewData["ConvenioId"] = ConvenioId;
+            ViewData["TabelaFaturamentoId"] = TabelaFaturamentoId;
             var tabelaFaturamentoProcesso = from s in _context.TabelaFatuProcedimentos
                                             where s.TabelaFaturamentoId == TabelaFaturamentoId
                                 select s;
             if (searchId > 0)
             {
 
-                tabelaFaturamentoProcesso = tabelaFaturamentoProcesso.Where(s => s.ProcedimentoId == searchId);
+                tabelaFaturamentoProcesso = tabelaFaturamentoProcesso.Where(s => s.TabelaFatuProcedimentoId == searchId);
+            }
+            if(searchProcedimentoId > 0)
+            {
+                tabelaFaturamentoProcesso = tabelaFaturamentoProcesso.Where(s => s.ProcedimentoId == searchProcedimentoId);
             }
 
             TempData["TabelaNome"] =  _context.TabelaFaturamentos.Where(a => a.TabelaFaturamentoId == TabelaFaturamentoId).Select(a => a.Descricao).First();
             ViewData["TabelaFaturamentoId"] = TabelaFaturamentoId;
-
+            ViewData["ProcedimentoId"] = new SelectList(_context.Procedimentos, "ProcedimentoId", "Descricao");
             int pageSize = 5;
             return View(await PaginatedList<TabelaFatuProcedimento>.CreateAsync(tabelaFaturamentoProcesso.AsNoTracking().Include(a=> a.Procedimento).Include(a => a.TabelaFaturamento), pageNumber ?? 1, pageSize));
         }

@@ -80,3 +80,23 @@ $(function () {
         })
     });
 })
+$('.select2-procedimento').select2({
+    //dropdownParent: $('#modalAgendamento'),
+    minimumInputLength: 2,
+    placeholder: "",
+    allowClear: true,
+    language: {
+        inputTooShort: function () {
+            return "Insira 2 ou mais caracteres";
+        },
+        noResults: function () {
+            return 'Sem resultados ';
+        },
+    },
+    escapeMarkup: function (markup) {
+        return markup;
+    },
+
+
+
+})
