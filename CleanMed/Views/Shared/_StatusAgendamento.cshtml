@@ -1,22 +1,23 @@
 ﻿<div class="GraficoStatusAgendamento">
     <div class="row">
-        <div class="col s4">
+        <div class="col m8 s12">
             <div class="form-group ">
                 <label >Data</label>
                 <input id="DataAgenda" name="Data" type="date" class="form-control " />
                 
             </div>
         </div>
-        <div class="col s2">
-            <div class="form-group center">
-                
-                <button type="button" onclick="buscarChartStatusAgendamento()" class="btn-floating btn-small waves-effect waves-light BtnColor "><i class="fa fa-search"></i></button>
+        <div class="col m2 s12">
+            <div class="form-group ">
+                <button type="button" style="margin-top:10px; " onclick="buscarChartStatusAgendamento()" class="btn-floating btn-small waves-effect waves-light BtnColor "><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
    <div class="row">
-       <div class="col s12 center">
-           <canvas id="GraficoStatusAgendamento" width="400" height="300" ></canvas>
+       <div class="col s12 ">
+           <canvas id="GraficoStatusAgendamento"></canvas>
        </div>
+          
+       
    </div>
 </div>

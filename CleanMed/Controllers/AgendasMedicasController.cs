@@ -126,7 +126,7 @@ namespace CleanMed.Controllers
         {
 
 
-
+            ViewData["PrestadorId"] = new SelectList(_contexto.Prestadores, "PrestadorId", "Nome");
             var UsuarioLogado = await _usuarioRepositorio.PegarUsuarioLogado(User);
             if (UsuarioLogado == null)
             {
@@ -528,7 +528,7 @@ namespace CleanMed.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetEvents(string SearchDataAgenda)
+        public async Task<IActionResult> GetEvents(string SearchDataAgenda, int[] PrestadorId)
         {
             
             var agendas =  (from a in _contexto.Agendamentos
@@ -563,6 +563,7 @@ namespace CleanMed.Controllers
                                     StatusAgenda = a.StatusAgendamento,
                                     PrestadorNome = p.Nome,
                                     DataAgenda = age.DataAgenda,
+                                    PrestadorId = age.PrestadorId,
 
                                 });
             if (!String.IsNullOrEmpty(SearchDataAgenda))
@@ -570,7 +571,11 @@ namespace CleanMed.Controllers
                 DateTime dt = DateTime.Parse(SearchDataAgenda);
                 agendas = agendas.Where(d => d.DataAgenda == dt);
             }
-
+           /* if(PrestadorId > 0)
+            {
+                agendas = agendas.Where(d => d.PrestadorId == PrestadorId);
+            }
+            */
             /*_contexto.Agendamentos.Include(a=> a.AgendaMedica)
              * .ThenInclude(a=> a.Prestador)
              * .Include(a => a.ItemAgendamento)

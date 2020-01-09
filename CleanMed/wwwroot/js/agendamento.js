@@ -416,12 +416,14 @@ $(".opcaoAgendamento").on('click', function (obj) {
 
 function pupularCalendario() {
     var dtAgenda = document.getElementById("DtAgenda").value;
-    if (dtAgenda != '') {
+    var prestadorId = [document.getElementById("PrestadorId").value];
+    console.log(prestadorId);
+    if (dtAgenda != '' || prestadorId != 0) {
        // alert(dtAgenda);
         $.ajax({
             url: "/AgendasMedicas/GetEvents",
             method: "POST",
-            data: { SearchDataAgenda: dtAgenda },
+            data: { SearchDataAgenda: dtAgenda, PrestadorId: prestadorId },
             success: function (resposta) {
                 console.log(resposta);
                // $('#calendar').fullCalendar('destroy');
@@ -500,6 +502,7 @@ function FetchEventAndRenderCalendar(data) {
         });
     })
     GenerateCalender(events);
+    GenerateCalender(events);
     /*$.ajax({
         type: "GET",
         url: "/AgendasMedicas/GetEvents",
@@ -540,8 +543,8 @@ function FetchEventAndRenderCalendar(data) {
 function GenerateCalender(event) {
     //console.log(events[0]);
     var date = new Date();
-    $('#calendar').fullCalendar('destroy');
-    $('#calendar').fullCalendar({
+    $('.calendar').fullCalendar('destroy');
+    $('.calendar').fullCalendar({
         allDaySlot: false,
         slotEventOverlap: false,
         contentHeight: 450,
@@ -572,6 +575,7 @@ function GenerateCalender(event) {
                     content: "<b>Item de Agendamento: </b>" + "<p>" + event.description + "</p>" + "<p>" + "<b>Status: </b>" + "<p>" + event.StatusAgenda + "</p>" + "</p>" + "<b>Prestador: </b>" + "<p>" + event.PrestadorNome + "</p>"
                 });
         },
+       
         eventClick: function (event, jsEvent, view) {
             var date_start = $.fullCalendar.moment(event.start).format('YYYY-MM-DD');
             var time_start = $.fullCalendar.moment(event.start).format('HH:mm');

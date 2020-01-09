@@ -42,12 +42,19 @@
                 <div class="card-content">
                     <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row">
-                            <div class="col s6"><a data-position="bottom" data-tooltip="Adicionar Agendamento" class=" tooltipped btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
+                            <div class="col s12"><a data-position="bottom" data-tooltip="Adicionar Agendamento" class=" tooltipped btn-floating right btn-medium waves-effect waves-light red"><i class="material-icons">add</i></a></div>
                         </div>
                         <div class="row">
                             <div class="col m2 s12">
                                 <label>Dt.Agenda</label>
                                 <input id="DtAgenda" class="form-control" type="text" />
+                               
+                            </div>
+                            <div class="col m5 s12">
+                                <label>Prestador</label>
+                               <select asp-items="@ViewBag.PrestadorId" multiple id="PrestadorId" class="form-control">
+                                   <option value="" disabled selected>-</option>
+                               </select>
                                 <button style="margin-top:-50px;margin-right:-30px;" type="button" onclick="pupularCalendario()" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
@@ -123,52 +130,56 @@
                         }
 
                         <div class="row">
-                            <div class="col s12">
-                                <div id='calendar'></div>
-                                @*
-                <table id="example1" class=" highlight responsive-table">
-                    <thead>
-                        <tr role="row">
-                            <th>Id</th>
-                            <th>Paciente</th>
-                            <th>Data</th>
-                            <th>Horário</th>
+                            <div class="col s12 ">
+                                <div class='calendar'></div>
+                               
 
-                            <th>Prestador</th>
-                            <th>Item de Agendamento</th>
-                            <th>Status</th>
+
+
+                                @*
+        <table id="example1" class=" highlight responsive-table">
+            <thead>
+                <tr role="row">
+                    <th>Id</th>
+                    <th>Paciente</th>
+                    <th>Data</th>
+                    <th>Horário</th>
+
+                    <th>Prestador</th>
+                    <th>Item de Agendamento</th>
+                    <th>Status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr data-target="modal1" class=" modal-trigger" >
+                            <td class="opcaoAgendamento" >@Html.DisplayFor(modelItem => item.AgendaMedicaId)</td>
+                            @if (item.NmPaciente != null)
+                            {
+                                <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="textCapitalize"></span></td>
+                            }
+                            <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
+                            <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
+
+
+                            <td><span class="textCapitalize">@item.NomePrestador.ToLower()</span></td>
+                            <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
+                            <td style="background-color:@item.Color;color:white;" class="center">@item.StatusAgendamento</td>
 
                         </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null)
-                        {
-                            @foreach (var item in Model)
-                            {
-                                <tr data-target="modal1" class=" modal-trigger" >
-                                    <td class="opcaoAgendamento" >@Html.DisplayFor(modelItem => item.AgendaMedicaId)</td>
-                                    @if (item.NmPaciente != null)
-                                    {
-                                        <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>
-                                    }
-                                    else
-                                    {
-                                        <td><span class="textCapitalize"></span></td>
-                                    }
-                                    <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
+                    }
+                }
+            </tbody>
 
-
-                                    <td><span class="textCapitalize">@item.NomePrestador.ToLower()</span></td>
-                                    <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
-                                    <td style="background-color:@item.Color;color:white;" class="center">@item.StatusAgendamento</td>
-
-                                </tr>
-                            }
-                        }
-                    </tbody>
-
-                </table>
+        </table>
                                 *@
                             </div>
                         </div>

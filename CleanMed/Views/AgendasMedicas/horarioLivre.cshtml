@@ -21,7 +21,7 @@
                             <label>Paciente</label>
                             <select asp-for="PacienteId" class="select2-paciente browser-default">
                                 <option value="" disabled selected></option>
-                               
+
                             </select>
                             <span asp-validation-for="PacienteId" class="error"></span>
                         </div>
@@ -149,5 +149,5 @@
 </form>
 
 
-
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script src="~/js/agendamentoPaciente.js"></script>

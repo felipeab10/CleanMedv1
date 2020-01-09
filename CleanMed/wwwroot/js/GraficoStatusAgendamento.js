@@ -15,7 +15,7 @@
         data: { dataAgenda: data   },
         success: function (dados) {
             $("canvas#GraficoStatusAgendamento").remove();
-            $("div.GraficoStatusAgendamento").append('<canvas id="GraficoStatusAgendamento" style="width:400px; height:300px;"></canvas>');
+            $("div.GraficoStatusAgendamento").append('<canvas id="GraficoStatusAgendamento" style="width:300px; height:300px;margin-left:-40px; "></canvas>');
 
             var ctx = document.getElementById('GraficoStatusAgendamento').getContext('2d');
 
