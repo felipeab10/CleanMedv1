@@ -298,7 +298,7 @@ namespace CleanMed.Controllers
             {
                 //_logger.LogInformation("Usuário logado fazendo logout");
                 //await _usuarioRepositorio.EfetuarLogout();
-                return RedirectToAction("Index", "Pacientes");
+                return RedirectToAction("Index", "Dashboard");
             }
             else
             {

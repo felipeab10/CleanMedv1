@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col s12">
+        <div class="card z-depth-3">
+            <div class="card-content">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col s12">
+                            <a asp-action="Index" asp-controller="Pacientes" class="btn-small green tooltipped" data-position="bottom" data-tooltip="Pacientes"><i class="fas fa-user-injured"></i></a>
+                            &nbsp;
+                            <a asp-action="AgendaCentral" asp-controller="AgendasMedicas" class="btn-small orange darken-4 tooltipped" data-position="bottom" data-tooltip="Agendas"> <i class="material-icons">book</i></a>
+                            &nbsp;
+                            <a asp-action="Index" asp-controller="Usuarios" class="btn-small  blue-grey darken-4 tooltipped" data-position="bottom" data-tooltip="Usuários do sistema"> <i class="material-icons">supervisor_account</i></a>
+                           
+                          
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s6" style="margin-top:-35px !important;">
+        <div class="card z-depth-3 ">
+            <div class="card-content">
+                <partial name="_TotalPacientesCadastrados" />
+            </div>
+        </div>
+    </div>
+    <div class="col s6" style="margin-top:-35px !important;">
+        <div class="card z-depth-3 ">
+            <div class="card-content">
+                <partial name="_StatusAgendamento" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>$('.tooltipped').tooltip();</script>
+<script src="~/js/GraficoTotalPacienteCadastrados.js"></script>
+<script src="~/js/GraficoStatusAgendamento.js"></script>
+<script>
+    var data = new Date();
+    buscarChartStatusAgendamento(moment(data).format('L'))
+    console.log(moment(data).format('L')); 
+
+</script>
+
+}
