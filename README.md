@@ -15,7 +15,8 @@ Até o presente momento possui os seguinte recursos:
   <li>Visualização da Agenda(Em fase de construção)</li>
   
 </ul>
-!["Tela dashboad"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/dashboard.jpg "Tela dashboard")
+
+!["Tela dashboard"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/dashboard.jpg "Tela dashboard")
 !["Tela Cadastro de Paciente"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/cadpaciente.jpg "Tela Cadastro de Paciente")
 !["Tela Edicao de Paciente"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/showpaciente.jpg "Tela Edição de Paciente")
 !["Tela Edicao de Paciente"](https://github.com/felipeab10/CleanMedv1/blob/master/IMG/showpaciente2.jpg "Tela Edição de Paciente")
