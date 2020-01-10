@@ -543,3 +543,6 @@ th span{
     background-color:white;
     padding:1px 1px 1px 1px;
 }
+.fc-time-grid-event .fc-v-event .fc-event .fc-start .fc-end {
+    width: 50px!important;
+}

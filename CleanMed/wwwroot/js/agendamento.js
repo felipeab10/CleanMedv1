@@ -211,7 +211,70 @@ $(document).ready(function () {
 
       
     })
-   
+    //Pesquisa o nome do paciente para popular o plugin select2
+    function format(repo) {
+        //if (!repo.id) return repo.text; // optgroup
+        //return repo.nome + "-" + repo.dataNascimento + " CPF " + repo.CPF;
+        //função formata o layout da caixa de seleção da pesquisa, icones, e os campos que será exibido
+        var markup = "<div class='select2-result-repository clearfix'>" + "<div class='control-label'><strong><i class=\"fas fa-user-injured\"></i>" + ' ' + repo.nome + "</strong></div>";
+        if (repo.nome != null)
+            markup += "<div style='' class='select2-result-repository__description'>" + "ID:  " + repo.pacienteId +" - " + "<i class=\"fas fa-birthday-cake\"></i>" + " " + moment(repo.dataNascimento).format('L') + " " + "<i class=\"far fa-address-card\"></i>" + " " + repo.cpf + "</div>";
+
+        return markup;
+    }
+    var $selectbox = $('.select2-paciente').select2({
+       
+        minimumInputLength: 1,
+        placeholder: "id,nome,cpf,data de nascimento",
+        allowClear: true,
+        templateResult: format,
+
+        language: {
+            inputTooShort: function () {
+                return "Insira 2 ou mais caracteres";
+            },
+            noResults: function () {
+                //sem resultados adiciona novo paciente
+                return 'Sem resultados';
+            },
+        },
+        escapeMarkup: function (markup) {
+            return markup;
+        },
+        ajax: {
+            //faz a pesquisa do paciente via ajax na controller do agendamento
+            url: '/AgendasMedicas/PesquisarPaciente',
+            width: 'resolve',
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+
+                return {
+                    //o parametro q é a string de busca no controlador
+
+                    q: params.term, // search term
+
+                };
+            },
+            processResults: function (data) {
+                //dados trazidos da pesquisa
+                var resultado = data.items;
+
+                return {
+
+                    results: resultado
+                };
+
+            },
+            cache: true,
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            language: "pt-BR",
+            width: 'resolve',
+        }
+    })
+        
+
     
     //faz a pesquisa do Item de agendamento na index para filtrar agenda
     $('.select2ItemAgendamento').select2({
