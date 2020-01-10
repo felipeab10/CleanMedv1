@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,6 +11,7 @@ using CleanMed.Servicos;
 using CleanMed.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -563,7 +565,7 @@ namespace CleanMed.Controllers
                                     StatusAgenda = a.StatusAgendamento,
                                     PrestadorNome = p.Nome,
                                     DataAgenda = age.DataAgenda,
-                                    PrestadorId = age.PrestadorId,
+                                    PrestadorId = p.PrestadorId,
 
                                 });
             if (!String.IsNullOrEmpty(SearchDataAgenda))
@@ -571,11 +573,14 @@ namespace CleanMed.Controllers
                 DateTime dt = DateTime.Parse(SearchDataAgenda);
                 agendas = agendas.Where(d => d.DataAgenda == dt);
             }
-           /* if(PrestadorId > 0)
+            int[] zero = { };
+            if(PrestadorId.Length != 0 )
             {
-                agendas = agendas.Where(d => d.PrestadorId == PrestadorId);
+
+                agendas = agendas.Where(p => PrestadorId.Contains(p.PrestadorId));
+
             }
-            */
+           
             /*_contexto.Agendamentos.Include(a=> a.AgendaMedica)
              * .ThenInclude(a=> a.Prestador)
              * .Include(a => a.ItemAgendamento)

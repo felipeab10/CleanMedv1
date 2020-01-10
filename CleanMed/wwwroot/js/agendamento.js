@@ -416,8 +416,10 @@ $(".opcaoAgendamento").on('click', function (obj) {
 
 function pupularCalendario() {
     var dtAgenda = document.getElementById("DtAgenda").value;
-    var prestadorId = [document.getElementById("PrestadorId").value];
-    console.log(prestadorId);
+    //var prestadorId = [document.getElementById("PrestadorId").value];
+    let prestadorId = $("select[name='PrestadorId']").val();
+   
+    //console.log(prestadorId.toString());
     if (dtAgenda != '' || prestadorId != 0) {
        // alert(dtAgenda);
         $.ajax({
@@ -425,7 +427,7 @@ function pupularCalendario() {
             method: "POST",
             data: { SearchDataAgenda: dtAgenda, PrestadorId: prestadorId },
             success: function (resposta) {
-                console.log(resposta);
+               
                // $('#calendar').fullCalendar('destroy');
                 FetchEventAndRenderCalendar(resposta)
 
