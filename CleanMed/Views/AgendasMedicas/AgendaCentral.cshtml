@@ -1,4 +1,5 @@
 ﻿@model PaginatedList<CleanMed.ViewModels.AgendasMedicasViewModel>
+
 @using CleanMed.Servicos
 @{
     ViewBag.Current = "AgendasMedicas";
@@ -60,14 +61,14 @@
                                     <div class="form-control col m4 s12">
                                         <label for="Prestador">Prestador</label>
                                         <input id="SearchPrestadorId" type="hidden" value="@ViewData["SearchPrestadorId"] " />
-                                        <select class="select2Prestador browser-default " name="SearchPrestadorId" asp-items="@ViewBag.PrestadorId">
+                                        <select class="select2Prestador browser-default " multiple name="SearchPrestadorId" asp-items="@ViewBag.PrestadorId">
                                             <option selected value="" disabled></option>
                                         </select>
                                     </div>
                                     <div class="form-control  col m4 s12">
                                         <label for="SearchItemAgendamentoId">Item de Agendamento</label>
                                         <input id="SearchItemAgendamentoId" type="hidden" value="@ViewData["SearchItemAgendamentoId"] " />
-                                        <select class="select2ItemAgendamento browser-default " name="SearchItemAgendamentoId" asp-items="@ViewBag.ItemAgendamentoId">
+                                        <select class="select2ItemAgendamento browser-default " multiple name="SearchItemAgendamentoId" asp-items="@ViewBag.ItemAgendamentoId">
                                             <option selected value="" disabled></option>
                                         </select>
                                     </div>
@@ -88,7 +89,7 @@
                                     <label for="SearchPeriodo">Período</label>
                                     <input id="SearchPeriodo" type="hidden" value="@ViewData["SearchPeriodo"] " />
                                     <select class="form-control" id="SearchPeriodoSelect" name="SearchPeriodo">
-                                        <option selected value="" disabled></option>
+                                        <option selected value="" ></option>
                                         <option value="Matutino">Matutino</option>
                                         <option value="Vespertino">Vespertino</option>
                                         <option value="Noturno">Noturno</option>
@@ -100,108 +101,118 @@
                             </div>
                         </form>
                     </div>
-              
 
 
 
-            @TempData["NomeItemAgendamento"]
-            @if (TempData["NomePrestador"] != null)
-            {
-                <div class="row">
-                    <div class="col s12">
-                        <h6 class="center" style="font-size:10px;"> <b>Prestador : <span class="textCapitalize">@TempData["NomePrestador"].ToString().ToLower()</span>, CRM:@TempData["CRMPrestador"] </b> </h6>
-                    </div>
-                </div>
-            }
-          
+
+                    @TempData["NomeItemAgendamento"]
+                    @if (TempData["NomePrestador"] != null)
+                    {
+                        <div class="row">
+                            <div class="col s12">
+                                <h6 class="center" style="font-size:10px;"> <b>Prestador : <span class="textCapitalize">@TempData["NomePrestador"].ToString().ToLower()</span>, CRM:@TempData["CRMPrestador"] </b> </h6>
+                            </div>
+                        </div>
+                    }
 
 
-            <div class="row">
-                <div class="col s12">
-                    <table id="example1" class=" highlight responsive-table">
-                        <thead>
-                            <tr role="row">
-                                <th>Id</th>
-                                <th>Paciente</th>
-                                <th>Data</th>
-                                <th>Horário</th>
 
-                                <th>Prestador</th>
-                                <th>Item de Agendamento</th>
-                                <th>Status</th>
+                    <div class="row">
+                        <div class="col s12">
+                            <table id="example1" class=" highlight responsive-table">
+                                <thead>
+                                    <tr role="row">
+                                        <th>Id</th>
+                                        <th>Paciente</th>
+                                        <th>Data</th>
+                                        <th>Horário</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model != null)
-                            {
-                                @foreach (var item in Model)
-                                {
-                                    <tr data-target="modal1" class=" modal-trigger">
-                                        <td class="opcaoAgendamento">@Html.DisplayFor(modelItem => item.AgendaMedicaId)</td>
-                                        @if (item.NmPaciente != null)
-                                        {
-                                            <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>
-                                        }
-                                        else
-                                        {
-                                            <td><span class="textCapitalize"></span></td>
-                                        }
-                                        <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
-
-
-                                        <td><span class="textCapitalize">@item.NomePrestador.ToLower()</span></td>
-                                        <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
-                                        <td style="background-color:@item.Color;color:white;" class="center">@item.StatusAgendamento</td>
+                                        <th>Prestador</th>
+                                        <th>Item de Agendamento</th>
+                                        <th>Status</th>
 
                                     </tr>
-                                }
-                            }
-                        </tbody>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr data-target="modal1" class=" modal-trigger">
+                                                <td class="opcaoAgendamento">@Html.DisplayFor(modelItem => item.AgendaMedicaId)</td>
+                                                @if (item.NmPaciente != null)
+                                                {
+                                                    <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><span class="textCapitalize"></span></td>
+                                                }
+                                                <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
 
-                    </table>
 
-                </div>
-            </div>
-            @if (Model != null)
-            {
-                <div class="row">
-                    <div class="col s12 center">
+                                                <td><span class="textCapitalize">@item.NomePrestador</span></td>
+                                                <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
+                                                <td style="background-color:@item.Color;color:white;" class="center">@item.StatusAgendamento</td>
 
-                        @{
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
 
-                            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-                            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                            </table>
 
-                        }
-
-                        <a asp-action="AgendaCentral"
-                           asp-route-SearchDataAgenda="@ViewData["SearchDataAgenda"]"
-                           asp-route-sortOrder="@ViewData["CurrentSort"]"
-                           asp-route-pageNumber="@(Model.PageIndex - 1)"
-                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                           class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
-                            <i class="material-icons">chevron_left</i>
-                        </a>
-                        &nbsp;
-                        <a asp-action="AgendaCentral"
-                           asp-route-sortOrder="@ViewData["CurrentSort"]"
-                           asp-route-pageNumber="@(Model.PageIndex + 1)"
-                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                           asp-route-SearchDataAgenda="@ViewData["SearchDataAgenda"]"
-                           class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
-                            <i class="material-icons">chevron_right</i>
-                        </a>
-
+                        </div>
                     </div>
-                </div>
-            }
-            @if (Model != null)
-            {
-                <div class="row">
-                    <div class="col s12">
-                        
+
+                    @if (Model != null)
+                    {
+                        <div class="row">
+                            <div class="col s12 center">
+
+                                @{
+
+                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+                                }
+
+                                <a asp-action="AgendaCentral"
+                                   asp-route-SearchDataAgenda="@ViewData["SearchDataAgenda"]"
+                                   asp-route-SearchPrestadorId="@ViewData["SearchPrestadorId"]"
+                                   asp-route-SearchItemAgendamentoId="@TempData["SearchItemAgendamentoId"]"
+                                   asp-route-SearchPaciente="@ViewData["SearchPaciente"]"
+                                   asp-route-SearchPeriodo="@ViewData["SearchPeriodo"]"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                                &nbsp;
+                                <a asp-action="AgendaCentral"
+                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                   asp-route-SearchDataAgenda="@ViewData["SearchDataAgenda"]"
+                                    asp-route-SearchPrestadorId="@ViewData["SearchPrestadorId"]"
+                                   asp-route-SearchItemAgendamentoId="@TempData["SearchItemAgendamentoId"]"
+                                   asp-route-SearchPaciente="@ViewData["SearchPaciente"]"
+                                   asp-route-SearchPeriodo="@ViewData["SearchPeriodo"]"
+                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model != null)
+                    {
+                        <div class="row">
+                            <div class="col s12">
+
                                 <div class="col s4">
                                     <span style="font-size:14px;">Horários livres: @ViewBag.HorarioLivre</span>
                                 </div>
@@ -217,71 +228,81 @@
                                 <div class="col s3">
                                     <span style="font-size:14px;">Horários Bloqueados: @ViewBag.HorarioBloqueado</span>
                                 </div>
-                        
+
+                            </div>
+                        </div>
+
+                    }
+                    <!-- Modal Structure -->
+                    <div id="modalAgendamento" class="modal modalAgendamento">
+                        <div class="modal-content" style="margin-top:-100px;" id="modalAgendamentoContent"></div>
                     </div>
+
+                    <div id="modalAgendado" class="modal">
+                    </div>
+                    <!-- Modal Confirmar -->
+                    <div id="modalConfirmado" class="modal">
+                    </div>
+                    <div id="modalCancelamento" class="modal">
+                    </div>
+                    <div id="modalCancelado" class="modal">
+                    </div>
+                    <div id="modalAddPaciente" class="modal">
+                    </div>
+
+
                 </div>
-
-            }
-            <!-- Modal Structure -->
-            <div id="modalAgendamento" class="modal modalAgendamento">
-                <div class="modal-content" style="margin-top:-100px;" id="modalAgendamentoContent"></div>
             </div>
-
-            <div id="modalAgendado" class="modal">
-            </div>
-            <!-- Modal Confirmar -->
-            <div id="modalConfirmado" class="modal">
-            </div>
-            <div id="modalCancelamento" class="modal">
-            </div>
-            <div id="modalCancelado" class="modal">
-            </div>
-            <div id="modalAddPaciente" class="modal">
-            </div>
-
-
+            <!-- /.box-body -->
         </div>
-    </div>
-    <!-- /.box-body -->
-</div>
 
 
-@section Scripts{
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/agendamento.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
+        @section Scripts{
+            <script>
+                var stringArray = @Html.Raw(Json.Serialize(ViewData["SearchPrestadorId"]));
+                 $(".select2Prestador").val(stringArray).trigger('change');
+                var SearchPaciente = @Html.Raw(Json.Serialize(ViewData["SearchPaciente"]));
+                $(".select2-paciente").val(SearchPaciente).trigger('change');
+                var SearchItemAgendamentoId = @Html.Raw(Json.Serialize(ViewData["SearchItemAgendamentoId"]));
+                $(".select2ItemAgendamento").val(SearchItemAgendamentoId).trigger('change');
+                console.log(SearchItemAgendamentoId);
+            </script>
+        
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            <script src="~/js/agendamento.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script>
 
-    </script>
-    <script>
-        $(function () {
-            $('.tooltipped').tooltip();
-        })
-        $("input[id*='SearchDataAgenda']").inputmask({
-            mask: ['99/99/9999'],
-            keepStatic: true
-        });
+            </script>
+            <script>
+                $(function () {
+                    $('.tooltipped').tooltip();
+                })
+                $("input[id*='SearchDataAgenda']").inputmask({
+                    mask: ['99/99/9999'],
+                    keepStatic: true
+                });
 
-    </script>
-}
-@section CSS{
-    <style type="text/css">
-        a {
-            color: black;
+            </script>
         }
+        @section CSS{
+            <style type="text/css">
+                a {
+                    color: black;
+                }
 
-            a:link {
-                text-decoration: none;
-            }
+                    a:link {
+                        text-decoration: none;
+                    }
 
-            a:visited {
-                text-decoration: none;
-            }
+                    a:visited {
+                        text-decoration: none;
+                    }
 
-            a:hover {
-                text-decoration: none;
-            }
-    </style>
+                    a:hover {
+                        text-decoration: none;
+                    }
+            </style>
 
-}
+        }

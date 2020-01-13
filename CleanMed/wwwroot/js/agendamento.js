@@ -90,14 +90,23 @@ $(document).ready(function () {
 
 
     //Preenche automaticamente o plugin select2 com o resultado da pesquisa
-    var  searchItemAgendamentoId = $('#SearchItemAgendamentoId').val();
-    if (searchItemAgendamentoId != null) {
-        $('.select2ItemAgendamento').val(parseInt(searchItemAgendamentoId)).trigger('change');
-    }
+    //var  searchItemAgendamentoId = $('#SearchItemAgendamentoId').val();
+    //if (searchItemAgendamentoId != null) {
+        //$('.select2ItemAgendamento').val(parseInt(searchItemAgendamentoId)).trigger('change');
+ //;
+   // }
     //Preenche automaticamente o plugin select2 com o resultado da pesquisa
     var SearchPrestadorId = $('#SearchPrestadorId').val();
+    
     if (SearchPrestadorId != null) {
-        $('.select2Prestador').val(parseInt(SearchPrestadorId)).trigger('change');
+        //$('.select2Prestador').val(parseInt(SearchPrestadorId)).trigger('change');
+     
+        var Values = new Array();
+        Values.push("1");
+        Values.push("2");
+        Values.push("3");
+
+        //$(".select2Prestador").val(SearchPrestadorId).trigger('change');
     }
 
     $('.modal').modal();
@@ -471,7 +480,7 @@ $(function () {
 })
 
 $(".opcaoAgendamento").on('click', function (obj) {
-    console.log(obj.currentTarget);
+    //console.log(obj.currentTarget);
     alert(obj.currentTarget.value)
    
         })
@@ -511,7 +520,7 @@ function PegarEventoDodia() {
         url: "/AgendasMedicas/GetEvents",
 
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             $.each(data, function (i, v) {
                 events.push({
                     id: v.id,

@@ -124,7 +124,7 @@ namespace CleanMed.Controllers
             return View();
         }
 
-        public async Task<IActionResult> AgendaCentral(int? pageNumber, string SearchDataAgenda, int SearchPrestadorId, int SearchItemAgendamentoId, string SearchPeriodo, int SearchPaciente)
+        public async Task<IActionResult> AgendaCentral(int? pageNumber, string SearchDataAgenda, int[] SearchPrestadorId, int[] SearchItemAgendamentoId, string SearchPeriodo, int SearchPaciente)
         {
 
 
@@ -136,7 +136,11 @@ namespace CleanMed.Controllers
             }
 
             //pegando as agendas
+           
+
             var agendas = from a in _contexto.AgendasMedicas
+                          join age in _contexto.Agendamentos
+                          on a.AgendaMedicaId equals age.AgendaMedicaId
                           join p in _contexto.Prestadores
                           on a.PrestadorId equals p.PrestadorId
                           into Prestador
@@ -155,16 +159,17 @@ namespace CleanMed.Controllers
                           on a.SetorId equals s.SetorId
                           into Setores
                           from s in Setores.DefaultIfEmpty()
-                          join age in _contexto.Agendamentos
-                          on a.AgendaMedicaId equals age.AgendaMedicaId
+                          
                           join pa in _contexto.Pacientes
                           on age.PacienteId equals pa.PacienteId
                           into Pacientes
                           from pa in Pacientes.DefaultIfEmpty()
-                          select new AgendasMedicasViewModel
+                          select new 
+                          
+                          AgendasMedicasViewModel
                           {
                               AgendaMedicaId = a.AgendaMedicaId,
-                              PrestadorId = a.PrestadorId,
+                              PrestadorId = p.PrestadorId,
                               ItemAgendamentoId = it.ItemAgendamentoId,
                               DataAgenda = a.DataAgenda,
                               HoraInicio = a.HoraInicio,
@@ -189,28 +194,45 @@ namespace CleanMed.Controllers
                               NmPaciente = pa.Nome,
                               Color = age.Color
                           };
-
+            
+          
             if (!String.IsNullOrEmpty(SearchDataAgenda))
             {
                 DateTime dt = DateTime.Parse(SearchDataAgenda);
                 agendas = agendas.Where(d => d.DataAgenda == dt);
                 ViewData["SearchDataAgenda"] = SearchDataAgenda;
+            }
+          
+               
                 ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
                 ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
-                if (SearchPrestadorId != 0)
+                if (SearchPrestadorId.Length != 0)
                 {
-                    agendas = agendas.Where(p => p.PrestadorId == SearchPrestadorId);
-                    ViewData["SearchPrestadorId"] = SearchPrestadorId;
-                    ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
-                    ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
-                    TempData["NomePrestador"] = _contexto.Prestadores.Where(p => p.PrestadorId == SearchPrestadorId).Select(p => p.Nome).First();
-                    TempData["CRMPrestador"] = _contexto.Prestadores.Where(p => p.PrestadorId == SearchPrestadorId).Select(p => p.NumeroCrm).First();
+                    agendas = from t in agendas
+                              join p in _contexto.Prestadores
+                              on t.PrestadorId equals p.PrestadorId
+                             
+                              //where t.PrestadorId != null
+                              where SearchPrestadorId.Contains(p.PrestadorId)
+                              select t;
+                    ViewData["SearchPrestadorId"] = SearchPrestadorId; 
+                   
+                    //ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
+                   // ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
+                    //TempData["NomePrestador"] = _contexto.Prestadores.Where(p => p.PrestadorId == SearchPrestadorId).Select(p => p.Nome).First();
+                    //TempData["CRMPrestador"] = _contexto.Prestadores.Where(p => p.PrestadorId == SearchPrestadorId).Select(p => p.NumeroCrm).First();
                 }
-                if (SearchItemAgendamentoId != 0)
+                if (SearchItemAgendamentoId.Length != 0)
                 {
-                    agendas = agendas.Where(p => p.ItemAgendamentoId == SearchItemAgendamentoId);
+                agendas = from t in agendas
+                          join i in _contexto.ItensAgendasMedica
+                          on t.ItemAgendamentoId equals i.ItemAgendamentoId
+                          where SearchItemAgendamentoId.Contains(t.ItemAgendamentoId)
+                          select t;
+                    //agendas = agendas.Where(p => p.ItemAgendamentoId == SearchItemAgendamentoId);
                     ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
                     ViewData["SearchItemAgendamentoId"] = SearchItemAgendamentoId;
+                TempData["SearchItemAgendamentoId"] = SearchItemAgendamentoId;
                     ViewData["ItemAgendamentoId"] = new SelectList(_contexto.ItemAgendamentos, "ItemAgendamentoId", "Descricao", SearchItemAgendamentoId);
                     ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
                 }
@@ -220,7 +242,7 @@ namespace CleanMed.Controllers
                     string hf = "11:59";
                     TimeSpan HoraInicio =TimeSpan.Parse(h);
                     TimeSpan HorarioFim = TimeSpan.Parse(hf);
-                    agendas = agendas.Where(a => a.DataAgenda.TimeOfDay >= HoraInicio && a.DataAgenda.TimeOfDay <= HorarioFim);
+                    agendas = agendas.Where(a => a.HoraAgenda.TimeOfDay >= HoraInicio && a.HoraAgenda.TimeOfDay <= HorarioFim);
                     ViewData["SearchPeriodo"] = SearchPeriodo;
                     ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
                     ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
@@ -231,7 +253,7 @@ namespace CleanMed.Controllers
                     string hf = "17:59";
                     TimeSpan HoraInicio = TimeSpan.Parse(h);
                     TimeSpan HorarioFim = TimeSpan.Parse(hf);
-                    agendas = agendas.Where(a => a.DataAgenda.TimeOfDay >= HoraInicio && a.DataAgenda.TimeOfDay <= HorarioFim);
+                    agendas = agendas.Where(a => a.HoraAgenda.TimeOfDay >= HoraInicio && a.HoraAgenda.TimeOfDay <= HorarioFim);
                     ViewData["SearchPeriodo"] = SearchPeriodo;
                     ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
                     ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
@@ -242,7 +264,7 @@ namespace CleanMed.Controllers
                     string hf = "23:59";
                     TimeSpan HoraInicio = TimeSpan.Parse(h);
                     TimeSpan HorarioFim = TimeSpan.Parse(hf);
-                    agendas = agendas.Where(a => a.DataAgenda.TimeOfDay >= HoraInicio && a.DataAgenda.TimeOfDay <= HorarioFim);
+                    agendas = agendas.Where(a => a.HoraAgenda.TimeOfDay >= HoraInicio && a.HoraAgenda.TimeOfDay <= HorarioFim);
                     ViewData["SearchPeriodo"] = SearchPeriodo;
                     ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
                     ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
@@ -254,28 +276,31 @@ namespace CleanMed.Controllers
                     string hf = "05:59";
                     TimeSpan HoraInicio = TimeSpan.Parse(h);
                     TimeSpan HorarioFim = TimeSpan.Parse(hf);
-                    agendas = agendas.Where(a => a.DataAgenda.TimeOfDay >= HoraInicio && a.DataAgenda.TimeOfDay <= HorarioFim);
+                    agendas = agendas.Where(a => a.HoraAgenda.TimeOfDay >= HoraInicio && a.HoraAgenda.TimeOfDay <= HorarioFim);
                     ViewData["SearchPeriodo"] = SearchPeriodo;
                     ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
                     ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
                 }
                 if(SearchPaciente != 0)
                 {
-                    agendas = agendas.Where(a => a.PacienteId == SearchPaciente);
+                    agendas = agendas.Where(a => a.PacienteId == SearchPaciente).OrderBy(a => a.HoraAgenda);
                     ViewData["SearchPaciente"] = SearchPaciente;
+               
                 }
                 ViewData["PacienteId"] = new SelectList(_contexto.Pacientes, "PacienteId", "Nome");
                 ViewData["PrestadorId"] = new SelectList(_contexto.Prestadores, "PrestadorId", "Nome");
                 ViewData["ItemAgendamentoId"] = new SelectList(_contexto.ItemAgendamentos, "ItemAgendamentoId", "Descricao");
                 int pageSize = 30;
                 ViewData["UsuarioId"] = UsuarioLogado.Id;
+                 ViewData["SearchItemAgendamentoId"] = SearchItemAgendamentoId;
 
-                return View(await PaginatedList<AgendasMedicasViewModel>.CreateAsync(agendas.AsNoTracking().OrderBy(a => a.HoraInicio), pageNumber ?? 1, pageSize));
-            }
-            ViewData["PacienteId"] = new SelectList(_contexto.Pacientes, "PacienteId", "Nome");
-            ViewData["PrestadorId"] = new SelectList(_contexto.Prestadores, "PrestadorId", "Nome");
-            ViewData["ItemAgendamentoId"] = new SelectList(_contexto.ItemAgendamentos, "ItemAgendamentoId", "Descricao");
-            return View();
+            //return View(agendas);
+            return View(await PaginatedList<AgendasMedicasViewModel>.CreateAsync(agendas.AsNoTracking().OrderByDescending(a => a.DataAgenda), pageNumber ?? 1, pageSize));
+           
+            //ViewData["PacienteId"] = new SelectList(_contexto.Pacientes, "PacienteId", "Nome");
+            //ViewData["PrestadorId"] = new SelectList(_contexto.Prestadores, "PrestadorId", "Nome");
+            //ViewData["ItemAgendamentoId"] = new SelectList(_contexto.ItemAgendamentos, "ItemAgendamentoId", "Descricao");
+            //return View();
         }
 
 
