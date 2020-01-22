@@ -1,4 +1,35 @@
-﻿
+﻿$("#agendar").click(function () {
+    var form = $("#formAgendamento").serialize();
+    $.ajax({
+        url: "/AgendasMedicas/Agendar",
+        data: form,
+        method: 'POST',
+        success: function (resposta) {
+            if (resposta == false) {
+                M.toast({ html: 'Horário já possui paciente agendado' })
+
+            } else {
+               /*
+                $.ajax({
+                    url: "/AgendasMedicas/horarioLivre",
+                    data: { id: resposta },
+                    method: 'POST',
+                    success: function (modal) {
+                      
+
+                    }
+                })
+                */
+                var teste  = JSON.stringify(resposta);
+                $("#modalAgendamento").load("/AgendasMedicas/horarioLivre/" + resposta, function (resposta) {
+                   $('#modalAgendamento').modal();
+                  $('#modalAgendamento').modal('open');
+                })
+               
+            }
+        }
+    })
+})
 $(function () {
     $("#DataNascimento").focusout(function () {
         var DataNascimento = document.getElementById("DataNascimento").value;
@@ -86,7 +117,7 @@ $(function () {
 
 });
 $(document).ready(function () {
-    PegarEventoDodia()
+    //PegarEventoDodia()
 
 
     //Preenche automaticamente o plugin select2 com o resultado da pesquisa
@@ -339,6 +370,7 @@ $(document).ready(function () {
 
 
 })
+
 function qtdAtendimento() {
     
         var horaInicio = $("#HoraInicio").val();

@@ -50,12 +50,12 @@
 
                                     <div class=" form-control col m1 s12">
                                         <label for="Id">Id</label>
-                                        <input type="text" class="form-control" name="SearchAgendaId" />
+                                        <input type="text" class="form-control" name="SearchAgendaId" style="margin-top:30px" />
                                     </div>
 
                                     <div class="form-control  col m2 s12">
                                         <label for="SearchDataAgenda">Data</label>
-                                        <input id="SearchDataAgenda" type="text" class="form-control" name="SearchDataAgenda" value="@ViewData["SearchDataAgenda"]" />
+                                        <input id="SearchDataAgenda" type="text" class="form-control" name="SearchDataAgenda" value="@ViewData["SearchDataAgenda"]" style="margin-top:30px" />
                                     </div>
 
                                     <div class="form-control col m4 s12">
@@ -114,14 +114,19 @@
                             </div>
                         </div>
                     }
-
-
+                <form id="formAgendamento">
+                    <div class="row">
+                        <div class="col s12">
+                            <button type="button" id="agendar" class="btn btn-small "  >Agendar</button>&nbsp; <a class="btn btn-small">Transferir</a>&nbsp; <a class="btn btn-small">Confirmar</a>&nbsp; <a class="btn btn-small">Cancelar</a>&nbsp;<a class="btn btn-small">Excluir</a>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col s12">
                             <table id="example1" class=" highlight responsive-table">
                                 <thead>
                                     <tr role="row">
+                                        <th>Ação</th>
                                         <th>Id</th>
                                         <th>Paciente</th>
                                         <th>Data</th>
@@ -139,6 +144,14 @@
                                         @foreach (var item in Model)
                                         {
                                             <tr data-target="modal1" class=" modal-trigger">
+                                                <td>
+                                                    <p>
+                                                        <label>
+                                                            <input type="checkbox" value="@item.AgendamentoId" class="filled-in" name="HRSelecionado[]" />
+                                                            <span></span>
+                                                        </label>
+                                                    </p>
+                                                </td>
                                                 <td class="opcaoAgendamento">@Html.DisplayFor(modelItem => item.AgendaMedicaId)</td>
                                                 @if (item.NmPaciente != null)
                                                 {
@@ -165,7 +178,7 @@
 
                         </div>
                     </div>
-
+                </form>
                     @if (Model != null)
                     {
                         <div class="row">
@@ -234,9 +247,9 @@
 
                     }
                     <!-- Modal Structure -->
-                    <div id="modalAgendamento" class="modal modalAgendamento">
-                        <div class="modal-content" style="margin-top:-100px;" id="modalAgendamentoContent"></div>
-                    </div>
+                <div id="modalAgendamento" class="modal modalAgendamento">
+                    <!--<div class="modal-content" style="margin-top:-100px;" id="modalAgendamentoContent"></div>-->
+                </div>
 
                     <div id="modalAgendado" class="modal">
                     </div>

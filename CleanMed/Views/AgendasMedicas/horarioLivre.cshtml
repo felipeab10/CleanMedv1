@@ -1,4 +1,5 @@
-﻿@model CleanMed.ViewModels.AgendasMedicasViewModel
+﻿@model IEnumerable<CleanMed.ViewModels.AgendasMedicasViewModel>
+
 @{
     Layout = null;
 }
@@ -6,10 +7,39 @@
 
 <form id="myForm">
 
+
+
+
     @Html.AntiForgeryToken()
-    <input type="hidden" readonly id="AgendamentoId" class="form-control" asp-for="AgendamentoId" />
+    <input type="hidden" readonly id="AgendamentoId" class="form-control" name="AgendamentoId" />
 
     <div class="modal-content">
+       
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col s4">
+                    <div class="card">
+                        <div class="card-header BtnColor">
+                            <h6 class="center"><span class=" center " style="color:white;">@item.NomeItemAgendamento</span></h6>
+                        </div>
+                        <div class="card-content">
+                            <ul class="collection">
+                                <li class="collection-item">Data:  @Html.DisplayFor(modelItem => item.DataAgenda)</li>
+                                <li class="collection-item">Horário: @Html.DisplayFor(modelItem => item.HoraAgenda)</li>
+                                @if (item.PrestadorId != 0)
+                                {
+                                    <li class="collection-item">Prestador: @item.NomePrestador</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+
+
         <div class="card">
             <div class="card-header BtnColor">
                 <h6 class="center"><span class="card-title center " style="color:white;">Informações do paciente</span></h6>
@@ -19,18 +49,18 @@
                     <div class="col m8  s12">
                         <div class="form-group">
                             <label>Paciente</label>
-                            <select asp-for="PacienteId" class="select2-paciente browser-default">
+                            <select name="PacienteId" class="select2-paciente browser-default">
                                 <option value="" disabled selected></option>
 
                             </select>
-                            <span asp-validation-for="PacienteId" class="error"></span>
+                            <span for="PacienteId" class="error"></span>
                         </div>
                     </div>
                     <div class="col m2 s12">
                         <div class="form-group">
                             <label for="DataNascimento">Dt.Nascimento</label>
                             <input name="DataNascimento" class="form-control" type="text" id="DtNascimento" />
-                            <span asp-validation-for="DataNascimento" class="error"></span>
+                            <span for="DataNascimento" class="error"></span>
                         </div>
                     </div>
                 </div>
@@ -39,105 +69,22 @@
                     <div class="col m3 s12">
                         <div class="form-group">
                             <label for="Telefone">Telefone</label>
-                            <input asp-for="Telefone" class="form-control" type="text" id="Telefone" />
-                            <span asp-validation-for="Telefone" class="error"></span>
+                            <input name="Telefone" class="form-control" type="text" id="Telefone" />
+                            <span for="Telefone" class="error"></span>
                         </div>
                     </div>
                     <div class="col m3 s12">
                         <div class="form-group">
                             <label for="CPF">CPF</label>
-                            <input asp-for="CPF" class="form-control" type="text" id="CPF" />
-                            <span asp-validation-for="CPF" class="error"></span>
+                            <input name="CPF" class="form-control" type="text" id="CPF" />
+                            <span for="CPF" class="error"></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header BtnColor">
-                <h6 class="center"><span class="card-title center " style="color:white;">Informações do agendamento</span></h6>
-            </div>
-            <div class="card-content">
-                <div class="row">
-                    <div class="col m1 s12">
-                        <div class="form-group">
-                            <label for="AgendaMedicaId">Id</label>
-                            <input readonly type="number" class="form-control" asp-for="AgendaMedicaId" />
-                            <span asp-validation-for="AgendaMedicaId"></span>
-                        </div>
-                    </div>
 
-                    <div class="col m6 s12">
-                        <div class="form-group">
-                            <label for="Prestador">Prestador</label>
-                            <input readonly class="form-control textCapitalize" type="text" asp-for="NomePrestador" />
-                        </div>
-                    </div>
-
-                    @if (Model.RecursoAgendamentoId != null)
-                    {
-                        <div class="col m6 s12">
-                            <div class="form-group">
-                                <label for="Recurso">Recurso</label>
-                                <input readonly class="form-control textCapitalize" type="text" value="@Model.RecursoNome.ToLower()" />
-                            </div>
-                        </div>
-                    }
-                    <div class="col m2 s12">
-                        <div class="form-group">
-                            <label asp-for="HoraAgenda">Horário</label>
-                            <input readonly class="form-control" type="text" asp-for="HoraAgenda" />
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col m6 s12">
-                        <div class="form-group">
-                            <label asp-for="ItemAgendamentoId">Item de Agendamento</label>
-                            <select id="selectItemAgendamentoId" class="form-control" asp-for="ItemAgendamentoId" asp-items="@ViewBag.ItemAgendamentoId">
-                                <option value="" selected disabled></option>
-                            </select>
-                            <span asp-validation-for="ItemAgendamentoId" class="error"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col m6 s12">
-                        <div class="form-group">
-                            <label asp-for="ConvenioId">Convênio</label>
-                            <select asp-for="ConvenioId" id="select2-convenio" class="form-control" asp-items="@ViewBag.ConvenioId">
-                                <option value="" selected disabled></option>
-                            </select>
-                            <span asp-validation-for="ConvenioId" class="error"></span>
-                        </div>
-                    </div>
-                    <div class="col m3 s12">
-                        <div class="form-group">
-                            <label asp-for="NumeroCartaoConvenio">Nº Cartão convênio</label>
-                            <input id="numeroCartao" class="form-control" type="number" asp-for="NumeroCartaoConvenio" />
-                            <span asp-validation-for="NumeroCartaoConvenio" class="error"></span>
-                        </div>
-                    </div>
-                    <div class="col m3 s12">
-                        <div class="form-group">
-                            <label asp-for="CartaoValidade">Dt.Validade</label>
-                            <input id="CartaoValidade" class="form-control" type="text" name="CartaoValidade" />
-                            <span asp-validation-for="CartaoValidade"></span>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col s12 m8">
-                        <div class="form-group">
-                            <textarea asp-for="ObservacaoAgendamento" class="materialize-textarea" placeholder="Observação do agendamento" data-length="400"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
     <div class="modal-footer">
@@ -151,3 +98,79 @@
 
 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script src="~/js/agendamentoPaciente.js"></script>
+
+
+
+@*
+
+    <div class="card-content">
+                       <div class="row">
+                           <div class="col m1 s12">
+                               <div class="form-group">
+                                   <label for="AgendaMedicaId">Id</label>
+                                   <input readonly type="number" class="form-control" name="AgendaMedicaId" />
+                                   <span for="AgendaMedicaId"></span>
+                               </div>
+                           </div>
+
+                           <div class="col m6 s12">
+                               <div class="form-group">
+                                   <label for="Prestador">Prestador</label>
+                                   <input readonly class="form-control textCapitalize" type="text" name="NomePrestador" />
+                               </div>
+                           </div>
+
+
+                           <div class="col m2 s12">
+                               <div class="form-group">
+                                   <label name="HoraAgenda">Horário</label>
+                                   <input readonly class="form-control" type="text" name="HoraAgenda" />
+                               </div>
+                           </div>
+
+                       </div>
+                       <div class="row">
+                           <div class="col m6 s12">
+                               <div class="form-group">
+                                   <label name="ItemAgendamentoId">Item de Agendamento</label>
+                                   <select id="selectItemAgendamentoId" class="form-control" name="ItemAgendamentoId" asp-items="@ViewBag.ItemAgendamentoId">
+                                       <option value="" selected disabled></option>
+                                   </select>
+                                   <span for="ItemAgendamentoId" class="error"></span>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col m6 s12">
+                               <div class="form-group">
+                                   <label name="ConvenioId">Convênio</label>
+                                   <select name="ConvenioId" id="select2-convenio" class="form-control" asp-items="@ViewBag.ConvenioId">
+                                       <option value="" selected disabled></option>
+                                   </select>
+                                   <span for="ConvenioId" class="error"></span>
+                               </div>
+                           </div>
+                           <div class="col m3 s12">
+                               <div class="form-group">
+                                   <label name="NumeroCartaoConvenio">Nº Cartão convênio</label>
+                                   <input id="numeroCartao" class="form-control" type="number" name="NumeroCartaoConvenio" />
+                                   <span for="NumeroCartaoConvenio" class="error"></span>
+                               </div>
+                           </div>
+                           <div class="col m3 s12">
+                               <div class="form-group">
+                                   <label name="CartaoValidade">Dt.Validade</label>
+                                   <input id="CartaoValidade" class="form-control" type="text" name="CartaoValidade" />
+                                   <span for="CartaoValidade"></span>
+                               </div>
+                           </div>
+
+                       </div>
+                       <div class="row">
+                           <div class="col s12 m8">
+                               <div class="form-group">
+                                   <textarea name="ObservacaoAgendamento" class="materialize-textarea" placeholder="Observação do agendamento" data-length="400"></textarea>
+                               </div>
+                           </div>
+                       </div>
+                   </div>*@

@@ -192,7 +192,8 @@ namespace CleanMed.Controllers
                               SetorNome = s.Descricao,
                               PacienteId = pa.PacienteId,
                               NmPaciente = pa.Nome,
-                              Color = age.Color
+                              Color = age.Color,
+                              AgendamentoId = age.AgendamentoId,
                           };
             
           
@@ -630,8 +631,45 @@ namespace CleanMed.Controllers
             }
             return new JsonResult(agendas.ToList());
         }
-        public async Task<IActionResult> horarioLivre(int id)
+        public async Task<IActionResult> horarioLivre(string id)
         {
+            if(id.Length != 0)
+            {
+                var arr = id.Split(',');
+               int[] horarios = Array.ConvertAll(arr, int.Parse);
+                var horarioLivre = (from a in _contexto.AgendasMedicas
+                                   join age in _contexto.Agendamentos
+                                   on a.AgendaMedicaId equals age.AgendaMedicaId
+                                   join p in _contexto.Prestadores
+                                   on a.PrestadorId equals p.PrestadorId
+                                   into Prestador
+                                   from p in Prestador.DefaultIfEmpty()
+                                   join it in _contexto.ItensAgendasMedica
+                                   on a.AgendaMedicaId equals it.AgendaMedicaId
+                                   join i in _contexto.ItemAgendamentos
+                                   on it.ItemAgendamentoId equals i.ItemAgendamentoId
+                                   where horarios.Contains(age.AgendamentoId)
+                                    select new AgendasMedicasViewModel
+                                    {
+                                        AgendaMedicaId = a.AgendaMedicaId,
+                                        AgendamentoId = age.AgendamentoId,
+                                        HoraAgenda = age.HoraAgenda,
+                                        NomePrestador = p.Nome,
+                                        PrestadorId = p.PrestadorId,
+                                        NomeItemAgendamento = i.Descricao,
+                                        DataAgenda = a.DataAgenda,
+                                    }).ToList();
+                                   /*;
+                                   */
+                //return new JsonResult(horarioLivre);
+                return View(horarioLivre);
+            }
+            else
+            {
+                //return new JsonResult("null");
+                return new JsonResult("Nenhum horário selecionado");
+            }
+            /*
             if(id != 0) {
                 var agendamento = await _agendamentoRepositorio.PegarPeloId(id);
                 var listaItemAgendamento = _contexto.ItensAgendasMedica
@@ -653,10 +691,12 @@ namespace CleanMed.Controllers
                 ViewData["ConvenioId"] = new SelectList(_contexto.Convenios,"ConvenioId", "Nome");
                // return PartialView("_GetHorarioLivrePartial", agendamentoView);
                  return View(agendamentoView);
+                 
             }
             return RedirectToAction("AgendaCentral");
+            */
         }
-       
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> agendarPaciente(AgendasMedicasViewModel agendasMedicasViewModel)
@@ -1040,6 +1080,24 @@ namespace CleanMed.Controllers
             ViewData["EstadoCivilId"] = listEstadoCivil;
 
             return View(pacienteView);
+        }
+        public IActionResult Agendar(int[] HRSelecionado)
+        {
+            
+            for (int i = 0; i < HRSelecionado.Length; i++)
+            {
+               foreach(var item in HRSelecionado)
+                if(HorarioDisponivel(item))
+                {
+                    return new JsonResult(false);
+                }
+            }
+            string[] horarios = HRSelecionado.Select(x => x.ToString()).ToArray();
+            return new JsonResult(horarios);
+        }
+        public bool HorarioDisponivel(int AgendamentoId)
+        {
+            return  _contexto.Agendamentos.Any(i => i.AgendamentoId == AgendamentoId && i.PacienteId != null);
         }
     }
 }
