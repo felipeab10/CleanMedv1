@@ -171,7 +171,8 @@ function addAgendamento() {
     var convenioId = $('#select2-convenio').val();
     var numeroCartao = $('#numeroCartao').val();
     var cartaoValidade = $('#CartaoValidade').val();
-
+    var agendamentoId = $('#AgendamentoId').val();
+    alert(agendamentoId);
     
     var data = $("#myForm").serialize();
     var modal = $("#modalAgendamento");
@@ -182,7 +183,7 @@ function addAgendamento() {
     
     $.ajax({
         url: "/AgendasMedicas/agendarPaciente",
-        data:data,
+        data: data,
         //data: { PacienteId: pacienteId, DataNascimento: dataNascimento, Telefone: telefone, CPF: CPF, AgendamentoId: agendamentoId, ItemAgendamentoId: itemAgendamentoId, ConvenioId: convenioId, NumeroCartaoConvenio: numeroCartao, CartaoValidade: cartaoValidade },
         method:"POST",
         success: function (resposta) {
@@ -191,12 +192,12 @@ function addAgendamento() {
                 $('#modalAgendamento').modal('close');
                 var dtAgenda = document.getElementById("DtAgenda").value;
                 if (dtAgenda != '') {
-                    $('#calendar').fullCalendar('destroy');
-                    pupularCalendario();
+                    //$('#calendar').fullCalendar('destroy');
+                   // pupularCalendario();
                 } else {
 
-                $('#calendar').fullCalendar('destroy');
-                    PegarEventoDodia();
+               // $('#calendar').fullCalendar('destroy');
+                 //   PegarEventoDodia();
                 }
                 //pupularCalendario();
                 swal("Agendado com sucesso!", "", "success");

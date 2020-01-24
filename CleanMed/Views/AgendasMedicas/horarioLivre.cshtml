@@ -11,14 +11,13 @@
 
 
     @Html.AntiForgeryToken()
-    <input type="hidden" readonly id="AgendamentoId" class="form-control" name="AgendamentoId" />
 
     <div class="modal-content">
        
         <div class="row">
             @foreach (var item in Model)
             {
-                <div class="col s4">
+                <div class="col s6">
                     <div class="card">
                         <div class="card-header BtnColor">
                             <h6 class="center"><span class=" center " style="color:white;">@item.NomeItemAgendamento</span></h6>
@@ -81,12 +80,43 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col m6 s12">
+                        <div class="form-group">
+                            <label name="ConvenioId">Convênio</label>
+                            <select name="ConvenioId" id="select2-convenio" class="form-control" asp-items="@ViewBag.ConvenioId">
+                                <option value="" selected disabled></option>
+                            </select>
+                            <span for="ConvenioId" class="error"></span>
+                        </div>
+                    </div>
+                    <div class="col m3 s12">
+                        <div class="form-group">
+                            <label name="NumeroCartaoConvenio">Nº Cartão convênio</label>
+                            <input id="numeroCartao" class="form-control" type="number" name="NumeroCartaoConvenio" />
+                            <span for="NumeroCartaoConvenio" class="error"></span>
+                        </div>
+                    </div>
+                    <div class="col m3 s12">
+                        <div class="form-group">
+                            <label name="CartaoValidade">Dt.Validade</label>
+                            <input id="CartaoValidade" class="form-control" type="text" name="CartaoValidade" />
+                            <span for="CartaoValidade"></span>
+                        </div>
+                    </div>
+                </div>
+                <input value="@ViewBag.AgendamentoId" id="AgendamentoId" name="AgendamentoId" type="text" />
+                <div class="row">
+                    <div class="col s12 m8">
+                        <div class="form-group">
+                            <textarea name="ObservacaoAgendamento" class="materialize-textarea" placeholder="Observação do agendamento" data-length="400"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
 
-
-
-    </div>
     <div class="modal-footer">
         <a class="waves-effect waves-light btn-small red tooltipped modal-close " data-position="top" data-tooltip="Cancelar"><i class="material-icons">arrow_back</i></a>
         &nbsp;
@@ -173,4 +203,5 @@
                                </div>
                            </div>
                        </div>
-                   </div>*@
+                   </div>
+    *@

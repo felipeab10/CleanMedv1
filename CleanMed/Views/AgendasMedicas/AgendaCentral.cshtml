@@ -127,7 +127,6 @@
                                 <thead>
                                     <tr role="row">
                                         <th>Ação</th>
-                                        <th>Id</th>
                                         <th>Paciente</th>
                                         <th>Data</th>
                                         <th>Horário</th>
@@ -152,7 +151,7 @@
                                                         </label>
                                                     </p>
                                                 </td>
-                                                <td class="opcaoAgendamento">@Html.DisplayFor(modelItem => item.AgendaMedicaId)</td>
+                                                
                                                 @if (item.NmPaciente != null)
                                                 {
                                                     <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>

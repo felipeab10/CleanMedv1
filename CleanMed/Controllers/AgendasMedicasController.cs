@@ -659,9 +659,11 @@ namespace CleanMed.Controllers
                                         NomeItemAgendamento = i.Descricao,
                                         DataAgenda = a.DataAgenda,
                                     }).ToList();
-                                   /*;
-                                   */
+                /*;
+                */
                 //return new JsonResult(horarioLivre);
+                ViewData["ConvenioId"] = new SelectList(_contexto.Convenios, "ConvenioId", "Nome");
+                ViewData["AgendamentoId"] = id;
                 return View(horarioLivre);
             }
             else
@@ -699,47 +701,69 @@ namespace CleanMed.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> agendarPaciente(AgendasMedicasViewModel agendasMedicasViewModel)
+        public async Task<IActionResult> agendarPaciente(AgendasMedicasViewModel agendasMedicasViewModel, string AgendamentoId)
         {
-            if (ModelState.IsValid)
-            {
-                var agendamento = await _contexto.Agendamentos
-                    .Where(a => a.AgendamentoId == agendasMedicasViewModel.AgendamentoId)
-                    .FirstOrDefaultAsync();
-                //Manipulando tabela agendamento
-                agendamento.PacienteId = agendasMedicasViewModel.PacienteId;
-                agendamento.ItemAgendamentoId = agendasMedicasViewModel.ItemAgendamentoId;
-                agendamento.ConvenioId = agendasMedicasViewModel.ConvenioId;
-                agendamento.StatusAgendamento = "Agendado";
-                agendamento.Color = "#2196f3";
-                agendamento.ObservacaoAgendamento = agendasMedicasViewModel.ObservacaoAgendamento;
-                //Gravando log na tabela
-                AgendamentoLog agendamentoLog = new AgendamentoLog();
-                agendamentoLog.AgendamentoId = agendamento.AgendamentoId;
-                agendamentoLog.Dt_Acao = DateTime.Now;
-                agendamentoLog.Acao = "Agendado";
-                agendamentoLog.PacienteId = agendasMedicasViewModel.PacienteId;
-                var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
-                agendamentoLog.UsuarioId = usuario.Id;
-                _contexto.AgendamentoLogs.Add(agendamentoLog);
-                _contexto.Agendamentos.Update(agendamento);
-                await _contexto.SaveChangesAsync();
-                //Manipulando tabela de CartaoConvenio
-                if(!await _cartaoConvenioRepositorio.CartaoPacienteExiste(agendasMedicasViewModel.PacienteId, agendasMedicasViewModel.NumeroCartaoConvenio))
+           
+                if(AgendamentoId.Length != 0)
                 {
-                    CartaoConvenio cartao = new CartaoConvenio();
-                    cartao.ConvenioId = agendasMedicasViewModel.ConvenioId;
-                    cartao.NumeroCarteira = agendasMedicasViewModel.NumeroCartaoConvenio;
-                    cartao.PacienteId = agendasMedicasViewModel.PacienteId;
-                    cartao.Status = true;
-                    cartao.Validade = agendasMedicasViewModel.CartaoValidade;
-                    _contexto.CartaoConvenios.Add(cartao);
-                    await _contexto.SaveChangesAsync();
+                    var arr = AgendamentoId.Split(',');
+                    int[] horarios = Array.ConvertAll(arr, int.Parse);
+                    for(int i = 0;  i < horarios.Length;  i++)
+                    {
+                        foreach(var item in horarios)  
+                           if(item != 0)
+                        {
+                            var agendamento = await _contexto.Agendamentos
+                           .Where(a => a.AgendamentoId == item)
+                           .FirstOrDefaultAsync();
+                            Console.WriteLine(agendamento);
+                            //Manipulando tabela agendamento
+                            agendamento.PacienteId = agendasMedicasViewModel.PacienteId;
+                           // agendamento.ItemAgendamentoId = agendasMedicasViewModel.ItemAgendamentoId;
+                            agendamento.ConvenioId = agendasMedicasViewModel.ConvenioId;
+                            agendamento.StatusAgendamento = "Agendado";
+                            agendamento.Color = "#2196f3";
+                            agendamento.ObservacaoAgendamento = agendasMedicasViewModel.ObservacaoAgendamento;
+                            //Gravando log na tabela
+                            /* AgendamentoLog agendamentoLog = new AgendamentoLog();
+                             agendamentoLog.AgendamentoId = agendamento.AgendamentoId;
+                             agendamentoLog.Dt_Acao = DateTime.Now;
+                             agendamentoLog.Acao = "Agendado";
+                             agendamentoLog.PacienteId = agendasMedicasViewModel.PacienteId;
+                             var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
+                             agendamentoLog.UsuarioId = usuario.Id;
+                             _contexto.AgendamentoLogs.Add(agendamentoLog);
+                             */
+                            _contexto.Agendamentos.Update(agendamento);
+                            await _contexto.SaveChangesAsync();
+                            /*
+                                if (!await _cartaoConvenioRepositorio.CartaoPacienteExiste(agendasMedicasViewModel.PacienteId, agendasMedicasViewModel.NumeroCartaoConvenio))
+                                {
+                                    CartaoConvenio cartao = new CartaoConvenio();
+                                    cartao.ConvenioId = agendasMedicasViewModel.ConvenioId;
+                                    cartao.NumeroCarteira = agendasMedicasViewModel.NumeroCartaoConvenio;
+                                    cartao.PacienteId = agendasMedicasViewModel.PacienteId;
+                                    cartao.Status = true;
+                                    cartao.Validade = agendasMedicasViewModel.CartaoValidade;
+                                    _contexto.CartaoConvenios.Add(cartao);
+                                    await _contexto.SaveChangesAsync();
+
+                                }
+                                */
+
+                            if (i + 1 == horarios.Length)
+                            {
+                                return Json(true);
+                            }
+                        }
+                   
+                }
 
                 }
+
+                //Manipulando tabela de CartaoConvenio
                 
-                return Json(true);
-            }
+            
             
                 ModelState.AddModelError("PacienteId", "Campo Obrigatório");
                 ModelState.AddModelError("DataNascimento", "Campo Obrigatório");
