@@ -218,8 +218,8 @@ namespace CleanMed.Controllers
                               select t;
                     ViewData["SearchPrestadorId"] = SearchPrestadorId; 
                    
-                    //ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
-                   // ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
+                    ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
+                    ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
                     //TempData["NomePrestador"] = _contexto.Prestadores.Where(p => p.PrestadorId == SearchPrestadorId).Select(p => p.Nome).First();
                     //TempData["CRMPrestador"] = _contexto.Prestadores.Where(p => p.PrestadorId == SearchPrestadorId).Select(p => p.NumeroCrm).First();
                 }
