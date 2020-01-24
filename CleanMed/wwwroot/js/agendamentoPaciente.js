@@ -172,7 +172,6 @@ function addAgendamento() {
     var numeroCartao = $('#numeroCartao').val();
     var cartaoValidade = $('#CartaoValidade').val();
     var agendamentoId = $('#AgendamentoId').val();
-    alert(agendamentoId);
     
     var data = $("#myForm").serialize();
     var modal = $("#modalAgendamento");
@@ -190,8 +189,10 @@ function addAgendamento() {
            
             if (resposta == true) {
                 $('#modalAgendamento').modal('close');
+                location.reload();
                 var dtAgenda = document.getElementById("DtAgenda").value;
                 if (dtAgenda != '') {
+                    location.reload();
                     //$('#calendar').fullCalendar('destroy');
                    // pupularCalendario();
                 } else {

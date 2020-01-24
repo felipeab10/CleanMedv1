@@ -1,10 +1,14 @@
 ﻿$("#agendar").click(function () {
     var form = $("#formAgendamento").serialize();
+    if (form == '') {
+        M.toast({ html: 'Selecione um horário' });
+    } else {
     $.ajax({
         url: "/AgendasMedicas/Agendar",
         data: form,
         method: 'POST',
         success: function (resposta) {
+            //console.log(resposta);
             if (resposta == false) {
                 M.toast({ html: 'Horário já possui paciente agendado' })
 
@@ -29,6 +33,44 @@
             }
         }
     })
+    }
+})
+$("#confirmar").click(function () {
+    var form = $("#formAgendamento").serialize();
+    if (form == '') {
+        M.toast({ html: 'Selecione um horário' });
+    } else {
+        $.ajax({
+            url: "/AgendasMedicas/Agendar",
+            data: form,
+            method: 'POST',
+            success: function (resposta) {
+                //console.log(resposta);
+                if (resposta == false) {
+                    M.toast({ html: 'Horário já possui paciente agendado' })
+
+                } else {
+                    /*
+                     $.ajax({
+                         url: "/AgendasMedicas/horarioLivre",
+                         data: { id: resposta },
+                         method: 'POST',
+                         success: function (modal) {
+                           
+     
+                         }
+                     })
+                     */
+                    var teste = JSON.stringify(resposta);
+                    $("#modalAgendamento").load("/AgendasMedicas/horarioLivre/" + resposta, function (resposta) {
+                        $('#modalAgendamento').modal();
+                        $('#modalAgendamento').modal('open');
+                    })
+
+                }
+            }
+        })
+    }
 })
 $(function () {
     $("#DataNascimento").focusout(function () {

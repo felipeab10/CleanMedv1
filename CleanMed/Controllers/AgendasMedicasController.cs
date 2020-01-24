@@ -753,6 +753,7 @@ namespace CleanMed.Controllers
 
                             if (i + 1 == horarios.Length)
                             {
+                                TempData["Mensagem"] = "Agendado com sucesso";
                                 return Json(true);
                             }
                         }
