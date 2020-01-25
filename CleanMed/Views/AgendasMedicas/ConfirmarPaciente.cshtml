@@ -1,0 +1,158 @@
+﻿@model IQueryable<CleanMed.ViewModels.AgendasMedicasViewModel>
+@{
+    Layout = null;
+}
+
+
+<form id="myForm">
+
+    @Html.AntiForgeryToken()
+
+    <div class="modal-content">
+        @*
+        <div class="row ">
+            @foreach (var paciente in Model)
+            {
+                <ul class="collection with-header">
+                    <li class="collection-header"><h4>Paciente</h4></li>
+                    <li class="collection-item"><b>Id</b> - @paciente.PacienteId - @paciente.NmPaciente </li>
+                    <li class="collection-item"><b>Dt.Nascimento:</b>@Html.DisplayFor(modelitem => paciente.DataNascimento)</li>
+
+                    <li class="collection-item"><b>Convênio:</b> @paciente.ConvenioNome</li>
+                    <li class="collection-item"><b>Status do agendamento: </b>@paciente.StatusAgendamento</li>
+                    @if (paciente.ObservacaoAgendamento != null)
+                    {
+                        <li class="collection-item"><b>Observação do agendamento</b> @paciente.ObservacaoAgendamento</li>
+                    }
+                </ul>
+            }
+            <div class="row">
+                <div class="col s12">
+                   <a asp-action="verLogs" asp-controller="AgendasMedicas" asp-route-id="@Model.AgendamentoId" style="color:#009688;" target="_blank">[Ver logs]</a>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+*@
+        <div class="card" style="margin-bottom:-5px">
+            <div class="card-content"style="background-color:#2196F3;">
+                <div class="row">
+                    <div class="col s12" >
+                        <h6 class="center" style="color:white"><b>Confirmação de agendamento</b></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+               
+                <div class="row ">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col s6">
+                            <div class="card">
+                                <div class="card-header BtnColor">
+                                    <h6 class="center"><span class=" center " style="color:white;"></span></h6>
+                                </div>
+                                <div class="card-content">
+                                    <ul class="collection with-header">
+                                        <li class="collection-header"><h6><b>Agendamento</b></h6></li>
+                                        <li class="collection-item">Data:  @Html.DisplayFor(modelItem => item.DataAgenda)</li>
+                                        <li class="collection-item">Horário: @Html.DisplayFor(modelItem => item.HoraAgenda)</li>
+                                        @if (item.PrestadorId != 0)
+                                        {
+                                            <li class="collection-item">Prestador: <span class="textCapitalize">@item.NomePrestador.ToLower()</span></li>
+                                        }
+                                        <li class="collection-item">Procedimento: <span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></li>
+
+                                    </ul>
+                                    <ul class="collection with-header">
+                                        <li class="collection-header"><h6><b>Paciente</b></h6></li>
+                                        <li class="collection-item">Id - @item.PacienteId - <span class="textCapitalize">@item.NmPaciente.ToLower()</span> </li>
+                                        <li class="collection-item">Dt.Nascimento:@Html.DisplayFor(modelitem => item.DataNascimento)</li>
+
+                                        <li class="collection-item">Convênio: <span class="textCapitalize">@item.ConvenioNome.ToLower()</span></li>
+                                        <li class="collection-item">Status do agendamento: @item.StatusAgendamento</li>
+                                        @if (item.ObservacaoAgendamento != null)
+                                        {
+                                            <li class="collection-item"><b>Observação do agendamento</b> @item.ObservacaoAgendamento</li>
+                                        }
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+ 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       @*
+       <div class="card">
+            <div class="card-header BtnColor">
+                <h6 class="center"><span class="card-title center " style="color:white;">Informações do Agendamento</span></h6>
+            </div>
+            <div class="card-content">
+                <div class="row center-align">
+                    <ul class="teste">
+                        <li class="teste2"><b>Data e hora:</b> @Model.HoraAgenda</li>
+                        <li><b>Paciente: Id</b> - @Model.PacienteId - @Model.NmPaciente </li>
+                        <li><b>Dt.Nascimento:</b>@Html.DisplayFor(modelitem => modelitem.DataNascimento)</li>
+                        <li><b>Serviço:</b> @Model.NomeItemAgendamento</li>
+                        @if (Model.PrestadorId != null)
+                        {
+                            <li><b>Prestador:</b> @Model.NomePrestador</li>
+                        }
+                        <li><b>Convênio:</b> @Model.ConvenioNome</li>
+                        <li><b>Status do agendamento: </b>@Model.StatusAgendamento</li>
+                        @if (Model.ObservacaoAgendamento != null)
+                        {
+                            <li><b>Observação do agendamento</b> @Model.ObservacaoAgendamento</li>
+                        }
+                    </ul>
+                    <div class="row">
+                        <div class="col s12">
+                            <a asp-action="verLogs" asp-controller="AgendasMedicas" asp-route-id="@Model.AgendamentoId" style="color:#009688;" target="_blank">[Ver logs]</a>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <a class="waves-effect waves-light btn-small tooltipped " style="background-color:#424242;" data-position="top" data-tooltip="Atender paciente" onclick="AtenderPaciente(@Model.AgendamentoId)"> <i class="fas fa-check"></i>&nbsp;Atender</a>
+                        &nbsp;<a class="waves-effect waves-light btn-small tooltipped " style="background-color:#d32f2f;" data-position="top" data-tooltip="Cancelar agendamento" onclick="CancelarAgendamentoPaciente(@Model.AgendamentoId)"> <i class="far fa-clock"></i>&nbsp;Cancelar</a>
+                        &nbsp; <a class="waves-effect waves-light btn-small red tooltipped modal-close  " data-position="top" data-tooltip="Cancelar"><i class="material-icons">arrow_back</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+*@
+
+</form>
+
+
+
+<script src="~/js/agendamentoPaciente.js"></script>

@@ -41,13 +41,13 @@ $("#confirmar").click(function () {
         M.toast({ html: 'Selecione um horário' });
     } else {
         $.ajax({
-            url: "/AgendasMedicas/Agendar",
+            url: "/AgendasMedicas/PacienteConfirmadoExiste",
             data: form,
             method: 'POST',
             success: function (resposta) {
                 //console.log(resposta);
                 if (resposta == false) {
-                    M.toast({ html: 'Horário já possui paciente agendado' })
+                    M.toast({ html: 'paciente já confirmado' })
 
                 } else {
                     /*
@@ -62,9 +62,9 @@ $("#confirmar").click(function () {
                      })
                      */
                     var teste = JSON.stringify(resposta);
-                    $("#modalAgendamento").load("/AgendasMedicas/horarioLivre/" + resposta, function (resposta) {
-                        $('#modalAgendamento').modal();
-                        $('#modalAgendamento').modal('open');
+                    $("#modalConfirmado").load("/AgendasMedicas/ConfirmarPaciente/" + resposta, function (resposta) {
+                        $('#modalConfirmado').modal();
+                        $('#modalConfirmado').modal('open');
                     })
 
                 }
