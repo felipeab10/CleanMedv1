@@ -1245,7 +1245,8 @@ namespace CleanMed.Controllers
                     }
                     if (VerificarStatusCancelado(item))
                     {
-                        return new JsonResult("Cancelado");
+                        string[] horarios = HRSelecionado.Select(x => x.ToString()).ToArray();
+                        return new JsonResult(new {resposta = "Cancelado",data = horarios });
                     }
                     if (VerificaCancelamentoBool(item))
                     {
@@ -1316,6 +1317,52 @@ namespace CleanMed.Controllers
                 ViewData["AgendamentoId"] = id;
                 ViewData["MotivoCancelamento"] = new SelectList(_contexto.MotivoCancelamentos, "MotivoCancelamentoId", "Descricao");
                 return View("Cancelado",agendamento);
+            }
+            return new JsonResult("Nenhum horário selecionado");
+        }
+        public IActionResult ReverterPost(string id)
+        {
+            if (id.Length != 0)
+            {
+                var arr = id.Split(',');
+                int[] horarios = Array.ConvertAll(arr, int.Parse);
+                var agendamento = (from a in _contexto.AgendasMedicas
+                                   join age in _contexto.Agendamentos
+                                   on a.AgendaMedicaId equals age.AgendaMedicaId
+                                   join p in _contexto.Prestadores
+                                   on a.PrestadorId equals p.PrestadorId
+                                   into Prestador
+                                   from p in Prestador.DefaultIfEmpty()
+                                   join it in _contexto.ItensAgendasMedica
+                                   on a.AgendaMedicaId equals it.AgendaMedicaId
+                                   join i in _contexto.ItemAgendamentos
+                                   on it.ItemAgendamentoId equals i.ItemAgendamentoId
+                                   join pa in _contexto.Pacientes
+                                   on age.PacienteId equals pa.PacienteId
+
+                                   join c in _contexto.Convenios
+                                   on age.ConvenioId equals c.ConvenioId
+                                   where horarios.Contains(age.AgendamentoId)
+
+                                   select new AgendasMedicasViewModel
+                                   {
+                                       AgendaMedicaId = a.AgendaMedicaId,
+                                       AgendamentoId = age.AgendamentoId,
+                                       HoraAgenda = age.HoraAgenda,
+                                       NomePrestador = p.Nome,
+                                       PrestadorId = p.PrestadorId,
+                                       NomeItemAgendamento = i.Descricao,
+                                       DataAgenda = a.DataAgenda,
+                                       PacienteId = pa.PacienteId,
+                                       NmPaciente = pa.Nome,
+                                       DataNascimento = pa.DataNascimento,
+                                       StatusAgendamento = age.StatusAgendamento,
+                                       Telefone = pa.Telefone,
+                                       ConvenioNome = c.Nome,
+                                   });
+                ViewData["AgendamentoId"] = id;
+                //ViewData["MotivoCancelamento"] = new SelectList(_contexto.MotivoCancelamentos, "MotivoCancelamentoId", "Descricao");
+                return View(agendamento);
             }
             return new JsonResult("Nenhum horário selecionado");
         }

@@ -95,9 +95,13 @@ $("#cancelar").click(function () {
             data: form,
             method: 'POST',
             success: function (resposta) {
-                //console.log(resposta);
-                if (resposta == "Cancelado") {
-                    M.toast({ html: 'paciente já cancelado' })
+                console.log(resposta.resposta);
+                if (resposta.resposta == "Cancelado") {
+                    $("#modalCancelado").load("/AgendasMedicas/ReverterPost/" + resposta.data, function (resposta) {
+                       $('#modalCancelado').modal();
+                        $('#modalCancelado').modal('open');
+                   })
+                   // M.toast({ html: 'paciente já cancelado' })
                 } else {
                   
                 if (resposta == "Livre") {
@@ -123,7 +127,7 @@ $("#cancelar").click(function () {
                      })
                      */
                     var teste = JSON.stringify(resposta);
-                    $("#modalCancelado").load("/AgendasMedicas/CancelarPost/" + resposta, function (resposta) {
+                    $("#modalCancelado").load("/AgendasMedicas/CancelarPost/" + resposta.data, function (resposta) {
                         $('#modalCancelado').modal();
                         $('#modalCancelado').modal('open');
                     })
