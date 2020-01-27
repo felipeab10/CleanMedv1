@@ -41,6 +41,7 @@ namespace CleanMed.Data
         public DbSet<Agendamento> Agendamentos { get; set; }
         public DbSet<AgendamentoLog> AgendamentoLogs { get; set; }
         public DbSet<MotivoCancelamento> MotivoCancelamentos { get; set; }
+        public DbSet<ConfirmacaoAgendamento> ConfirmacaoAgendamentos { get; set; }
 
 
         public Contexto(DbContextOptions<Contexto> options)
@@ -81,6 +82,7 @@ namespace CleanMed.Data
             builder.ApplyConfiguration(new AgendamentoMap());
             builder.ApplyConfiguration(new AgendamentoLogMap());
             builder.ApplyConfiguration(new MotivoCancelamentoMap());
+            builder.ApplyConfiguration(new ConfirmacaoAgendamentoMap());
         
 
 

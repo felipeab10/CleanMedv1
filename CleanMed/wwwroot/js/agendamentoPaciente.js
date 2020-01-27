@@ -1,4 +1,42 @@
-﻿$('.tooltipped').tooltip();
+﻿$('#tipoConfirmacao').formSelect({ dropdownOptions: { container: document.body } });
+var elem = $('.select_dropdown');
+var instances = M.FormSelect.init(elem, { dropdownOptions: { container: document.body } });
+
+$("#confirmarPost").click(function () {
+    
+    var form = $("#myForm").serialize();
+  
+    $.ajax({
+        url: "/AgendasMedicas/ConfirmarPaciente",
+        method: "POST",
+        data: form,
+        success: function (resposta) {
+            if (resposta == true) {
+                $("#modalConfirmado").modal("close");
+               
+                location.reload();
+            }
+        }
+    })
+})
+$("#cancelarPost").click(function () {
+
+    var form = $("#myForm").serialize();
+
+    $.ajax({
+        url: "/AgendasMedicas/CancelarAgendamento",
+        method: "POST",
+        data: form,
+        success: function (resposta) {
+            if (resposta == true) {
+                $("#modalCancelado").modal("close");
+
+                location.reload();
+            }
+        }
+    })
+})
+$('.tooltipped').tooltip();
 $('select').formSelect();
 //$('#selectItemAgendamentoId').formSelect();
 //$('#select2-paciente').formSelect();

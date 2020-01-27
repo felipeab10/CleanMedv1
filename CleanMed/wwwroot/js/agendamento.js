@@ -1,4 +1,11 @@
-﻿$("#agendar").click(function () {
+﻿
+
+$('#tipoConfirmacao').formSelect({ dropdownOptions: { container: document.body } });
+var elem = $('.select_dropdown');
+var instances = M.FormSelect.init(elem, { dropdownOptions: { container: document.body } });
+       
+
+$("#agendar").click(function () {
     var form = $("#formAgendamento").serialize();
     if (form == '') {
         M.toast({ html: 'Selecione um horário' });
@@ -46,6 +53,11 @@ $("#confirmar").click(function () {
             method: 'POST',
             success: function (resposta) {
                 //console.log(resposta);
+                if (resposta == "semagendamento") {
+                    M.toast({ html: 'Horário sem agendamento' })
+                } else {
+
+                
                 if (resposta == false) {
                     M.toast({ html: 'paciente já confirmado' })
 
@@ -67,6 +79,57 @@ $("#confirmar").click(function () {
                         $('#modalConfirmado').modal('open');
                     })
 
+                    }
+                }
+            }
+        })
+    }
+})
+$("#cancelar").click(function () {
+    var form = $("#formAgendamento").serialize();
+    if (form == '') {
+        M.toast({ html: 'Selecione um horário' });
+    } else {
+        $.ajax({
+            url: "/AgendasMedicas/VerificaCancelamento",
+            data: form,
+            method: 'POST',
+            success: function (resposta) {
+                //console.log(resposta);
+                if (resposta == "Cancelado") {
+                    M.toast({ html: 'paciente já cancelado' })
+                } else {
+                  
+                if (resposta == "Livre") {
+                    M.toast({ html: 'Horário sem agendamento' })
+                }
+                else
+                {
+                   
+                    
+                if (resposta == false) {
+                    M.toast({ html: 'paciente já cancelado' })
+
+                } else {
+                    /*
+                     $.ajax({
+                         url: "/AgendasMedicas/horarioLivre",
+                         data: { id: resposta },
+                         method: 'POST',
+                         success: function (modal) {
+                           
+     
+                         }
+                     })
+                     */
+                    var teste = JSON.stringify(resposta);
+                    $("#modalCancelado").load("/AgendasMedicas/CancelarPost/" + resposta, function (resposta) {
+                        $('#modalCancelado').modal();
+                        $('#modalCancelado').modal('open');
+                    })
+
+                    }
+                    }
                 }
             }
         })

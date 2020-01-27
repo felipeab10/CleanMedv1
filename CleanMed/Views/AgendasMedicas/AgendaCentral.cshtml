@@ -117,7 +117,11 @@
                 <form id="formAgendamento">
                     <div class="row">
                         <div class="col s12">
-                            <button type="button" id="agendar" style="background-color:#2196f3;" class="btn btn-small "  >Agendar</button>&nbsp; <button type="button" id="confirmar" style="background-color:#ff9800;" class="btn btn-small">Confirmar</button>&nbsp; <a class="btn btn-small">Transferir</a>&nbsp; <a class="btn btn-small">Cancelar</a>&nbsp;<a class="btn btn-small">Excluir</a>
+                            <button type="button" id="agendar" style="background-color:#2196f3;" class="btn btn-small "  >Agendar</button>
+                            &nbsp; <button type="button" id="confirmar" style="background-color:#ff9800;" class="btn btn-small">Confirmar</button>
+                            &nbsp; <a class="btn btn-small">Transferir</a>
+                            &nbsp; <a style="background-color:#e53935;" id="cancelar" class="btn btn-small">Cancelar</a>
+                            &nbsp;<a class="btn btn-small">Excluir</a>
                         </div>
                     </div>
 
@@ -127,6 +131,7 @@
                                 <thead>
                                     <tr role="row">
                                         <th>Ação</th>
+                                        <th>Id</th>
                                         <th>Paciente</th>
                                         <th>Data</th>
                                         <th>Horário</th>
@@ -142,33 +147,49 @@
                                     {
                                         @foreach (var item in Model)
                                         {
-                                            <tr data-target="modal1" class=" modal-trigger">
-                                                <td>
-                                                    <p>
-                                                        <label>
-                                                            <input type="checkbox" value="@item.AgendamentoId" class="filled-in" name="HRSelecionado[]" />
-                                                            <span></span>
-                                                        </label>
-                                                    </p>
-                                                </td>
-                                                
-                                                @if (item.NmPaciente != null)
-                                                {
-                                                    <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>
-                                                }
-                                                else
-                                                {
-                                                    <td><span class="textCapitalize"></span></td>
-                                                }
-                                                <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
+                                    <tr data-target="modal1" class=" modal-trigger">
+                                        <td>
+                                            <p>
+                                                <label>
+                                                    <input type="checkbox" value="@item.AgendamentoId" class="filled-in" name="HRSelecionado[]" />
+                                                    <span></span>
+                                                </label>
+                                            </p>
+                                        </td>
+                                        @if (item.PacienteId > 0)
+                                        {
+                                            <td>@item.PacienteId</td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="textCapitalize"></span></td>
+                                        }
+                                        @if (item.NmPaciente != null)
+                                        {
+                                            <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="textCapitalize"></span></td>
+                                        }
+                                        <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
 
 
-                                                <td><span class="textCapitalize">@item.NomePrestador</span></td>
-                                                <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
-                                                <td style="background-color:@item.Color;color:white;" class="center">@item.StatusAgendamento</td>
+                                        <td>
+                                            @if (item.PrestadorId > 0)
+                                            {
+                                                <span class="textCapitalize">@item.NomePrestador.ToLower()</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="textCapitalize"></span>
+                                            }
+                                        </td>
+                                        <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
+                                        <td style="background-color:@item.Color;color:white;" class="center">@item.StatusAgendamento</td>
 
-                                            </tr>
+                                    </tr>
                                         }
                                     }
                                 </tbody>

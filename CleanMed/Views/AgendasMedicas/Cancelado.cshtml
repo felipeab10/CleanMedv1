@@ -1,63 +1,86 @@
-﻿@model CleanMed.ViewModels.AgendasMedicasViewModel
+﻿@model IQueryable<CleanMed.ViewModels.AgendasMedicasViewModel>
 @{
     Layout = null;
 }
 
 
-<form id="myForm">
+    <form id="myForm">
 
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <input type="hidden" readonly id="AgendamentoId" class="form-control" asp-for="AgendamentoId" />
-
-    <div class="modal-content">
-        <div class="card">
-            <div class="card-header BtnColor">
-                <h6 class="center"><span class="card-title center " style="color:white;">Informações do Agendamento</span></h6>
-            </div>
-            <div class="card-content">
-                <div class="row center-align">
-                    <ul class="teste">
-                        <li class="teste2"><b>Data e hora:</b> @Model.HoraAgenda</li>
-                        <li><b>Paciente: Id</b> - @Model.PacienteId - @Model.NmPaciente </li>
-                        <li><b>Dt.Nascimento:</b>@Html.DisplayFor(modelitem => modelitem.DataNascimento)</li>
-                        <li><b>Serviço:</b> @Model.NomeItemAgendamento</li>
-                        @if (Model.PrestadorId != null)
-                        {
-                            <li><b>Prestador:</b> @Model.NomePrestador</li>
-                        }
-                        <li><b>Convênio:</b> @Model.ConvenioNome</li>
-                        <li><b>Status do agendamento: </b>@Model.StatusAgendamento</li>
-                        @if (Model.StatusAgendamento == "Cancelado")
-                        {
-                            <li><b>Justificativa: </b>@Model.MotivoDescricao</li>
-                        }
-                        @if (Model.ObservacaoAgendamento != null)
-                        {
-                            <li><b>Observação do agendamento</b> @Model.ObservacaoAgendamento</li>
-                        }
-                    </ul>
+        <div class="modal-content">
+            <div class="card" style="margin-bottom:-5px; max-height:60px;margin-top:-18px !important;">
+                <div class="card-content" style="background-color:#2196F3;">
                     <div class="row">
                         <div class="col s12">
-                            <a asp-action="verLogs" asp-controller="AgendasMedicas" asp-route-id="@Model.AgendamentoId" style="color:#009688;" target="_blank">[Ver logs]</a>
-                            <p></p>
+                            <h6 class="center" style="color:white"><b>Cancelamento de Agendamento</b></h6>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s12 center-align">
-                        <a class="waves-effect waves-light btn-small tooltipped " style="background-color:#424242;" data-position="top" data-tooltip="Atender paciente" onclick="reverterCancelamento(@Model.AgendamentoId)"> <i class="fas fa-check"></i>&nbsp;Reverter Cancelamento</a>
-                        &nbsp;<a class="waves-effect waves-light btn-small tooltipped " style="background-color:#d32f2f;" data-position="top" data-tooltip="Cancelar agendamento" onclick="ExcluirAgendamentoPaciente(@Model.AgendamentoId)"> <i class="far fa-clock"></i>&nbsp;Excluir Agendamento</a>
-                        &nbsp; <a class="waves-effect waves-light btn-small red tooltipped modal-close  " data-position="top" data-tooltip="Cancelar"><i class="material-icons">arrow_back</i></a>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="row ">
+                        <table id="TableConfirmacaoAgendamento">
+                            <thead>
+                                <tr>
+                                    <th>Paciente</th>
+
+                                    <th>Data</th>
+                                    <th>Horário</th>
+                                    <th>Procedimento</th>
+                                    <th>Convênio</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <ul>
+                                                <li class="liConfirmacaoAgendamento"><span id="nmPaciente" data-NMPACIENTE="@item.NmPaciente" class="textCapitalize"><a target="_blank" asp-action="Paciente" asp-route-PacienteId="@item.PacienteId" asp-controller="Pacientes"><i style="color:#2196F3;" class="fas fa-id-badge"></i></a> @item.NmPaciente.ToLower()</span></li>
+                                                <li class="liConfirmacaoAgendamento">@item.Telefone</li>
+                                                <li class="liConfirmacaoAgendamento">@Html.DisplayFor(modelItem => item.DataNascimento)</li>
+                                            </ul>
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
+                                        <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
+                                        <td><span class="textCapitalize">@item.ConvenioNome.ToLower()</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                                               
+                    </div>
+                    <div class="row">
+                        <input name="AgendamentoId" type="hidden" value="@ViewBag.AgendamentoId" />
+                        <div class="col m6 s12">
+                            <div class="form-group">
+                                <label>Motivo do cancelamento<span class="error">*</span></label>
+                                <select required id="MotivoCancelamento" name="MotivoCancelamentoId" class="form-control" asp-items="@ViewBag.MotivoCancelamento">
+                                    <option value="" disabled selected>Selecione uma opção</option>
+                                </select>
+                                <span class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="form-group right">
+                                <a class="modal-close waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
+                                &nbsp;<button type="button" id="cancelarPost" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Cancelar agendamento"><i class="material-icons">save</i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-    </div>
-
-
-</form>
+    </form>
 
 
 

@@ -548,3 +548,7 @@ th span{
 .fc-time-grid-event .fc-v-event .fc-event .fc-start .fc-end {
     width: 50px!important;
 }
+.liConfirmacaoAgendamento{
+    padding-top:2px;
+    padding-bottom:2px;
+}
