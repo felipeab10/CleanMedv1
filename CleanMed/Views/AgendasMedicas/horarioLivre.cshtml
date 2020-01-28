@@ -13,115 +13,153 @@
     @Html.AntiForgeryToken()
 
     <div class="modal-content">
-       
-        <div class="row">
-            @foreach (var item in Model)
-            {
-                <div class="col s6">
-                    <div class="card">
-                        <div class="card-header BtnColor">
-                            <h6 class="center"><span class=" center " style="color:white;">@item.NomeItemAgendamento</span></h6>
-                        </div>
-                        <div class="card-content">
-                            <ul class="collection">
-                                <li class="collection-item">Data:  @Html.DisplayFor(modelItem => item.DataAgenda)</li>
-                                <li class="collection-item">Horário: @Html.DisplayFor(modelItem => item.HoraAgenda)</li>
-                                @if (item.PrestadorId != 0)
-                                {
-                                    <li class="collection-item">Prestador: @item.NomePrestador</li>
-                                }
-                            </ul>
-                        </div>
+        <div class="card" style="margin-bottom:-5px; max-height:60px;margin-top:-18px !important;">
+            <div class="card-content" style="background-color:#2196F3;">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="center" style="color:white"><b>Agendamento de procedimento</b></h6>
                     </div>
                 </div>
-            }
+            </div>
         </div>
-        
-
-
         <div class="card">
-            <div class="card-header BtnColor">
-                <h6 class="center"><span class="card-title center " style="color:white;">Informações do paciente</span></h6>
-            </div>
             <div class="card-content">
-                <div class="row">
-                    <div class="col m8  s12">
-                        <div class="form-group">
-                            <label>Paciente</label>
-                            <select name="PacienteId" class="select2-paciente browser-default">
-                                <option value="" disabled selected></option>
+                <div class="row ">
+                    <table id="TableConfirmacaoAgendamento">
+                        <thead>
+                            <tr>
+                               
+                                
+                                <th>Data</th>
+                                <th>Horário</th>
+                                <th>Procedimento</th>
+                                <th>Prestador</th>
+                                <th>Recurso</th>
+                                <th>Logs</th>
+                            </tr>
+                        </thead>
 
-                            </select>
-                            <span for="PacienteId" class="error"></span>
-                        </div>
-                    </div>
-                    <div class="col m2 s12">
-                        <div class="form-group">
-                            <label for="DataNascimento">Dt.Nascimento</label>
-                            <input name="DataNascimento" class="form-control" type="text" id="DtNascimento" />
-                            <span for="DataNascimento" class="error"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
+                        <tbody>
 
-                    <div class="col m3 s12">
-                        <div class="form-group">
-                            <label for="Telefone">Telefone</label>
-                            <input name="Telefone" class="form-control" type="text" id="Telefone" />
-                            <span for="Telefone" class="error"></span>
-                        </div>
-                    </div>
-                    <div class="col m3 s12">
-                        <div class="form-group">
-                            <label for="CPF">CPF</label>
-                            <input name="CPF" class="form-control" type="text" id="CPF" />
-                            <span for="CPF" class="error"></span>
-                        </div>
-                    </div>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+
+                                <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
+                                <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
+                                <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
+                                @if (item.PrestadorId > 0)
+                                {
+                                    <td><span class="textCapitalize">@item.NomePrestador.ToLower()</span></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                @if (item.RecursoAgendamentoId > 0)
+                                {
+                                    <td><span class="textCapitalize">@item.RecursoNome.ToLower()</span></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+                                <td><a target="_blank" asp-action="verLogs" asp-controller="AgendasMedicas" asp-route-id="@item.AgendamentoId"><i class="fas fa-clipboard-list"></i></a></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
                 </div>
+
+
+
                 <div class="row">
-                    <div class="col m6 s12">
-                        <div class="form-group">
-                            <label name="ConvenioId">Convênio</label>
-                            <select name="ConvenioId" id="select2-convenio" class="form-control" asp-items="@ViewBag.ConvenioId">
-                                <option value="" selected disabled></option>
-                            </select>
-                            <span for="ConvenioId" class="error"></span>
-                        </div>
+                    <div class="card-header BtnColor">
+                        <h6 class="center"><span class="card-title center " style="color:white;">Informações do paciente</span></h6>
                     </div>
-                    <div class="col m3 s12">
-                        <div class="form-group">
-                            <label name="NumeroCartaoConvenio">Nº Cartão convênio</label>
-                            <input id="numeroCartao" class="form-control" type="number" name="NumeroCartaoConvenio" />
-                            <span for="NumeroCartaoConvenio" class="error"></span>
+                  
+                        <div class="row">
+                            <div class="col m8  s12">
+                                <div class="form-group">
+                                    <label>Paciente</label>
+                                    <select name="PacienteId" class="select2-paciente browser-default">
+                                        <option value="" disabled selected></option>
+
+                                    </select>
+                                    <span for="PacienteId" class="error"></span>
+                                </div>
+                            </div>
+                            <div class="col m2 s12">
+                                <div class="form-group">
+                                    <label for="DataNascimento">Dt.Nascimento</label>
+                                    <input name="DataNascimento" class="form-control" type="text" id="DtNascimento" />
+                                    <span for="DataNascimento" class="error"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col m3 s12">
-                        <div class="form-group">
-                            <label name="CartaoValidade">Dt.Validade</label>
-                            <input id="CartaoValidade" class="form-control" type="text" name="CartaoValidade" />
-                            <span for="CartaoValidade"></span>
+                        <div class="row">
+
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label for="Telefone">Telefone</label>
+                                    <input name="Telefone" class="form-control" type="text" id="Telefone" />
+                                    <span for="Telefone" class="error"></span>
+                                </div>
+                            </div>
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label for="CPF">CPF</label>
+                                    <input name="CPF" class="form-control" type="text" id="CPF" />
+                                    <span for="CPF" class="error"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <input value="@ViewBag.AgendamentoId" id="AgendamentoId" name="AgendamentoId" type="hidden" />
-                <div class="row">
-                    <div class="col s12 m8">
-                        <div class="form-group">
-                            <textarea name="ObservacaoAgendamento" class="materialize-textarea" placeholder="Observação do agendamento" data-length="400"></textarea>
+                        <div class="row">
+                            <div class="col m6 s12">
+                                <div class="form-group">
+                                    <label name="ConvenioId">Convênio</label>
+                                    <select name="ConvenioId" id="select2-convenio" class="form-control" asp-items="@ViewBag.ConvenioId">
+                                        <option value="" selected disabled></option>
+                                    </select>
+                                    <span for="ConvenioId" class="error"></span>
+                                </div>
+                            </div>
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label name="NumeroCartaoConvenio">Nº Cartão convênio</label>
+                                    <input id="numeroCartao" class="form-control" type="number" name="NumeroCartaoConvenio" />
+                                    <span for="NumeroCartaoConvenio" class="error"></span>
+                                </div>
+                            </div>
+                            <div class="col m3 s12">
+                                <div class="form-group">
+                                    <label name="CartaoValidade">Dt.Validade</label>
+                                    <input id="CartaoValidade" class="form-control" type="text" name="CartaoValidade" />
+                                    <span for="CartaoValidade"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <input value="@ViewBag.AgendamentoId" id="AgendamentoId" name="AgendamentoId" type="hidden" />
+                        <div class="row">
+                            <div class="col s12 m8">
+                                <div class="form-group">
+                                    <textarea name="ObservacaoAgendamento" class="materialize-textarea" placeholder="Observação do agendamento" data-length="400"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                  
                 </div>
             </div>
             </div>
         </div>
 
-    <div class="modal-footer">
-        <a class="waves-effect waves-light btn-small red tooltipped modal-close " data-position="top" data-tooltip="Cancelar"><i class="material-icons">arrow_back</i></a>
-        &nbsp;
-        <button type="button" class="waves-effect waves-light btn-small tooltipped " onclick="addAgendamento()" data-position="top" data-tooltip="Salvar"><i class="material-icons">save</i></button>
-    </div>
+            <div class="modal-footer">
+                <a class="waves-effect waves-light btn-small red tooltipped modal-close " data-position="top" data-tooltip="Cancelar"><i class="material-icons">arrow_back</i></a>
+                &nbsp;
+                <button type="button" class="waves-effect waves-light btn-small tooltipped " onclick="addAgendamento()" data-position="top" data-tooltip="Salvar"><i class="material-icons">save</i></button>
+            </div>
 
 </form>
 

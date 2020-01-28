@@ -5,7 +5,7 @@ var elem = $('.select_dropdown');
 var instances = M.FormSelect.init(elem, { dropdownOptions: { container: document.body } });
        
 
-$("#agendar").click(function () {
+$(".agendar").click(function () {
     var form = $("#formAgendamento").serialize();
     if (form == '') {
         M.toast({ html: 'Selecione um horário' });
@@ -42,7 +42,7 @@ $("#agendar").click(function () {
     })
     }
 })
-$("#confirmar").click(function () {
+$(".confirmar").click(function () {
     var form = $("#formAgendamento").serialize();
     if (form == '') {
         M.toast({ html: 'Selecione um horário' });
@@ -53,6 +53,9 @@ $("#confirmar").click(function () {
             method: 'POST',
             success: function (resposta) {
                 //console.log(resposta);
+                if (resposta == "Cancelado") {
+                    M.toast({ html: 'Horário Cancelado' })
+                } else {
                 if (resposta == "semagendamento") {
                     M.toast({ html: 'Horário sem agendamento' })
                 } else {
@@ -81,11 +84,12 @@ $("#confirmar").click(function () {
 
                     }
                 }
+                }
             }
         })
     }
 })
-$("#cancelar").click(function () {
+$(".cancelar").click(function () {
     var form = $("#formAgendamento").serialize();
     if (form == '') {
         M.toast({ html: 'Selecione um horário' });
@@ -95,7 +99,7 @@ $("#cancelar").click(function () {
             data: form,
             method: 'POST',
             success: function (resposta) {
-                console.log(resposta.resposta);
+                //console.log(resposta);
                 if (resposta.resposta == "Cancelado") {
                     $("#modalCancelado").load("/AgendasMedicas/ReverterPost/" + resposta.data, function (resposta) {
                        $('#modalCancelado').modal();
@@ -127,7 +131,7 @@ $("#cancelar").click(function () {
                      })
                      */
                     var teste = JSON.stringify(resposta);
-                    $("#modalCancelado").load("/AgendasMedicas/CancelarPost/" + resposta.data, function (resposta) {
+                    $("#modalCancelado").load("/AgendasMedicas/CancelarPost/" + resposta, function (resposta) {
                         $('#modalCancelado').modal();
                         $('#modalCancelado').modal('open');
                     })
@@ -139,6 +143,44 @@ $("#cancelar").click(function () {
         })
     }
 })
+$(".excluir").click(function () {
+    var form = $("#formAgendamento").serialize();
+    if (form == '') {
+        M.toast({ html: 'Selecione um horário' });
+    } else {
+        $.ajax({
+            url: "/AgendasMedicas/ExcluirAgendamento",
+            data: form,
+            method: 'POST',
+            success: function (resposta) {
+                //console.log(resposta);
+                if (resposta == false) {
+                    M.toast({ html: 'Horário sem agendamento' })
+
+                } else {
+                    /*
+                     $.ajax({
+                         url: "/AgendasMedicas/horarioLivre",
+                         data: { id: resposta },
+                         method: 'POST',
+                         success: function (modal) {
+                           
+     
+                         }
+                     })
+                     */
+                    var teste = JSON.stringify(resposta);
+                    $("#modalCancelado").load("/AgendasMedicas/ExcluirPost/" + resposta, function (resposta) {
+                        $('#modalCancelado').modal();
+                        $('#modalCancelado').modal('open');
+                    })
+
+                }
+            }
+        })
+    }
+})
+
 $(function () {
     $("#DataNascimento").focusout(function () {
         var DataNascimento = document.getElementById("DataNascimento").value;
@@ -611,13 +653,17 @@ var $selectbox = $('.select2-paciente-central').select2({
 $(function () {
 
     //Preenche automaticamente o campo Periodo da pesquisa
-    var Periodo = $('#SearchPeriodo').val();
-   
-       
+    var Periodo = document.getElementById("SearchPeriodo").value;
+    //$('#SearchPeriodo').val();
+    //alert(Periodo);
+    if (!Periodo) {
         $('#SearchPeriodoSelect option[value=' + Periodo + ']').attr('selected', true);
         $('#SearchPeriodoSelect').formSelect();
-    
-
+    }
+    if (Periodo == "") {
+        $('#SearchPeriodoSelect option[value=' + Periodo + ']').attr('selected', true);
+        $('#SearchPeriodoSelect').formSelect();
+    }
 })
 
 $(".opcaoAgendamento").on('click', function (obj) {
@@ -626,7 +672,7 @@ $(".opcaoAgendamento").on('click', function (obj) {
    
         })
 
-
+/*
 function pupularCalendario() {
     var dtAgenda = document.getElementById("DtAgenda").value;
     //var prestadorId = [document.getElementById("PrestadorId").value];
@@ -750,7 +796,7 @@ function FetchEventAndRenderCalendar(data) {
             alert('failed');
         }
     })
-    */
+   
 }
 
 
@@ -807,6 +853,7 @@ function GenerateCalender(event) {
                     $("#modalAgendamento").modal("open");
                 })
                 */
+/*
                 $("#modalAgendamento").load("/AgendasMedicas/horarioLivre?id=" + id, function () {
                     $('#modalAgendamento').modal();
                     $('#modalAgendamento').modal('open');
@@ -848,7 +895,7 @@ function GenerateCalender(event) {
     });
 }
 
-/*
+
 $('#calendar').fullCalendar({
     header: {
         left: 'prev,next today',
@@ -865,5 +912,4 @@ $('#calendar').fullCalendar({
 });
 
 */
-
-
+  

@@ -30,6 +30,7 @@
                                 <th>Horário</th>
                                 <th>Procedimento</th>
                                 <th>Convênio</th>
+                                <th>Logs</th>
                             </tr>
                         </thead>
 
@@ -37,19 +38,20 @@
 
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        <ul>
-                                            <li class="liConfirmacaoAgendamento"><span id="nmPaciente" data-NMPACIENTE="@item.NmPaciente" class="textCapitalize"><a target="_blank" asp-action="Paciente" asp-route-PacienteId="@item.PacienteId" asp-controller="Pacientes"><i style="color:#2196F3;" class="fas fa-id-badge"></i></a> @item.NmPaciente.ToLower()</span></li>
-                                            <li class="liConfirmacaoAgendamento">@item.Telefone</li>
-                                            <li class="liConfirmacaoAgendamento">@Html.DisplayFor(modelItem => item.DataNascimento)</li>
-                                        </ul>
-                                    </td>
-                                    <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
-                                    <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
-                                    <td><span class="textCapitalize">@item.ConvenioNome.ToLower()</span></td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    <ul>
+                                        <li class="liConfirmacaoAgendamento"><span id="nmPaciente" data-NMPACIENTE="@item.NmPaciente" class="textCapitalize"><a target="_blank" asp-action="Paciente" asp-route-PacienteId="@item.PacienteId" asp-controller="Pacientes"><i style="color:#2196F3;" class="fas fa-id-badge"></i></a> @item.NmPaciente.ToLower()</span></li>
+                                        <li class="liConfirmacaoAgendamento">@item.Telefone</li>
+                                        <li class="liConfirmacaoAgendamento">@Html.DisplayFor(modelItem => item.DataNascimento)</li>
+                                    </ul>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
+                                <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
+                                <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
+                                <td><span class="textCapitalize">@item.ConvenioNome.ToLower()</span></td>
+                                <td><a target="_blank" asp-action="verLogs" asp-controller="AgendasMedicas" asp-route-id="@item.AgendamentoId"><i class="fas fa-clipboard-list"></i></a></td>
+                            </tr>
                             }
                         </tbody>
                     </table>
@@ -59,10 +61,8 @@
                     <input name="AgendamentoId" type="hidden" value="@ViewBag.AgendamentoId" />
                     <div class="col m6 s12">
                         <div class="form-group">
-                            <label>Motivo do cancelamento<span class="error">*</span></label>
-                            <select required id="MotivoCancelamento" name="MotivoCancelamentoId" class="form-control" asp-items="@ViewBag.MotivoCancelamento">
-                                <option value="" disabled selected>Selecione uma opção</option>
-                            </select>
+                            <label>Motivo<span class="error">*</span></label>
+                            <input type="text" class="form-control" name="ObservacaoAgendamento"  required />
                             <span class="error"></span>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                     <div class="col s12">
                         <div class="form-group right">
                             <a class="modal-close waves-effect waves-light btn-small red tooltipped " data-position="bottom" data-tooltip="Voltar"><i class="material-icons">arrow_back</i></a>
-                            &nbsp;<button type="button" id="cancelarPost" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Cancelar agendamento"><i class="material-icons">save</i></button>
+                            &nbsp;<button type="button" id="reverterPost" class="waves-effect waves-light btn-small tooltipped" data-position="bottom" data-tooltip="Cancelar agendamento"><i class="material-icons">save</i></button>
                         </div>
                     </div>
                 </div>

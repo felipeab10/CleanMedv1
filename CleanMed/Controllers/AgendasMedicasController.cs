@@ -640,17 +640,21 @@ namespace CleanMed.Controllers
                 var arr = id.Split(',');
                int[] horarios = Array.ConvertAll(arr, int.Parse);
                 var horarioLivre = (from a in _contexto.AgendasMedicas
-                                   join age in _contexto.Agendamentos
-                                   on a.AgendaMedicaId equals age.AgendaMedicaId
-                                   join p in _contexto.Prestadores
-                                   on a.PrestadorId equals p.PrestadorId
-                                   into Prestador
-                                   from p in Prestador.DefaultIfEmpty()
-                                   join it in _contexto.ItensAgendasMedica
-                                   on a.AgendaMedicaId equals it.AgendaMedicaId
-                                   join i in _contexto.ItemAgendamentos
-                                   on it.ItemAgendamentoId equals i.ItemAgendamentoId
-                                   where horarios.Contains(age.AgendamentoId)
+                                    join age in _contexto.Agendamentos
+                                    on a.AgendaMedicaId equals age.AgendaMedicaId
+                                    join p in _contexto.Prestadores
+                                    on a.PrestadorId equals p.PrestadorId
+                                    into Prestador
+                                    from p in Prestador.DefaultIfEmpty()
+                                    join it in _contexto.ItensAgendasMedica
+                                    on a.AgendaMedicaId equals it.AgendaMedicaId
+                                    join i in _contexto.ItemAgendamentos
+                                    on it.ItemAgendamentoId equals i.ItemAgendamentoId
+                                    join r in _contexto.RecursoAgendamentos
+                                    on i.RecursoAgendamentoId equals r.RecursoAgendamentoId
+                                    into Recursos
+                                    from r in Recursos.DefaultIfEmpty()
+                                    where horarios.Contains(age.AgendamentoId)
                                     select new AgendasMedicasViewModel
                                     {
                                         AgendaMedicaId = a.AgendaMedicaId,
@@ -660,6 +664,8 @@ namespace CleanMed.Controllers
                                         PrestadorId = p.PrestadorId,
                                         NomeItemAgendamento = i.Descricao,
                                         DataAgenda = a.DataAgenda,
+                                        RecursoAgendamentoId = i.RecursoAgendamentoId,
+                                        RecursoNome = r.Descricao,
                                     }).ToList();
                 /*;
                 */
@@ -726,18 +732,20 @@ namespace CleanMed.Controllers
                             agendamento.StatusAgendamento = "Agendado";
                             agendamento.Color = "#2196f3";
                             agendamento.ObservacaoAgendamento = agendasMedicasViewModel.ObservacaoAgendamento;
-                            //Gravando log na tabela
-                            /* AgendamentoLog agendamentoLog = new AgendamentoLog();
-                             agendamentoLog.AgendamentoId = agendamento.AgendamentoId;
-                             agendamentoLog.Dt_Acao = DateTime.Now;
-                             agendamentoLog.Acao = "Agendado";
-                             agendamentoLog.PacienteId = agendasMedicasViewModel.PacienteId;
-                             var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
-                             agendamentoLog.UsuarioId = usuario.Id;
-                             _contexto.AgendamentoLogs.Add(agendamentoLog);
-                             */
+                           
                             _contexto.Agendamentos.Update(agendamento);
                             await _contexto.SaveChangesAsync();
+                            //Gravando log na tabela
+                            AgendamentoLog agendamentoLog = new AgendamentoLog();
+                            agendamentoLog.AgendamentoId = agendamento.AgendamentoId;
+                            agendamentoLog.Dt_Acao = DateTime.Now;
+                            agendamentoLog.Acao = "Agendamento de Paciente";
+                            agendamentoLog.PacienteId = agendasMedicasViewModel.PacienteId;
+                            var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
+                            agendamentoLog.UsuarioId = usuario.Id;
+                            _contexto.AgendamentoLogs.Add(agendamentoLog);
+                            await _contexto.SaveChangesAsync();
+                            //
                             /*
                                 if (!await _cartaoConvenioRepositorio.CartaoPacienteExiste(agendasMedicasViewModel.PacienteId, agendasMedicasViewModel.NumeroCartaoConvenio))
                                 {
@@ -828,6 +836,10 @@ namespace CleanMed.Controllers
                     }
                     if (PacienteConfirmadoNull(item)) {
                         return new JsonResult("semagendamento");
+                    }
+                    if (VerificarStatusCancelado(item))
+                    {
+                        return new JsonResult("Cancelado");
                     }
                     return new JsonResult(false);
                 }
@@ -937,6 +949,17 @@ namespace CleanMed.Controllers
                     foreach (var item in horarios)
                     {
                         var agendamento = _contexto.Agendamentos.Where(i => i.AgendamentoId == item).FirstOrDefault();
+                        //Salvando Log
+                        AgendamentoLog log = new AgendamentoLog();
+                        log.AgendamentoId = agendamento.AgendamentoId;
+                        log.Dt_Acao = DateTime.Now;
+                        log.Acao = "Paciente Confirmado";
+                        var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
+                        log.UsuarioId = usuario.Id;
+                        log.PacienteId = agendamento.PacienteId;
+                        _contexto.AgendamentoLogs.Add(log);
+                        await _contexto.SaveChangesAsync();
+                        //
                         agendamento.StatusAgendamento = "Confirmado";
                         agendamento.Color = "#ff9800";
                         ConfirmacaoAgendamento confirmacao = new ConfirmacaoAgendamento();
@@ -989,40 +1012,47 @@ namespace CleanMed.Controllers
             return NotFound();
             */
         }
-        public async Task<IActionResult> ExcluirAgendamentoPaciente(int id)
+        public async Task<IActionResult> ExcluirAgendamentoPaciente(string AgendamentoId, int MotivoCancelamentoId)
         {
-            if(id != 0)
+            if(AgendamentoId != null)
             {
-                var agendamento = _contexto.Agendamentos.Where(a => a.AgendamentoId == id).FirstOrDefault();
-                //Salvando no log
-                AgendamentoLog log = new AgendamentoLog();
-                log.AgendamentoId = agendamento.AgendamentoId;
-                log.Dt_Acao = DateTime.Now;
-                log.Acao = "Exclusão de agendamento";
-                var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
-                log.UsuarioId = usuario.Id;
-                log.PacienteId = agendamento.PacienteId;
-                _contexto.AgendamentoLogs.Add(log);
-               await _contexto.SaveChangesAsync();
-                //
-                agendamento.PacienteId = null;
-                agendamento.ObservacaoAgendamento = null;
-                agendamento.VlAltura = 0;
-                agendamento.Qtpeso = 0;
-                agendamento.ConvenioId = null;
-                agendamento.ItemAgendamentoId = null;
-                agendamento.StatusAgendamento = "Livre";
-                agendamento.Color = "#4caf50";
-               
-                 _contexto.Agendamentos.Update(agendamento);
-                 await _contexto.SaveChangesAsync();
 
-
+                var arr = AgendamentoId.Split(',');
+                int[] horarios = Array.ConvertAll(arr, int.Parse);
+                for(int i = 0; i< horarios.Length; i++)
+                {
+                    foreach(var item in horarios)
+                    {
+                        var agendamento = _contexto.Agendamentos.Where(a => a.AgendamentoId == item).FirstOrDefault();
+                        var motivoExclusao = _contexto.MotivoCancelamentos.Where(a => a.MotivoCancelamentoId == MotivoCancelamentoId).FirstOrDefault();
+                        //Salvando no log
+                        AgendamentoLog log = new AgendamentoLog();
+                        log.AgendamentoId = agendamento.AgendamentoId;
+                        log.Dt_Acao = DateTime.Now;
+                        log.Acao = "Exclusão de agendamento";
+                        var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
+                        log.UsuarioId = usuario.Id;
+                        log.Observacao = motivoExclusao.Descricao;
+                        log.PacienteId = agendamento.PacienteId;
+                        _contexto.AgendamentoLogs.Add(log);
+                        await _contexto.SaveChangesAsync();
+                        //
+                        agendamento.PacienteId = null;
+                        agendamento.ObservacaoAgendamento = null;
+                        agendamento.VlAltura = 0;
+                        agendamento.Qtpeso = 0;
+                        agendamento.ConvenioId = null;
+                        agendamento.ItemAgendamentoId = null;
+                        agendamento.StatusAgendamento = "Livre";
+                        agendamento.Color = "#4caf50";
+                        agendamento.MotivoCancelamentoId = null;
+                        _contexto.Agendamentos.Update(agendamento);
+                        await _contexto.SaveChangesAsync();
+                    }
+                    TempData["Mensagem"] = "Excluido com sucesso";
+                    return Json(true);
+                }
                
-               
-               
-               
-                return Json(true);
             }
             return NotFound();
         }
@@ -1054,7 +1084,7 @@ namespace CleanMed.Controllers
                 //
                 agendamento.StatusAgendamento = "Cancelado";
                 agendamento.MotivoCancelamentoId = MotivoCancelamentoId;
-                agendamento.Color = "#e53935";
+                agendamento.Color = "#ff3d00";
                 _contexto.Agendamentos.Update(agendamento);
                 await _contexto.SaveChangesAsync();
                
@@ -1102,29 +1132,44 @@ namespace CleanMed.Controllers
             agendamento.MotivoDescricao = motivoCancelamento.Descricao;
             return View(agendamento);
         }
-        public async Task<IActionResult> ReverterCancelamento(int id)
+        public async Task<IActionResult> ReverterCancelamento(string AgendamentoId,string ObservacaoAgendamento)
         {
-            if(id != 0)
+            if(AgendamentoId != null)
             {
-                var agendamento = _contexto.Agendamentos.Where(a => a.AgendamentoId == id).FirstOrDefault();
-                //Salvando Log
-                AgendamentoLog log = new AgendamentoLog();
-                log.AgendamentoId = agendamento.AgendamentoId;
-                log.Dt_Acao = DateTime.Now;
-                log.Acao = "Reverter Cancelamento";
-                var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
-                log.UsuarioId = usuario.Id;
-                log.PacienteId = agendamento.PacienteId;
-                _contexto.AgendamentoLogs.Add(log);
-                await _contexto.SaveChangesAsync();
-                //
-                agendamento.StatusAgendamento = "Agendado";
-                agendamento.MotivoCancelamentoId = null;
-                agendamento.Color = "#2196f3";
-                _contexto.Agendamentos.Update(agendamento);
-                await _contexto.SaveChangesAsync();
-               
-                return Json(true);
+                var arr = AgendamentoId.Split(',');
+                int[] horarios = Array.ConvertAll(arr, int.Parse);
+
+                for(int i =0; i< horarios.Length; i++)
+                {
+                    foreach (var item in horarios)
+                    {
+                        var agendamento = _contexto.Agendamentos.Where(a => a.AgendamentoId == item).FirstOrDefault();
+                             
+                             //Salvando Log
+                              AgendamentoLog log = new AgendamentoLog();
+                              log.AgendamentoId = agendamento.AgendamentoId;
+                              log.Dt_Acao = DateTime.Now;
+                              log.Acao = "Reverter Cancelamento";
+                              var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
+                              log.UsuarioId = usuario.Id;
+                              log.PacienteId = agendamento.PacienteId;
+                              _contexto.AgendamentoLogs.Add(log);
+                              await _contexto.SaveChangesAsync();
+                              //
+                              
+                        agendamento.StatusAgendamento = "Agendado";
+                        agendamento.MotivoCancelamentoId = null;
+                        agendamento.Color = "#2196f3";
+                        agendamento.ObservacaoAgendamento = ObservacaoAgendamento;
+                        _contexto.Agendamentos.Update(agendamento);
+                        await _contexto.SaveChangesAsync();
+
+                        
+                    }
+                    TempData["Mensagem"] = "Cancelamento revertido com sucesso";
+                    return new JsonResult(true);
+                }
+             
             }
             return NotFound();
         }
@@ -1378,9 +1423,22 @@ namespace CleanMed.Controllers
                     foreach(var item in horarios)
                     {
                         var agendamento = _contexto.Agendamentos.Where(i => i.AgendamentoId == item).FirstOrDefault();
+                        var motivoExclusao = _contexto.MotivoCancelamentos.Where(a => a.MotivoCancelamentoId == MotivoCancelamentoId).FirstOrDefault();
+                        //Salvando Log
+                        AgendamentoLog log = new AgendamentoLog();
+                        log.AgendamentoId = agendamento.AgendamentoId;
+                        log.Dt_Acao = DateTime.Now;
+                        log.Acao = "Cancelamento de agendamento";
+                        var usuario = await _usuarioRepositorio.PegarUsuarioLogado(User);
+                        log.UsuarioId = usuario.Id;
+                        log.Observacao = motivoExclusao.Descricao;
+                        log.PacienteId = agendamento.PacienteId;
+                        _contexto.AgendamentoLogs.Add(log);
+                        await _contexto.SaveChangesAsync();
+                        //
                         agendamento.StatusAgendamento = "Cancelado";
                         agendamento.MotivoCancelamentoId = MotivoCancelamentoId;
-                        agendamento.Color = "#e53935";
+                        agendamento.Color = "#ff3d00";
                         _contexto.Agendamentos.Update(agendamento);
                         await _contexto.SaveChangesAsync();
                     }
@@ -1396,6 +1454,67 @@ namespace CleanMed.Controllers
             }
 
         }
-           
+
+        public IActionResult ExcluirAgendamento(int[] HRSelecionado)
+        {
+
+            for (int i = 0; i < HRSelecionado.Length; i++)
+            {
+                foreach (var item in HRSelecionado)
+                    if (!HorarioDisponivel(item))
+                    {
+                        return new JsonResult(false);
+                    }
+            }
+            string[] horarios = HRSelecionado.Select(x => x.ToString()).ToArray();
+            return new JsonResult(horarios);
+        }
+        public IActionResult ExcluirPost(string id)
+        {
+            if (id.Length != 0)
+            {
+                var arr = id.Split(',');
+                int[] horarios = Array.ConvertAll(arr, int.Parse);
+                var agendamento = (from a in _contexto.AgendasMedicas
+                                   join age in _contexto.Agendamentos
+                                   on a.AgendaMedicaId equals age.AgendaMedicaId
+                                   join p in _contexto.Prestadores
+                                   on a.PrestadorId equals p.PrestadorId
+                                   into Prestador
+                                   from p in Prestador.DefaultIfEmpty()
+                                   join it in _contexto.ItensAgendasMedica
+                                   on a.AgendaMedicaId equals it.AgendaMedicaId
+                                   join i in _contexto.ItemAgendamentos
+                                   on it.ItemAgendamentoId equals i.ItemAgendamentoId
+                                   join pa in _contexto.Pacientes
+                                   on age.PacienteId equals pa.PacienteId
+
+                                   join c in _contexto.Convenios
+                                   on age.ConvenioId equals c.ConvenioId
+                                   where horarios.Contains(age.AgendamentoId)
+
+                                   select new AgendasMedicasViewModel
+                                   {
+                                       AgendaMedicaId = a.AgendaMedicaId,
+                                       AgendamentoId = age.AgendamentoId,
+                                       HoraAgenda = age.HoraAgenda,
+                                       NomePrestador = p.Nome,
+                                       PrestadorId = p.PrestadorId,
+                                       NomeItemAgendamento = i.Descricao,
+                                       DataAgenda = a.DataAgenda,
+                                       PacienteId = pa.PacienteId,
+                                       NmPaciente = pa.Nome,
+                                       DataNascimento = pa.DataNascimento,
+                                       StatusAgendamento = age.StatusAgendamento,
+                                       Telefone = pa.Telefone,
+                                       ConvenioNome = c.Nome,
+                                   });
+                ViewData["AgendamentoId"] = id;
+                ViewData["MotivoCancelamento"] = new SelectList(_contexto.MotivoCancelamentos, "MotivoCancelamentoId", "Descricao");
+                return View(agendamento);
+            }
+            return new JsonResult("Nenhum horário selecionado");
+        }
+
     }
 }

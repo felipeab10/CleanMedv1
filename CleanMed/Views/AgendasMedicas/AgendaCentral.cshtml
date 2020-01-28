@@ -117,11 +117,11 @@
                 <form id="formAgendamento">
                     <div class="row">
                         <div class="col s12">
-                            <button type="button" id="agendar" style="background-color:#2196f3;" class="btn btn-small "  >Agendar</button>
-                            &nbsp; <button type="button" id="confirmar" style="background-color:#ff9800;" class="btn btn-small">Confirmar</button>
-                            &nbsp; <a class="btn btn-small">Transferir</a>
-                            &nbsp; <a style="background-color:#e53935;" id="cancelar" class="btn btn-small">Cancelar</a>
-                            &nbsp;<a class="btn btn-small">Excluir</a>
+                            <button type="button" id="agendar" style="background-color:#2196f3;" class="btn btn-small agendar "  >Agendar</button>
+                            &nbsp; <button type="button" id="confirmar" style="background-color:#ff9800;" class="btn btn-small confirmar">Confirmar</button>
+                            &nbsp; <a style="background-color:#607d8b;" class="btn btn-small atendimento">Atendimento</a>
+                            &nbsp; <a style="background-color:#ff3d00;" id="cancelar" class="btn btn-small cancelar">Cancelar</a>
+                            &nbsp;<a style="background-color:#d50000 ;"id="excluir" class="btn btn-small excluir">Excluir</a>
                         </div>
                     </div>
 
@@ -147,7 +147,7 @@
                                     {
                                         @foreach (var item in Model)
                                         {
-                                    <tr data-target="modal1" class=" modal-trigger">
+                                    <tr >
                                         <td>
                                             <p>
                                                 <label>
@@ -196,6 +196,15 @@
 
                             </table>
 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <button type="button" id="agendar" style="background-color:#2196f3;" class="btn btn-small agendar ">Agendar</button>
+                            &nbsp; <button type="button" id="confirmar" style="background-color:#ff9800;" class="btn btn-small confirmar">Confirmar</button>
+                            &nbsp; <a style="background-color:#607d8b;" class="btn btn-small atendimento">Atendimento</a>
+                            &nbsp; <a style="background-color:#ff3d00;" id="cancelar" class="btn btn-small cancelar">Cancelar</a>
+                            &nbsp;<a style="background-color:#d50000 ;" id="excluir" class="btn btn-small excluir">Excluir</a>
                         </div>
                     </div>
                 </form>
@@ -298,7 +307,7 @@
                 $(".select2-paciente").val(SearchPaciente).trigger('change');
                 var SearchItemAgendamentoId = @Html.Raw(Json.Serialize(ViewData["SearchItemAgendamentoId"]));
                 $(".select2ItemAgendamento").val(SearchItemAgendamentoId).trigger('change');
-                console.log(SearchItemAgendamentoId);
+                //console.log(SearchItemAgendamentoId);
             </script>
         
             @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

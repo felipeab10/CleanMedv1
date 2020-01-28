@@ -36,6 +36,40 @@ $("#cancelarPost").click(function () {
         }
     })
 })
+$("#reverterPost").click(function () {
+
+    var form = $("#myForm").serialize();
+
+    $.ajax({
+        url: "/AgendasMedicas/ReverterCancelamento",
+        method: "POST",
+        data: form,
+        success: function (resposta) {
+            if (resposta == true) {
+                $("#modalCancelado").modal("close");
+
+                location.reload();
+            }
+        }
+    })
+})
+$("#excluirPost").click(function () {
+
+    var form = $("#myForm").serialize();
+
+    $.ajax({
+        url: "/AgendasMedicas/ExcluirAgendamentoPaciente",
+        method: "POST",
+        data: form,
+        success: function (resposta) {
+            if (resposta == true) {
+                $("#modalCancelado").modal("close");
+
+                location.reload();
+            }
+        }
+    })
+})
 $('.tooltipped').tooltip();
 $('select').formSelect();
 //$('#selectItemAgendamentoId').formSelect();

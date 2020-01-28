@@ -15,6 +15,7 @@ namespace CleanMed.Mapeamento
             builder.HasKey(a => a.AgendamentoLogId);
             builder.Property(a => a.Dt_Acao);
             builder.Property(a => a.Acao).IsRequired();
+            builder.Property(a=> a.Observacao); 
 
             builder.HasOne(a => a.Paciente);
             builder.HasOne(a => a.Agendamento);
