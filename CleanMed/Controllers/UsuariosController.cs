@@ -323,9 +323,9 @@ namespace CleanMed.Controllers
                     {
                         _logger.LogInformation("Informações corretas,Efetuando login do usuário");
                         await _usuarioRepositorio.EfetuarLogin(usuario, false);
-                        TempData["Mensagem"] = " Bem-vindo ao sistema!";
+                       // TempData["Mensagem"] = " Bem-vindo ao sistema!";
                         TempData["User"] = usuario.Nome;
-                        return RedirectToAction("Index", "Pacientes");
+                        return RedirectToAction("Index", "Dashboard");
                     }
                     _logger.LogError("Usuário ou senha não confere");
                     TempData["Validacao"] = "Usuário ou senha não confere";

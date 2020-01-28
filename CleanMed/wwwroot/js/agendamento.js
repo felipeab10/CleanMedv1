@@ -1,4 +1,18 @@
-﻿
+﻿$(function () {
+    $('input.autocomplete').autocomplete({
+        data: {
+            "Apple": null,
+            "Microsoft": null,
+            "Google": 'https://placehold.it/250x250',
+            "Gato": null,
+            "Gata": null,
+            "Gats": null,
+        },
+    });
+})
+
+
+
 
 $('#tipoConfirmacao').formSelect({ dropdownOptions: { container: document.body } });
 var elem = $('.select_dropdown');
@@ -268,6 +282,7 @@ $(function () {
 
 });
 $(document).ready(function () {
+   
     //PegarEventoDodia()
 
 
@@ -354,8 +369,9 @@ $(document).ready(function () {
 
     //faz a pesquisa do prestador na index para filtrar agenda
     $('.select2Prestador').select2({
+        theme: "material",
         placeholder: "",
-        allowClear: true,
+        //allowClear: true,
         minimumInputLength: 2,
         language: {
             inputTooShort: function () {
@@ -414,7 +430,7 @@ $(document).ready(function () {
         return markup;
     }
     var $selectbox = $('.select2-paciente').select2({
-       
+        theme: "material",
         minimumInputLength: 1,
         placeholder: "id,nome,cpf,data de nascimento",
         allowClear: true,
@@ -469,6 +485,7 @@ $(document).ready(function () {
     
     //faz a pesquisa do Item de agendamento na index para filtrar agenda
     $('.select2ItemAgendamento').select2({
+        theme: "material",
         placeholder: "",
         minimumInputLength: 2,
         allowClear: true,

@@ -34,94 +34,93 @@
     }
 }
 
-<div class="">
-    <div class="row">
-        <div class="col s12">
-            <div class="card">
-                <div class="card-header BtnColor">
-                    <h5 class="center"><span class="card-title center " style="color:white;">Central de Agendamento</span></h5>
-                </div>
-                <!-- /.box-header -->
-                <div class="card-content">
-                    <div class="row">
-                        <form asp-action="AgendaCentral" method="post" class="col s12">
-                            <div class="row">
-                                <div id="example1_filter" class="dataTables_filter">
-
-                                    <div class=" form-control col m1 s12">
-                                        <label for="Id">Id</label>
-                                        <input type="text" class="form-control" name="SearchAgendaId" style="margin-top:30px" />
-                                    </div>
-
-                                    <div class="form-control  col m2 s12">
-                                        <label for="SearchDataAgenda">Data</label>
-                                        <input id="SearchDataAgenda" type="text" class="form-control" name="SearchDataAgenda" value="@ViewData["SearchDataAgenda"]" style="margin-top:30px" />
-                                    </div>
-
-                                    <div class="form-control col m4 s12">
-                                        <label for="Prestador">Prestador</label>
-                                        <input id="SearchPrestadorId" type="hidden" value="@ViewData["SearchPrestadorId"] " />
-                                        <select class="select2Prestador browser-default " multiple name="SearchPrestadorId" asp-items="@ViewBag.PrestadorId">
-                                            <option selected value="" disabled></option>
-                                        </select>
-                                    </div>
-                                    <div class="form-control  col m4 s12">
-                                        <label for="SearchItemAgendamentoId">Item de Agendamento</label>
-                                        <input id="SearchItemAgendamentoId" type="hidden" value="@ViewData["SearchItemAgendamentoId"] " />
-                                        <select class="select2ItemAgendamento browser-default " multiple name="SearchItemAgendamentoId" asp-items="@ViewBag.ItemAgendamentoId">
-                                            <option selected value="" disabled></option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-control  col m4 s12">
-                                    <label for="SearchPaciente">Paciente</label>
-                                    <input id="SearchPaciente" type="hidden" value="@ViewData["SearchPaciente"] " />
-                                    <select class="select2-paciente browser-default" name="SearchPaciente" asp-items="@ViewBag.PacienteId">
-                                        <option selected value="" disabled></option>
-
-                                    </select>
-
-                                </div>
-                                <div class="form-control  col m2 s12">
-                                    <label for="SearchPeriodo">Período</label>
-                                    <input id="SearchPeriodo" type="hidden" value="@ViewData["SearchPeriodo"] " />
-                                    <select class="form-control" id="SearchPeriodoSelect" name="SearchPeriodo">
-                                        <option selected value="" ></option>
-                                        <option value="Matutino">Matutino</option>
-                                        <option value="Vespertino">Vespertino</option>
-                                        <option value="Noturno">Noturno</option>
-                                        <option value="Madrugada">Madrugada</option>
-                                    </select>
-                                    <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-
-
-
-
-                    @TempData["NomeItemAgendamento"]
-                    @if (TempData["NomePrestador"] != null)
-                    {
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-header BtnColor">
+                <h5 class="center"><span class="card-title center " style="color:white;">Central de Agendamento</span></h5>
+            </div>
+            <!-- /.box-header -->
+            <div class="card-content">
+                <div class="row">
+                    <form asp-action="AgendaCentral" method="post" class="col s12">
                         <div class="row">
-                            <div class="col s12">
-                                <h6 class="center" style="font-size:10px;"> <b>Prestador : <span class="textCapitalize">@TempData["NomePrestador"].ToString().ToLower()</span>, CRM:@TempData["CRMPrestador"] </b> </h6>
+                            <div id="example1_filter" class="dataTables_filter">
+
+                                <div class=" form-control col m1 s12">
+                                    <label for="Id">Id</label>
+                                    <input type="text" class="form-control" name="SearchAgendaId" style="margin-top:60px" />
+                                </div>
+
+                                <div class="form-control  col m2 s12">
+                                    <label for="SearchDataAgenda">Data</label>
+                                    <input id="SearchDataAgenda" type="text" class="form-control" name="SearchDataAgenda" value="@ViewData["SearchDataAgenda"]" style="margin-top:60px" />
+                                </div>
+
+                                <div class="form-control col m4 s12">
+                                    <label for="Prestador">Prestador</label>
+                                    <input id="SearchPrestadorId" type="hidden" value="@ViewData["SearchPrestadorId"] " />
+                                    <select class="select2Prestador browser-default " multiple name="SearchPrestadorId" asp-items="@ViewBag.PrestadorId">
+                                        <option selected value="" disabled></option>
+                                    </select>
+                                </div>
+                                <div class="form-control  col m4 s12">
+                                    <label for="SearchItemAgendamentoId">Item de Agendamento</label>
+                                    <input id="SearchItemAgendamentoId" type="hidden" value="@ViewData["SearchItemAgendamentoId"] " />
+                                    <select class="select2ItemAgendamento browser-default " multiple name="SearchItemAgendamentoId" asp-items="@ViewBag.ItemAgendamentoId">
+                                        <option selected value="" disabled></option>
+                                    </select>
+                                </div>
+
                             </div>
                         </div>
-                    }
+                        <div class="row">
+                            <div class="form-control  col m4 s12">
+                                <label for="SearchPaciente">Paciente</label>
+                                <input id="SearchPaciente" type="hidden" value="@ViewData["SearchPaciente"] " />
+                                <select class="select2-paciente browser-default" name="SearchPaciente" asp-items="@ViewBag.PacienteId">
+                                    <option selected value="" disabled></option>
+
+                                </select>
+
+                            </div>
+                            <div class="form-control  col m2 s12">
+                                <label for="SearchPeriodo">Período</label>
+                                <input id="SearchPeriodo" type="hidden" value="@ViewData["SearchPeriodo"] " />
+                                <select class="form-control" id="SearchPeriodoSelect" name="SearchPeriodo">
+                                    <option selected value=""></option>
+                                    <option value="Matutino">Matutino</option>
+                                    <option value="Vespertino">Vespertino</option>
+                                    <option value="Noturno">Noturno</option>
+                                    <option value="Madrugada">Madrugada</option>
+                                </select>
+                                <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+
+
+
+                @TempData["NomeItemAgendamento"]
+                @if (TempData["NomePrestador"] != null)
+                {
+                    <div class="row">
+                        <div class="col s12">
+                            <h6 class="center" style="font-size:10px;"> <b>Prestador : <span class="textCapitalize">@TempData["NomePrestador"].ToString().ToLower()</span>, CRM:@TempData["CRMPrestador"] </b> </h6>
+                        </div>
+                    </div>
+                }
                 <form id="formAgendamento">
                     <div class="row">
                         <div class="col s12">
-                            <button type="button" id="agendar" style="background-color:#2196f3;" class="btn btn-small agendar "  >Agendar</button>
-                            &nbsp; <button type="button" id="confirmar" style="background-color:#ff9800;" class="btn btn-small confirmar">Confirmar</button>
+                            <button type="button" style="background-color:#2196f3;" class="btn btn-small agendar ">Agendar</button>
+                            &nbsp; <button type="button" style="background-color:#ff9800;" class="btn btn-small confirmar">Confirmar</button>
                             &nbsp; <a style="background-color:#607d8b;" class="btn btn-small atendimento">Atendimento</a>
-                            &nbsp; <a style="background-color:#ff3d00;" id="cancelar" class="btn btn-small cancelar">Cancelar</a>
-                            &nbsp;<a style="background-color:#d50000 ;"id="excluir" class="btn btn-small excluir">Excluir</a>
+                            &nbsp; <a style="background-color:#ff3d00;" class="btn btn-small cancelar">Cancelar</a>
+                            &nbsp;<a style="background-color:#d50000 ;" class="btn btn-small excluir">Excluir</a>
                         </div>
                     </div>
 
@@ -147,49 +146,49 @@
                                     {
                                         @foreach (var item in Model)
                                         {
-                                    <tr >
-                                        <td>
-                                            <p>
-                                                <label>
-                                                    <input type="checkbox" value="@item.AgendamentoId" class="filled-in" name="HRSelecionado[]" />
-                                                    <span></span>
-                                                </label>
-                                            </p>
-                                        </td>
-                                        @if (item.PacienteId > 0)
-                                        {
-                                            <td>@item.PacienteId</td>
-                                        }
-                                        else
-                                        {
-                                            <td><span class="textCapitalize"></span></td>
-                                        }
-                                        @if (item.NmPaciente != null)
-                                        {
-                                            <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>
-                                        }
-                                        else
-                                        {
-                                            <td><span class="textCapitalize"></span></td>
-                                        }
-                                        <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
+                                            <tr>
+                                                <td>
+                                                    <p>
+                                                        <label>
+                                                            <input type="checkbox" value="@item.AgendamentoId" class="filled-in" name="HRSelecionado[]" />
+                                                            <span></span>
+                                                        </label>
+                                                    </p>
+                                                </td>
+                                                @if (item.PacienteId > 0)
+                                                {
+                                                    <td>@item.PacienteId</td>
+                                                }
+                                                else
+                                                {
+                                                    <td><span class="textCapitalize"></span></td>
+                                                }
+                                                @if (item.NmPaciente != null)
+                                                {
+                                                    <td><span class="textCapitalize">@item.NmPaciente.ToLower()</span></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><span class="textCapitalize"></span></td>
+                                                }
+                                                <td>@Html.DisplayFor(modelItem => item.DataAgenda)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.HoraAgenda)</td>
 
 
-                                        <td>
-                                            @if (item.PrestadorId > 0)
-                                            {
-                                                <span class="textCapitalize">@item.NomePrestador.ToLower()</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="textCapitalize"></span>
-                                            }
-                                        </td>
-                                        <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
-                                        <td style="background-color:@item.Color;color:white;" class="center">@item.StatusAgendamento</td>
+                                                <td>
+                                                    @if (item.PrestadorId > 0)
+                                                    {
+                                                        <span class="textCapitalize">@item.NomePrestador.ToLower()</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="textCapitalize"></span>
+                                                    }
+                                                </td>
+                                                <td><span class="textCapitalize">@item.NomeItemAgendamento.ToLower()</span></td>
+                                                <td style="background-color:@item.Color;color:white;" class="center">@item.StatusAgendamento</td>
 
-                                    </tr>
+                                            </tr>
                                         }
                                     }
                                 </tbody>
@@ -200,104 +199,104 @@
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <button type="button" id="agendar" style="background-color:#2196f3;" class="btn btn-small agendar ">Agendar</button>
-                            &nbsp; <button type="button" id="confirmar" style="background-color:#ff9800;" class="btn btn-small confirmar">Confirmar</button>
+                            <button type="button" style="background-color:#2196f3;" class="btn btn-small agendar ">Agendar</button>
+                            &nbsp; <button type="button" style="background-color:#ff9800;" class="btn btn-small confirmar">Confirmar</button>
                             &nbsp; <a style="background-color:#607d8b;" class="btn btn-small atendimento">Atendimento</a>
-                            &nbsp; <a style="background-color:#ff3d00;" id="cancelar" class="btn btn-small cancelar">Cancelar</a>
-                            &nbsp;<a style="background-color:#d50000 ;" id="excluir" class="btn btn-small excluir">Excluir</a>
+                            &nbsp; <a style="background-color:#ff3d00;" class="btn btn-small cancelar">Cancelar</a>
+                            &nbsp;<a style="background-color:#d50000 ;" class="btn btn-small excluir">Excluir</a>
                         </div>
                     </div>
                 </form>
-                    @if (Model != null)
-                    {
-                        <div class="row">
-                            <div class="col s12 center">
+                @if (Model != null)
+                {
+                    <div class="row">
+                        <div class="col s12 center">
 
-                                @{
+                            @{
 
-                                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-                                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 
+                            }
+
+                            <a asp-action="AgendaCentral"
+                               asp-route-SearchDataAgenda="@ViewData["SearchDataAgenda"]"
+                               asp-route-SearchPrestadorId="@ViewData["SearchPrestadorId"]"
+                               asp-route-SearchItemAgendamentoId="@TempData["SearchItemAgendamentoId"]"
+                               asp-route-SearchPaciente="@ViewData["SearchPaciente"]"
+                               asp-route-SearchPeriodo="@ViewData["SearchPeriodo"]"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-pageNumber="@(Model.PageIndex - 1)"
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
+                                <i class="material-icons">chevron_left</i>
+                            </a>
+                            &nbsp;
+                            <a asp-action="AgendaCentral"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-pageNumber="@(Model.PageIndex + 1)"
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               asp-route-SearchDataAgenda="@ViewData["SearchDataAgenda"]"
+                               asp-route-SearchPrestadorId="@ViewData["SearchPrestadorId"]"
+                               asp-route-SearchItemAgendamentoId="@TempData["SearchItemAgendamentoId"]"
+                               asp-route-SearchPaciente="@ViewData["SearchPaciente"]"
+                               asp-route-SearchPeriodo="@ViewData["SearchPeriodo"]"
+                               class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+
+                        </div>
+                    </div>
+                }
+
+                @if (Model != null)
+                {
+                    <div class="row">
+                        <div class="col s12">
+
+                            <div class="col s4">
+                                <span style="font-size:14px;">Horários livres: @ViewBag.HorarioLivre</span>
+                            </div>
+                            <div class="col s5">
+                                <span style="font-size:14px;">Item de agendamento:</span>
+                                @foreach (var item in Model.GroupBy(a => a.NomeItemAgendamento))
+                                {
+                                    <ul>
+                                        <li> <span class="textCapitalize" style="font-size:14px;">@item.Key.ToLower()</span></li>
+                                    </ul>
                                 }
-
-                                <a asp-action="AgendaCentral"
-                                   asp-route-SearchDataAgenda="@ViewData["SearchDataAgenda"]"
-                                   asp-route-SearchPrestadorId="@ViewData["SearchPrestadorId"]"
-                                   asp-route-SearchItemAgendamentoId="@TempData["SearchItemAgendamentoId"]"
-                                   asp-route-SearchPaciente="@ViewData["SearchPaciente"]"
-                                   asp-route-SearchPeriodo="@ViewData["SearchPeriodo"]"
-                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                                   asp-route-pageNumber="@(Model.PageIndex - 1)"
-                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @prevDisabled">
-                                    <i class="material-icons">chevron_left</i>
-                                </a>
-                                &nbsp;
-                                <a asp-action="AgendaCentral"
-                                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                                   asp-route-pageNumber="@(Model.PageIndex + 1)"
-                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                                   asp-route-SearchDataAgenda="@ViewData["SearchDataAgenda"]"
-                                    asp-route-SearchPrestadorId="@ViewData["SearchPrestadorId"]"
-                                   asp-route-SearchItemAgendamentoId="@TempData["SearchItemAgendamentoId"]"
-                                   asp-route-SearchPaciente="@ViewData["SearchPaciente"]"
-                                   asp-route-SearchPeriodo="@ViewData["SearchPeriodo"]"
-                                   class="btn-floating btn-small waves-effect waves-light center BtnColor @nextDisabled">
-                                    <i class="material-icons">chevron_right</i>
-                                </a>
-
                             </div>
-                        </div>
-                    }
-
-                    @if (Model != null)
-                    {
-                        <div class="row">
-                            <div class="col s12">
-
-                                <div class="col s4">
-                                    <span style="font-size:14px;">Horários livres: @ViewBag.HorarioLivre</span>
-                                </div>
-                                <div class="col s5">
-                                    <span style="font-size:14px;">Item de agendamento:</span>
-                                    @foreach (var item in Model.GroupBy(a => a.NomeItemAgendamento))
-                                    {
-                                        <ul>
-                                            <li> <span class="textCapitalize" style="font-size:14px;">@item.Key.ToLower()</span></li>
-                                        </ul>
-                                    }
-                                </div>
-                                <div class="col s3">
-                                    <span style="font-size:14px;">Horários Bloqueados: @ViewBag.HorarioBloqueado</span>
-                                </div>
-
+                            <div class="col s3">
+                                <span style="font-size:14px;">Horários Bloqueados: @ViewBag.HorarioBloqueado</span>
                             </div>
-                        </div>
 
-                    }
-                    <!-- Modal Structure -->
+                        </div>
+                    </div>
+
+                }
+                <!-- Modal Structure -->
                 <div id="modalAgendamento" class="modal modalAgendamento">
                     <!--<div class="modal-content" style="margin-top:-100px;" id="modalAgendamentoContent"></div>-->
                 </div>
 
-                    <div id="modalAgendado" class="modal">
-                    </div>
-                    <!-- Modal Confirmar -->
-                    <div id="modalConfirmado" class="modal">
-                    </div>
-                    <div id="modalCancelamento" class="modal">
-                    </div>
-                    <div id="modalCancelado" class="modal">
-                    </div>
-                    <div id="modalAddPaciente" class="modal">
-                    </div>
-
-
+                <div id="modalAgendado" class="modal">
                 </div>
-            </div>
-            <!-- /.box-body -->
-        </div>
+                <!-- Modal Confirmar -->
+                <div id="modalConfirmado" class="modal">
+                </div>
+                <div id="modalCancelamento" class="modal">
+                </div>
+                <div id="modalCancelado" class="modal">
+                </div>
+                <div id="modalAddPaciente" class="modal">
+                </div>
 
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</div>
 
         @section Scripts{
             <script>
@@ -318,8 +317,11 @@
 
             </script>
             <script>
+                
+        
                 $(function () {
-                    $('.tooltipped').tooltip();
+                  
+                      $('.tooltipped').tooltip();
                 })
                 $("input[id*='SearchDataAgenda']").inputmask({
                     mask: ['99/99/9999'],
