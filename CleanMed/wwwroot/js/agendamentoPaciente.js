@@ -1,7 +1,6 @@
-﻿$('#tipoConfirmacao').formSelect({ dropdownOptions: { container: document.body } });
-var elem = $('.select_dropdown');
-var instances = M.FormSelect.init(elem, { dropdownOptions: { container: document.body } });
-
+﻿$(document).ready(function () {
+   
+    })
 $("#confirmarPost").click(function () {
     
     var form = $("#myForm").serialize();

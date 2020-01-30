@@ -355,6 +355,7 @@ table tbody tr td {
     will-change: top, opacity;
     max-height: 95%;
     top: 2% !important;
+   
 }
 
 #modalConfirmado .modal-content {
@@ -381,6 +382,7 @@ table tbody tr td {
     border-radius: 2px;
     will-change: top, opacity;
     top: 2% !important;
+    
 }
 
     #modalCancelado .modal-content {

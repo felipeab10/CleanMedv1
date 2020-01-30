@@ -1,24 +1,4 @@
-﻿$(function () {
-    $('input.autocomplete').autocomplete({
-        data: {
-            "Apple": null,
-            "Microsoft": null,
-            "Google": 'https://placehold.it/250x250',
-            "Gato": null,
-            "Gata": null,
-            "Gats": null,
-        },
-    });
-})
-
-
-
-
-$('#tipoConfirmacao').formSelect({ dropdownOptions: { container: document.body } });
-var elem = $('.select_dropdown');
-var instances = M.FormSelect.init(elem, { dropdownOptions: { container: document.body } });
-       
-
+﻿
 $(".agendar").click(function () {
     var form = $("#formAgendamento").serialize();
     if (form == '') {
@@ -189,6 +169,50 @@ $(".excluir").click(function () {
                         $('#modalCancelado').modal('open');
                     })
 
+                }
+            }
+        })
+    }
+})
+
+$(".atendimento").click(function () {
+    var form = $("#formAgendamento").serialize();
+    if (form == '') {
+        M.toast({ html: 'Selecione um horário' });
+    } else {
+        $.ajax({
+            url: "/AgendasMedicas/Atendimento",
+            data: form,
+            method: 'POST',
+            success: function (resposta) {
+                //console.log(resposta);
+                if (resposta == false) {
+                    M.toast({ html: 'Horário já possui Atendimento ou sem paciente agendado' })
+
+                } else {
+                    /*
+                     $.ajax({
+                         url: "/Atendimentos/GerarAtendimento",
+                         data: { AgendamentoId: resposta },
+                         method: 'POST',
+                         success: function (modal) {
+                             window.open(modal, '_blank');
+     
+                         }
+                     })
+                     */
+                    var teste = JSON.stringify(resposta);
+                   // var url = window.location.href;
+                    //alert(url);
+                    //var page = url.split('/');
+                    //alert(window.location.host);
+                    //window.open('https://' + window.location.host +'/Atendimentos/GerarAtendimento?AgendamentoId='+resposta , '_blank');
+                  
+                    $("#modalAgendamento").load("/Atendimentos/GerarAtendimento/" + resposta, function (resposta) {
+                        $('#modalAgendamento').modal();
+                        $('#modalAgendamento').modal('open');
+                    })
+                    
                 }
             }
         })

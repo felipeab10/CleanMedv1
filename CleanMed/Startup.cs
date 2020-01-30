@@ -94,6 +94,7 @@ namespace CleanMed
             services.AddScoped<IAgendaMedicaRepositorio, AgendaMedicaRepositorio>();
             services.AddScoped<IAgendamentoRepositorio, AgendamentoRepositorio>();
             services.AddScoped<ICartaoConvenioRepositorio, CartaoConvenioRepositorio>();
+            services.AddScoped<IAtendimentoRepositorio, AtendimentoRepositorio>();
             // Configuração do JS Report para gerar o relatório em PDF
             services.AddJsReport(new LocalReporting()
                 .UseBinary(JsReportBinary.GetBinary())

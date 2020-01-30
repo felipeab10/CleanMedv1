@@ -4,14 +4,16 @@ using CleanMed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CleanMed.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20200130182022_AtendimentoBD")]
+    partial class AtendimentoBD
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,8 +152,6 @@ namespace CleanMed.Migrations
                     b.HasKey("AgendamentoId");
 
                     b.HasIndex("AgendaMedicaId");
-
-                    b.HasIndex("AtendimentoId");
 
                     b.HasIndex("ConvenioId");
 
@@ -1359,10 +1359,6 @@ namespace CleanMed.Migrations
                         .HasForeignKey("AgendaMedicaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CleanMed.Models.Atendimento", "Atendimento")
-                        .WithMany()
-                        .HasForeignKey("AtendimentoId");
 
                     b.HasOne("CleanMed.Models.Convenio", "Convenio")
                         .WithMany()

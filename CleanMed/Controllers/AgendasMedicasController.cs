@@ -1515,6 +1515,24 @@ namespace CleanMed.Controllers
             }
             return new JsonResult("Nenhum horário selecionado");
         }
+        public IActionResult Atendimento(int[] HRSelecionado)
+        {
+
+            for (int i = 0; i < HRSelecionado.Length; i++)
+            {
+                foreach (var item in HRSelecionado)
+                    if (ValidaAtendimento(item))
+                    {
+                        return new JsonResult(false);
+                    }
+            }
+            string[] horarios = HRSelecionado.Select(x => x.ToString()).ToArray();
+            return new JsonResult(horarios);
+        }
+        public bool ValidaAtendimento(int AgendamentoId)
+        {
+            return _contexto.Agendamentos.Any(a=> a.AgendamentoId == AgendamentoId && a.StatusAgendamento != "Confirmado" );
+        }
 
     }
 }

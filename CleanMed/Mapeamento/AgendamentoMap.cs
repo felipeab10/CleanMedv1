@@ -29,7 +29,7 @@ namespace CleanMed.Mapeamento
             builder.HasOne(a => a.Usuario);
             builder.HasOne(a => a.Convenio);
             builder.HasOne(a => a.MotivoCancelamento);
-
+            builder.HasOne(a => a.Atendimento);
 
             builder.ToTable("Agendamentos");
         }

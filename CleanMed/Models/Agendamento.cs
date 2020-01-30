@@ -18,6 +18,7 @@ namespace CleanMed.Models
         public string StatusAgendamento { get; set; }
         public bool? SNEncaixe { get; set; }
         public int? AtendimentoId { get; set; }
+        public Atendimento Atendimento { get; set; }
         public string? UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
         public int? ConvenioId { get; set; }
