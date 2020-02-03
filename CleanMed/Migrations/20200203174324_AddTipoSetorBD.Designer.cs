@@ -4,14 +4,16 @@ using CleanMed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CleanMed.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20200203174324_AddTipoSetorBD")]
+    partial class AddTipoSetorBD
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1018,12 +1020,11 @@ namespace CleanMed.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("TipoSetorId")
-                        .HasColumnType("int");
+                    b.Property<string>("TipoSetor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SetorId");
-
-                    b.HasIndex("TipoSetorId");
 
                     b.ToTable("Setores");
                 });
@@ -1640,15 +1641,6 @@ namespace CleanMed.Migrations
                     b.HasOne("CleanMed.Models.GrupoFaturamento", "GrupoFaturamento")
                         .WithMany()
                         .HasForeignKey("GrupoFaturamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CleanMed.Models.Setor", b =>
-                {
-                    b.HasOne("CleanMed.Models.TipoSetor", "TipoSetor")
-                        .WithMany()
-                        .HasForeignKey("TipoSetorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

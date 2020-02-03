@@ -60,6 +60,7 @@ namespace CleanMed.ViewModels
         //tabela setores
         public int? SetorId { get; set; }
         public string SetorNome { get; set; }
+        public int TipoSetorId { get; set; }
         //Tabela Recurso
         public string RecursoNome { get; set; }
         //Tabela CartaoConvenio

@@ -62,6 +62,7 @@ namespace CleanMed.Controllers
                                        StatusAgendamento = age.StatusAgendamento,
                                        Telefone = pa.Telefone,
                                        ConvenioNome = c.Nome,
+                                       CPFPaciente = pa.CPF,
                                    });
                 return View(agendamento);
             }

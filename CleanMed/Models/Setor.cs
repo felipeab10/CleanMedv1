@@ -12,7 +12,8 @@ namespace CleanMed.Models
         [Required(ErrorMessage ="Campo Obrigatório")]
         public string Descricao { get; set; }
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string TipoSetor { get; set; }
+        public int TipoSetorId { get; set; }
+        public TipoSetor TipoSetor { get; set; }
         public bool Status { get; set; } = true;
 
     }

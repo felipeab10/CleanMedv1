@@ -18,7 +18,7 @@
                 <div class="col s12">
                     <div class="form-group">
                         <label for="TipoSetor">Tipo de Setor<span class="error">*</span></label>
-                        <select class="form-control" asp-for="@Model.TipoSetor" asp-items="@ViewBag.TipoSetorId" required>
+                        <select class="form-control" asp-for="@Model.TipoSetorId" asp-items="@ViewBag.TipoSetorId" required>
                             <option value="" selected disabled>Selecione uma opção</option>
                         </select>
                         <span asp-validation-for="TipoSetor" class="text-danger error"></span>

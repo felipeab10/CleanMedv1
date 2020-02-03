@@ -185,7 +185,7 @@ $(".atendimento").click(function () {
             data: form,
             method: 'POST',
             success: function (resposta) {
-                //console.log(resposta);
+                console.log(resposta);
                 if (resposta == false) {
                     M.toast({ html: 'Horário já possui Atendimento ou sem paciente agendado' })
 
@@ -208,7 +208,7 @@ $(".atendimento").click(function () {
                     //alert(window.location.host);
                     //window.open('https://' + window.location.host +'/Atendimentos/GerarAtendimento?AgendamentoId='+resposta , '_blank');
                   
-                    $("#modalAgendamento").load("/Atendimentos/GerarAtendimento/" + resposta, function (resposta) {
+                    $("#modalAgendamento").load("/Atendimentos/GerarAtendimento?AgendamentoId=" + resposta, function (resposta) {
                         $('#modalAgendamento').modal();
                         $('#modalAgendamento').modal('open');
                     })
@@ -694,17 +694,31 @@ var $selectbox = $('.select2-paciente-central').select2({
 $(function () {
 
     //Preenche automaticamente o campo Periodo da pesquisa
-    var Periodo = document.getElementById("SearchPeriodo").value;
-    //$('#SearchPeriodo').val();
-    //alert(Periodo);
-    if (!Periodo) {
+    //var Periodo = document.getElementById("SearchPeriodo").value;
+    var Periodo = $('#SearchPeriodo').val();
+    var teste = Periodo.length
+    
+    if (teste > 1) {
         $('#SearchPeriodoSelect option[value=' + Periodo + ']').attr('selected', true);
         $('#SearchPeriodoSelect').formSelect();
+    } else {
+      
     }
-    if (Periodo == "") {
-        $('#SearchPeriodoSelect option[value=' + Periodo + ']').attr('selected', true);
-        $('#SearchPeriodoSelect').formSelect();
+  
+    
+    
+})
+
+$(function () {
+
+    //Preenche automaticamente o campo Setor da pesquisa
+    var Setor = document.getElementById("SearchSetorId").value;
+    //alert(Setor);
+    if (Setor > 0) {
+        $('#SearchSetorIdSelect option[value=' + Setor + ']').attr('selected', true);
+        $('#SearchSetorIdSelect').formSelect();
     }
+    
 })
 
 $(".opcaoAgendamento").on('click', function (obj) {

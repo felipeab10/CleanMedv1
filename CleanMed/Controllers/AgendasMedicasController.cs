@@ -124,7 +124,7 @@ namespace CleanMed.Controllers
             return View();
         }
 
-        public async Task<IActionResult> AgendaCentral(int? pageNumber, string SearchDataAgenda, int[] SearchPrestadorId, int[] SearchItemAgendamentoId, string SearchPeriodo, int SearchPaciente)
+        public async Task<IActionResult> AgendaCentral(int? pageNumber, string SearchDataAgenda, int[] SearchPrestadorId, int[] SearchItemAgendamentoId, string SearchPeriodo, int SearchPaciente, int SearchSetorId)
         {
 
 
@@ -194,6 +194,8 @@ namespace CleanMed.Controllers
                               NmPaciente = pa.Nome,
                               Color = age.Color,
                               AgendamentoId = age.AgendamentoId,
+                              TipoSetorId = s.TipoSetorId,
+                              
                           };
             
           
@@ -290,7 +292,16 @@ namespace CleanMed.Controllers
 
 
                 }
-                ViewData["PacienteId"] = new SelectList(_contexto.Pacientes, "PacienteId", "Nome");
+                if(SearchSetorId > 0)
+               {
+              
+                agendas = agendas.Where(a => a.SetorId == SearchSetorId).OrderBy(a => a.HoraAgenda);
+                ViewData["SearchSetorId"] = SearchSetorId;
+                ViewData["HorarioLivre"] = agendas.Count(a => a.StatusAgendamento == "Livre");
+                ViewData["HorarioBloqueado"] = agendas.Count(a => a.Bloqueado == true);
+            }
+            ViewData["SetorId"] = new SelectList(_contexto.Setores.Where(s=> s.TipoSetorId == 1 || s.TipoSetorId == 3), "SetorId", "Descricao");
+            ViewData["PacienteId"] = new SelectList(_contexto.Pacientes, "PacienteId", "Nome");
                 ViewData["PrestadorId"] = new SelectList(_contexto.Prestadores, "PrestadorId", "Nome");
                 ViewData["ItemAgendamentoId"] = new SelectList(_contexto.ItemAgendamentos, "ItemAgendamentoId", "Descricao");
                 int pageSize = 30;
@@ -340,7 +351,7 @@ namespace CleanMed.Controllers
                
             }, "Name", "ID");
             ViewData["StatusAgendaId"] = listStatusAgenda;
-            ViewData["SetorId"] = new SelectList(_contexto.Setores, "SetorId", "Descricao");
+            ViewData["SetorId"] = new SelectList(_contexto.Setores.Where(s => s.TipoSetorId == 1 || s.TipoSetorId == 3), "SetorId", "Descricao");
             ViewData["PrestadorId"] = new SelectList(_contexto.Prestadores, "PrestadorId", "Nome");
             ViewData["RecursoAgendamentoId"] = new SelectList(_contexto.RecursoAgendamentos, "RecursoAgendamentoId", "Descricao");
             ViewData["ItemAgendamentoId"] = new SelectList(_contexto.ItemAgendamentos, "ItemAgendamentoId", "Descricao");

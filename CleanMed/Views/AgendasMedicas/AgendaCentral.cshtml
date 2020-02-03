@@ -94,9 +94,17 @@
                                     <option value="Noturno">Noturno</option>
                                     <option value="Madrugada">Madrugada</option>
                                 </select>
+                               
+                            </div>
+                            <div class="form-control  col m3 s12">
+                                <label for="SearchSetorId">Setor</label>
+                                <input id="SearchSetorId" type="hidden" value="@ViewData["SearchSetorId"] " />
+                                <select class="form-control" id="SearchSetorIdSelect" name="SearchSetorId" asp-items="@ViewBag.SetorId">
+                                    <option selected value=""></option>
+                                    
+                                </select>
                                 <button style="margin-top:-50px;margin-right:-30px;" type="submit" class="btn-floating btn-small waves-effect waves-light BtnColor right"><i class="fa fa-search"></i></button>
                             </div>
-
                         </div>
                     </form>
                 </div>

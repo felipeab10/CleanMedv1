@@ -15,9 +15,10 @@ namespace CleanMed.Mapeamento
             builder.HasKey(s => s.SetorId);
             builder.Property(s => s.Descricao).IsRequired().HasMaxLength(160);
             builder.Property(s => s.Status);
-            builder.Property(s => s.TipoSetor);
+           
 
             builder.ToTable("Setores");
+            builder.HasOne(s => s.TipoSetor);
         }
 
     }

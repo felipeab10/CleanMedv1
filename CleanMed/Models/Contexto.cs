@@ -43,6 +43,7 @@ namespace CleanMed.Data
         public DbSet<MotivoCancelamento> MotivoCancelamentos { get; set; }
         public DbSet<ConfirmacaoAgendamento> ConfirmacaoAgendamentos { get; set; }
         public DbSet<Atendimento> Atendimentos { get; set; }
+        public DbSet<TipoSetor> TipoSetores { get; set; }
 
 
         public Contexto(DbContextOptions<Contexto> options)
@@ -85,6 +86,7 @@ namespace CleanMed.Data
             builder.ApplyConfiguration(new MotivoCancelamentoMap());
             builder.ApplyConfiguration(new ConfirmacaoAgendamentoMap());
             builder.ApplyConfiguration(new AtendimentoMap());
+            builder.ApplyConfiguration(new TipoSetorMap());
 
 
 

@@ -44,18 +44,13 @@ namespace CleanMed.Controllers
                 Setores = Setores.Where(s => s.Descricao.Contains(searchDescricao));
             }
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<Setor>.CreateAsync(Setores.AsNoTracking().OrderBy(s => s.Descricao), pageNumber ?? 1, pageSize));
         }
         public IActionResult Create()
         {
             _logger.LogInformation("Carregando View de Create");
-            ViewData["TipoSetorId"] = new SelectList(new[] {
-                new {Name = "Ambulatorio",ID = "Ambulatorio"},
-                new {Name = "Exame",ID = "Exame"},
-                new {Name = "Externo",ID = "Externo"},
-                new {Name = "Administrativo",ID = "Administrativo"},
-                }, "Name", "ID").OrderBy(c => c.Text);
+            ViewData["TipoSetorId"] = new SelectList(_contexto.TipoSetores,"TipoSetorId","Descricao");
             return View();
         }
         [HttpPost]
@@ -71,12 +66,7 @@ namespace CleanMed.Controllers
                
                 return RedirectToAction("Index");
             }
-            ViewData["TipoSetorId"] = new SelectList(new[] {
-                new {Name = "Ambulatorio",ID = "Ambulatorio"},
-                new {Name = "Exame",ID = "Exame"},
-                new {Name = "Externo",ID = "Externo"},
-                new {Name = "Administrativo",ID = "Administrativo"},
-                }, "Name", "ID").OrderBy(c => c.Text);
+            ViewData["TipoSetorId"] = new SelectList(_contexto.TipoSetores, "TipoSetorId", "Descricao");
             _logger.LogError("Erro ao adicionar setor");
             return View(setor);
         }
@@ -89,12 +79,7 @@ namespace CleanMed.Controllers
             }
             _logger.LogInformation("Localizando setor");
             var setor = await _setorRepositorio.PegarPeloId(id);
-            ViewData["TipoSetorId"] = new SelectList(new[] {
-                new {Name = "Ambulatorio",ID = "Ambulatorio"},
-                new {Name = "Exame",ID = "Exame"},
-                new {Name = "Externo",ID = "Externo"},
-                new {Name = "Administrativo",ID = "Administrativo"},
-                }, "Name", "ID").OrderBy(c => c.Text);
+            ViewData["TipoSetorId"] = new SelectList(_contexto.TipoSetores, "TipoSetorId", "Descricao");
             return View(setor);
         }
         [HttpPost]
@@ -110,12 +95,7 @@ namespace CleanMed.Controllers
                 return RedirectToAction("Index");
 
             }
-            ViewData["TipoSetorId"] = new SelectList(new[] {
-                new {Name = "Ambulatorio",ID = "Ambulatorio"},
-                new {Name = "Exame",ID = "Exame"},
-                new {Name = "Externo",ID = "Externo"},
-                new {Name = "Administrativo",ID = "Administrativo"},
-                }, "Name", "ID").OrderBy(c => c.Text);
+            ViewData["TipoSetorId"] = new SelectList(_contexto.TipoSetores, "TipoSetorId", "Descricao");
             _logger.LogError("Erro ao atualizar setor");
             return View(setor);
         }
